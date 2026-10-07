@@ -10,7 +10,8 @@
       "install": "Instalar",
       "plan": "Plan",
       "packages": "Paquetes",
-      "trust": "Confianza"
+      "trust": "Confianza",
+      "managed": "Superficie gestionada"
     },
     "preferences": {
       "language": "Idioma",
@@ -161,7 +162,41 @@
       "note": "<code>just</code> es solo una capa de comodidad. El instalador y la CLI <code>dotfiles</code> siguen pudiéndose usar directamente."
     },
     "footer": "Arranque público seguro para máquinas nuevas.",
-    "noScript": "JavaScript solo se usa para el configurador de roles. El comando de instalación de desarrollo por defecto es:"
+    "noScript": "JavaScript solo se usa para el configurador de roles. El comando de instalación de desarrollo por defecto es:",
+    "managed": {
+      "eyebrow": "Superficie gestionada",
+      "title": "Todo lo que gestiona este repositorio",
+      "intro": "Este inventario combina instalación de software y propiedad de configuración. Incluye programas instalados por Homebrew o por roles, configuración de shells y aplicaciones desplegada con Stow y configuración privada del repositorio que deliberadamente no se publica.",
+      "all": "Todo",
+      "installed": "Instalado",
+      "configured": "Configurado",
+      "private": "Config. privada",
+      "public": "Config. pública",
+      "repoOnly": "Solo en repositorio",
+      "installedBy": "Instalado por",
+      "configPackage": "Paquete de config.",
+      "visibility": "Visibilidad",
+      "deployment": "Despliegue",
+      "brew": "Homebrew",
+      "brewCask": "Cask de Homebrew",
+      "role": "Rol/nativo",
+      "system": "Sistema",
+      "runtime": "Runtime",
+      "external": "Externo/manual",
+      "platform": "Plataforma",
+      "stow": "Stow",
+      "repoOnlyLabel": "Solo repositorio",
+      "none": "Ninguno",
+      "publicLabel": "Pública",
+      "privateLabel": "Privada",
+      "noConfig": "Sin configuración gestionada",
+      "software": "Software",
+      "config": "Configuración",
+      "softwareConfig": "Software + config.",
+      "asset": "Recurso",
+      "items": "elementos gestionados",
+      "empty": "Ningún elemento gestionado coincide con este filtro."
+    }
   },
   "platforms": {
     "macos": {
@@ -367,5 +402,27 @@
       "summary": "Procesador streaming de JSON para consultar, transformar y componer salida estructurada.",
       "why": "Utilidad base pública en macOS para inspección y scripting fiable con JSON."
     }
+  },
+  "managedTools": {
+    "bash": "Configuración de shell Bash para aliases portables, completado, entorno y comportamiento de comandos.",
+    "fish": "Configuración de Fish para navegación interactiva, completado, prompt e integración con herramientas de terminal.",
+    "nushell": "Configuración estructurada de Nushell para comandos, entorno e integraciones de terminal.",
+    "skim": "Buscador difuso usado para construir flujos de selección interactiva rápidos desde shell y herramientas de terminal.",
+    "carapace": "Motor de autocompletado multi-shell para ofrecer completado más rico en las shells compatibles.",
+    "git-delta": "Paginador con conocimiento de sintaxis para diffs de Git que facilita revisar cambios en terminal.",
+    "npm": "Configuración del cliente npm para el registro de paquetes y el comportamiento del gestor de paquetes Node.js.",
+    "age": "Herramienta moderna y pequeña de cifrado usada como parte del flujo privado de gestión de secretos.",
+    "sops": "Editor de secretos estructurados usado para mantener configuración cifrada bajo control de versiones.",
+    "gitleaks": "Escáner de secretos que detecta credenciales y material de alto riesgo antes de que llegue al historial publicado.",
+    "kanata": "Motor multiplataforma de remapeo de teclado para comportamiento programable fuera de atajos específicos de aplicaciones.",
+    "ghostty": "Emulador de terminal cuya configuración privada se gestiona desde el repositorio de dotfiles.",
+    "karabiner": "Aplicación de personalización de teclado en macOS con configuración privada gestionada por el repositorio.",
+    "stats": "Monitor de sistema para la barra de menús de macOS con CPU, memoria, disco, red y sensores.",
+    "font-monaspace": "Familia tipográfica Monaspace instalada para mantener tipografía consistente en terminal y editor.",
+    "ssh": "Configuración privada del cliente OpenSSH para hosts, identidades, conexiones y flujos remotos.",
+    "aws-sso": "Configuración de AWS SSO mantenida en el repositorio para acceso cloud autenticado; sus datos permanecen privados.",
+    "oatmeal": "Configuración privada del cliente de IA para terminal Oatmeal.",
+    "streamrip": "Configuración privada de streamrip para flujos de recuperación multimedia por línea de comandos.",
+    "termux-config": "Configuración específica de Termux para terminal e integración móvil en dispositivos Android."
   }
 }
