@@ -315,8 +315,8 @@
     },
     "rclone": {
       "title": "Rclone",
-      "summary": "Command-line file synchronization and transfer across local storage and many cloud providers.",
-      "why": "Server role tool for backups, transfers, and remote storage operations without a desktop client.",
+      "summary": "Authorized cloud-storage abstraction for synchronization, transfer, and filesystem-style access across providers.",
+      "why": "Provides one consistent cloud-storage interface across managed machines and backs the automatic VFS mount contract.",
       "homepage": "https://rclone.org/",
       "alternatives": [
         "rsync",
@@ -338,6 +338,18 @@
       ],
       "icon": "json.svg",
       "iconMode": "monochrome"
+    },
+    "fuse3": {
+      "title": "FUSE 3",
+      "summary": "Userspace filesystem support required for mounting Rclone remotes as filesystems on Linux.",
+      "why": "Enables the automatic Rclone VFS mount on supported Linux hosts without coupling the cloud workflow to a specific provider.",
+      "homepage": "https://github.com/libfuse/libfuse",
+      "alternatives": [
+        "kernel/network filesystem mounts",
+        "rclone sync/copy",
+        "WebDAV clients"
+      ],
+      "icon": null
     }
   }
 }
