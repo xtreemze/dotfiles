@@ -1,0 +1,106 @@
+{
+  "roles": [
+    "base",
+    "development"
+  ],
+  "packages": [
+    {
+      "name": "base",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Managed terminal dependency"
+    },
+    {
+      "name": "git",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Source control and repository bootstrap"
+    },
+    {
+      "name": "tmux",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Provides persistent terminal sessions locally and over SSH"
+    },
+    {
+      "name": "curl",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Downloads bootstrap and release artifacts"
+    },
+    {
+      "name": "tar",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Extracts verified release archives"
+    },
+    {
+      "name": "stow",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Deploys configuration as reversible symlinks"
+    },
+    {
+      "name": "just",
+      "requirement": "optional",
+      "source": "base",
+      "version": ">=1.58",
+      "reason": "Provides the human-facing command interface and shell completions"
+    },
+    {
+      "name": "development",
+      "requirement": "required",
+      "source": "development",
+      "version": "system",
+      "reason": "Managed terminal dependency"
+    },
+    {
+      "name": "gh",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Authenticates GitHub and unlocks the private dotfiles overlay when authorized"
+    },
+    {
+      "name": "lazygit",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Interactive Git workflow in the terminal"
+    },
+    {
+      "name": "fnm",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Node.js runtime version management for development roles"
+    },
+    {
+      "name": "helix",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Terminal-native editor used across managed environments"
+    },
+    {
+      "name": "fd",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Fast filesystem search used by editor and shell workflows"
+    },
+    {
+      "name": "ripgrep",
+      "requirement": "optional",
+      "source": "development",
+      "version": "system",
+      "reason": "Fast recursive text search for terminal workflows"
+    }
+  ]
+}
