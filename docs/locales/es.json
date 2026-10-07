@@ -11,7 +11,8 @@
       "plan": "Plan",
       "packages": "Paquetes",
       "trust": "Confianza",
-      "managed": "Superficie gestionada"
+      "managed": "Superficie gestionada",
+      "design": "Presentación"
     },
     "preferences": {
       "language": "Idioma",
@@ -196,6 +197,81 @@
       "asset": "Recurso",
       "items": "elementos gestionados",
       "empty": "Ningún elemento gestionado coincide con este filtro."
+    },
+    "design": {
+      "eyebrow": "Presentación y controles",
+      "title": "Un lenguaje visual y de interacción consistente",
+      "intro": "El repositorio trata la presentación, la tipografía, el comportamiento del teclado y los controles como parte del contrato de configuración.",
+      "colorTitle": "Color",
+      "typeTitle": "Tipografía",
+      "siteColor": "Sitio",
+      "terminalColor": "Terminal",
+      "systemAdaptive": "Superficies neutras claro/oscuro adaptadas al sistema",
+      "everforest": "Paleta Everforest para terminal",
+      "siteUI": "UI del sitio",
+      "siteCode": "Comandos/código",
+      "terminalFont": "Terminal",
+      "managedFont": "Fuente gestionada",
+      "philosophy": "Principios de interacción",
+      "keybindings": "Atajos de teclado",
+      "philosophyItems": [
+        "Prioridad al teclado",
+        "Navegación desde la fila base",
+        "Compatible con editor modal",
+        "Convenciones nativas de plataforma cuando no entren en conflicto",
+        "Ratón disponible pero secundario"
+      ],
+      "controls": {
+        "tmux": [
+          "Prefijo",
+          "Mover panel",
+          "Redimensionar panel",
+          "Dividir alrededor del panel actual",
+          "Selector de archivos",
+          "Selector de directorios",
+          "Selector de sesiones",
+          "Selector de proyectos",
+          "Buscador de ventanas",
+          "Buscador de paneles"
+        ],
+        "ghostty": [
+          "Nueva pestaña",
+          "Nueva división a la derecha",
+          "Nueva división abajo",
+          "Moverse entre divisiones",
+          "Redimensionar divisiones",
+          "Seleccionar pestaña",
+          "Última pestaña",
+          "Alternar zoom de división",
+          "Pantalla completa"
+        ],
+        "helix": [
+          "Modelo del editor",
+          "Mover selección una línea abajo",
+          "Mover selección una línea arriba",
+          "Duplicar línea debajo",
+          "Duplicar línea encima",
+          "Incrementar",
+          "Decrementar"
+        ],
+        "site": [
+          "Pestañas del catálogo",
+          "Primera / última pestaña",
+          "Tema e idioma",
+          "Navegación principal"
+        ]
+      }
+    },
+    "cloud": {
+      "eyebrow": "Almacenamiento cloud",
+      "title": "Una superficie cloud canónica con Rclone",
+      "intro": "Rclone es la abstracción autorizada de almacenamiento cloud. Las credenciales del proveedor permanecen locales, mientras los dotfiles estandarizan el acceso mediante <code>cloud:</code> y, cuando es compatible, lo montan automáticamente en <code>~/Cloud</code>.",
+      "identityTitle": "Abstracción del proveedor",
+      "identityBody": "Cualquier backend configurado puede exponerse mediante el alias canónico <code>cloud:</code>, manteniendo scripts y flujos independientes del proveedor.",
+      "vfsTitle": "VFS automático",
+      "vfsBody": "macOS usa montaje NFS de Rclone; los hosts Linux compatibles usan FUSE 3. Se activa caché VFS completa con tamaño y antigüedad limitados.",
+      "safeTitle": "Fallback seguro",
+      "safeBody": "Las credenciales nunca se versionan. Termux y los hosts sin montaje de sistema de archivos siguen usando directamente copy, sync y transferencias de Rclone."
     }
   },
   "platforms": {
@@ -401,6 +477,10 @@
     "jq": {
       "summary": "Procesador streaming de JSON para consultar, transformar y componer salida estructurada.",
       "why": "Utilidad base pública en macOS para inspección y scripting fiable con JSON."
+    },
+    "fuse3": {
+      "summary": "Soporte de sistemas de archivos en espacio de usuario necesario para montar remotos de Rclone como sistemas de archivos en Linux.",
+      "why": "Permite el montaje VFS automático de Rclone en hosts Linux compatibles sin acoplar el flujo cloud a un proveedor concreto."
     }
   },
   "managedTools": {
@@ -423,6 +503,8 @@
     "aws-sso": "Configuración de AWS SSO mantenida en el repositorio para acceso cloud autenticado; sus datos permanecen privados.",
     "oatmeal": "Configuración privada del cliente de IA para terminal Oatmeal.",
     "streamrip": "Configuración privada de streamrip para flujos de recuperación multimedia por línea de comandos.",
-    "termux-config": "Configuración específica de Termux para terminal e integración móvil en dispositivos Android."
+    "termux-config": "Configuración específica de Termux para terminal e integración móvil en dispositivos Android.",
+    "rclone": "Capa autorizada de almacenamiento cloud para sincronización, transferencia y acceso VFS automático en las máquinas gestionadas.",
+    "fuse3": "Soporte de sistema de archivos en espacio de usuario utilizado por los montajes VFS de Rclone en Linux."
   }
 }
