@@ -837,12 +837,18 @@ function renderPaletteShowcase(design) {
   }
 }
 
-function renderFontShowcase(design) {
+async function renderFontShowcase(design) {
   const target = document.querySelector("#font-showcase");
   const availability = document.querySelector("#font-availability");
   target.replaceChildren();
 
   const activeFace = design.typography.activeFace;
+  if (document.fonts?.load) {
+    await Promise.all(design.typography.familyVariants.map(variant =>
+      document.fonts.load(`14px "${variant.name}"`)
+    ));
+    await document.fonts.load(`700 14px "${activeFace}"`);
+  }
   const available = document.fonts?.check?.(`14px "${activeFace}"`) ?? false;
   availability.textContent = available
     ? locale.ui.design.fontAvailable
@@ -971,7 +977,7 @@ function renderFontShowcase(design) {
 async function renderDesignSystem() {
   const design = await ensureDesignSystem();
   renderPaletteShowcase(design);
-  renderFontShowcase(design);
+  await renderFontShowcase(design);
 
   controlGroupsEl.replaceChildren();
 

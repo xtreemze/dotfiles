@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dest="${1:-docs}/fonts"
+commit="f31794b6e9e65698a062262e2f826f679dcb7070"
+base="https://raw.githubusercontent.com/githubnext/monaspace/${commit}/fonts/Web%20Fonts/NerdFonts%20Web%20Fonts"
+
+mkdir -p "$dest"
+
+fetch_verified() {
+  local source_path="$1"
+  local expected_blob="$2"
+  local output_name="${3:-${source_path##*/}}"
+  local output="$dest/$output_name"
+  curl -fsSL "$base/$source_path" -o "$output"
+  local actual_blob
+  actual_blob="$(git hash-object "$output")"
+  if [[ "$actual_blob" != "$expected_blob" ]]; then
+    echo "Monaspace blob verification failed for $output_name: $actual_blob != $expected_blob" >&2
+    rm -f "$output"
+    exit 1
+  fi
+}
+
+fetch_verified "Monaspace%20Krypton/MonaspaceKryptonNF-Regular.woff2" "7af75e779085d08cc652730378187588fed9783f" "MonaspaceKryptonNF-Regular.woff2"
+fetch_verified "Monaspace%20Krypton/MonaspaceKryptonNF-Bold.woff2" "bbfe692a37225796d5e4826fd3c0805b4dbdb912" "MonaspaceKryptonNF-Bold.woff2"
+fetch_verified "Monaspace%20Argon/MonaspaceArgonNF-Regular.woff2" "3505d2954195748109315d5cca2ec77cba814819" "MonaspaceArgonNF-Regular.woff2"
+fetch_verified "Monaspace%20Neon/MonaspaceNeonNF-Regular.woff2" "ba5197b80f9a0655ade07ea5da60ea14c5dd1755" "MonaspaceNeonNF-Regular.woff2"
+fetch_verified "Monaspace%20Xenon/MonaspaceXenonNF-Regular.woff2" "8d4b8ff25feda2501765c946a020fab9c1b88113" "MonaspaceXenonNF-Regular.woff2"
+fetch_verified "Monaspace%20Radon/MonaspaceRadonNF-Regular.woff2" "2e6edb0fd1c3f220f8965a920c66f28c6c9769f0" "MonaspaceRadonNF-Regular.woff2"
+
+printf '%s\n' "Monaspace Nerd Font web assets verified at $commit"
