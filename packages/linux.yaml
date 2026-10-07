@@ -1,0 +1,14 @@
+name: linux
+description: Portable Linux additions
+version: "2.0"
+packages:
+  - { name: zsh, install: optional }
+  - { name: helix, install: optional }
+  - { name: yazi, install: optional }
+  - { name: starship, install: optional }
+  - { name: atuin, install: optional }
+  - { name: zoxide, install: optional }
+  - { name: eza, install: optional }
+  - { name: bat, install: optional }
+  - { name: fd, install: optional }
+  - { name: ripgrep, install: optional }
