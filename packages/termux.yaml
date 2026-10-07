@@ -1,0 +1,17 @@
+name: termux
+description: Termux packages
+version: "2.0"
+packages:
+  - { name: openssh, install: required }
+  - { name: zsh, install: optional }
+  - { name: helix, install: optional }
+  - { name: yazi, install: optional }
+  - { name: starship, install: optional }
+  - { name: atuin, install: optional }
+  - { name: zoxide, install: optional }
+  - { name: eza, install: optional }
+  - { name: bat, install: optional }
+  - { name: fd, install: optional }
+  - { name: ripgrep, install: optional }
+  - { name: gh, install: optional }
+  - { name: lazygit, install: optional }
