@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate shell entrypoints
         run: |
-          shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan
+          shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan rclone/.local/bin/rclone-vfs
           bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
       - name: Verify generated site data
         run: |
@@ -39,6 +39,7 @@ jobs:
           done
           python3 -m json.tool docs/package-details.json >/dev/null
           python3 -m json.tool docs/managed-tools.json >/dev/null
+          python3 -m json.tool docs/design-system.json >/dev/null
           for locale in en es sv; do
             python3 -m json.tool "docs/locales/$locale.json" >/dev/null
           done
