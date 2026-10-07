@@ -25,10 +25,12 @@ jobs:
           bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
       - name: Verify generated site data
         run: |
-          for role in development desktop server remote mobile; do
-            test -s "docs/data/$role.json"
-            python3 -m json.tool "docs/data/$role.json" >/dev/null
+          for plan in development desktop server remote mobile linux termux macos; do
+            test -s "docs/data/$plan.json"
+            python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
+          node --check docs/app.js
+          grep -Fq 'bash -s --' docs/index.html
 
   deploy:
     needs: validate
