@@ -8,3 +8,4 @@ packages:
   - { name: tar, install: required }
   - { name: stow, install: required }
   - { name: just, install: optional }
+  - { name: rclone, install: optional }
