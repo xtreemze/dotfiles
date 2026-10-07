@@ -33,11 +33,21 @@ jobs:
           bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
       - name: Verify generated site data
         run: |
-          for plan in development desktop server remote mobile linux termux macos; do
+          for plan in base development desktop server remote mobile linux termux macos; do
             test -s "docs/data/$plan.json"
             python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
+          python3 -m json.tool docs/package-details.json >/dev/null
           node --check docs/app.js
+          node - <<'NODE'
+          const fs = require('fs');
+          const details = JSON.parse(fs.readFileSync('docs/package-details.json', 'utf8')).packages;
+          const plans = ['base','development','desktop','server','remote','mobile','linux','termux','macos']
+            .map(name => JSON.parse(fs.readFileSync(`docs/data/${name}.json`, 'utf8')));
+          const names = new Set(plans.flatMap(plan => plan.packages.map(pkg => pkg.name)));
+          const missing = [...names].filter(name => !details[name]);
+          if (missing.length) throw new Error(`Missing package details: ${missing.join(', ')}`);
+          NODE
           grep -Fq 'bash -s --' docs/index.html
 
   deploy:
