@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+roles=()
+json=false
+
+while (($#)); do
+  case "$1" in
+    --role|-r)
+      [[ $# -ge 2 ]] || { echo "missing role" >&2; exit 2; }
+      roles+=("$2"); shift 2 ;;
+    --json)
+      json=true; shift ;;
+    -h|--help)
+      echo "usage: scripts/package-plan [--role NAME]... [--json]"
+      exit 0 ;;
+    *)
+      echo "unknown option: $1" >&2; exit 2 ;;
+  esac
+done
+
+if ((${#roles[@]} == 0)); then
+  roles=(base)
+else
+  roles=(base "${roles[@]}")
+fi
+
+declare -A seen requirement source
+order=()
+
+read_manifest() {
+  local name="$1" file="$DOTFILES_DIR/packages/$1.yaml" line pkg req
+  [[ -f "$file" ]] || { echo "unknown role/platform manifest: $name" >&2; exit 2; }
+  while IFS= read -r line; do
+    [[ "$line" =~ ^[[:space:]]*-[[:space:]] ]] || continue
+    [[ "$line" =~ name:[[:space:]]*([a-zA-Z0-9_@.+-]+) ]] || continue
+    pkg="${BASH_REMATCH[1]}"
+    req=required
+    [[ "$line" =~ install:[[:space:]]*optional ]] && req=optional
+    if [[ -z "${seen[$pkg]:-}" ]]; then
+      seen[$pkg]=1
+      order+=("$pkg")
+      requirement[$pkg]="$req"
+      source[$pkg]="$name"
+    elif [[ "$req" == required ]]; then
+      requirement[$pkg]=required
+    fi
+  done < "$file"
+}
+
+catalog_field() {
+  local logical="$1" field="$2"
+  awk -v logical="$logical" -v field="$field" '
+    $0 ~ "name:[[:space:]]*" logical "([[:space:]]*,|[[:space:]]*})" {
+      pattern = "(^|[,{[:space:]])" field ":[[:space:]]*(\"[^\"]*\"|[^,}]+)"
+      if (match($0, pattern)) {
+        value = substr($0, RSTART, RLENGTH)
+        sub(".*" field ":[[:space:]]*", "", value)
+        gsub(/^[[:space:]]*\"|\"[[:space:]]*$/, "", value)
+        gsub(/^[[:space:]]+|[[:space:]]+$/, "", value)
+        print value
+        exit
+      }
+    }
+  ' "$DOTFILES_DIR/packages/catalog.yaml"
+}
+
+for role in "${roles[@]}"; do read_manifest "$role"; done
+
+if [[ "$json" == true ]]; then
+  printf '{"roles":['
+  first=true
+  for role in "${roles[@]}"; do
+    $first || printf ','
+    printf '"%s"' "$role"
+    first=false
+  done
+  printf '],"packages":['
+  first=true
+  for pkg in "${order[@]}"; do
+    reason=$(catalog_field "$pkg" reason || true)
+    version=$(catalog_field "$pkg" version || true)
+    $first || printf ','
+    printf '{"name":"%s","requirement":"%s","source":"%s","version":"%s","reason":"%s"}'       "$pkg" "${requirement[$pkg]}" "${source[$pkg]}" "${version:-system}"       "$(printf '%s' "${reason:-Managed terminal dependency}" | sed 's/\\/\\\\/g; s/"/\\"/g')"
+    first=false
+  done
+  printf ']}\n'
+  exit 0
+fi
+
+printf '%-14s %-10s %-12s %-12s %s\n' PACKAGE REQUIRED SOURCE VERSION REASON
+for pkg in "${order[@]}"; do
+  reason=$(catalog_field "$pkg" reason || true)
+  version=$(catalog_field "$pkg" version || true)
+  printf '%-14s %-10s %-12s %-12s %s\n'     "$pkg" "${requirement[$pkg]}" "${source[$pkg]}" "${version:-system}"     "${reason:-Managed terminal dependency}"
+done
