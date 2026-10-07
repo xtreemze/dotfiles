@@ -22,6 +22,7 @@
     <nav aria-label="Primary">
       <a href="#install">Install</a>
       <a href="#plan">Plan</a>
+      <a href="#catalog">Packages</a>
       <a href="#trust">Trust</a>
       <a href="https://github.com/xtreemze/dotfiles">GitHub</a>
     </nav>
@@ -107,6 +108,31 @@
         </table>
       </div>
       <p class="error" id="plan-error" role="alert" hidden></p>
+    </section>
+
+    <section id="catalog" class="panel" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Role catalog</p>
+          <h2 id="catalog-title">Every package, explained</h2>
+          <p class="catalog-intro">Explore the baseline, platform layers, and each role independently. Every tool includes its purpose in this setup, alternatives worth considering, and a link to the upstream project. Alternatives are informational only and are not installed.</p>
+        </div>
+        <span id="catalog-count" class="status-pill" aria-live="polite"></span>
+      </div>
+
+      <div class="catalog-tabs" id="catalog-tabs" role="tablist" aria-label="Package catalog layer"></div>
+
+      <div class="catalog-summary">
+        <div>
+          <strong id="catalog-layer-title"></strong>
+          <span id="catalog-layer-description"></span>
+        </div>
+        <p id="catalog-layer-note"></p>
+      </div>
+
+      <p class="field-help catalog-help"><strong>Required</strong> packages are part of the minimum contract. <strong>Optional</strong> packages are attempted when available and may be skipped without making the bootstrap unusable.</p>
+      <div class="package-grid" id="package-cards" aria-live="polite"></div>
+      <p class="error" id="catalog-error" role="alert" hidden></p>
     </section>
 
     <section id="trust" class="split" aria-labelledby="trust-title">
