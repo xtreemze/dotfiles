@@ -1,3 +1,59 @@
+@font-face {
+  font-family: "Monaspace Krypton Web";
+  src: url("./fonts/MonaspaceKryptonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Krypton Web";
+  src: url("./fonts/MonaspaceKryptonNF-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Krypton";
+  src: url("./fonts/MonaspaceKryptonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Argon";
+  src: url("./fonts/MonaspaceArgonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Neon";
+  src: url("./fonts/MonaspaceNeonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Xenon";
+  src: url("./fonts/MonaspaceXenonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Radon";
+  src: url("./fonts/MonaspaceRadonNF-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 * { box-sizing: border-box; }
 
 :root {
@@ -33,7 +89,8 @@ code,
 pre,
 .brand-mark,
 .eyebrow {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: "Monaspace Krypton Web", "Monaspace Krypton", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-feature-settings: "calt" 1, "liga" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
 }
 
 .skip-link {
