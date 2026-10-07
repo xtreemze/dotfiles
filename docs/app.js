@@ -26,6 +26,9 @@ const managedFiltersEl = document.querySelector("#managed-filters");
 const managedCardsEl = document.querySelector("#managed-cards");
 const managedCountEl = document.querySelector("#managed-count");
 const managedErrorEl = document.querySelector("#managed-error");
+const designColorEl = document.querySelector("#design-color");
+const designTypeEl = document.querySelector("#design-type");
+const controlGroupsEl = document.querySelector("#control-groups");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
@@ -69,6 +72,7 @@ let selectedManagedFilter = managedFilterNames.includes(query.get("managed")) ? 
 let locale = null;
 let packageDetails = null;
 let managedToolsPayload = null;
+let designSystemPayload = null;
 
 async function fetchJson(path) {
   const response = await fetch(path, { cache: "no-cache" });
@@ -88,6 +92,11 @@ async function ensurePackageDetails() {
 async function ensureManagedTools() {
   if (!managedToolsPayload) managedToolsPayload = await fetchJson("./managed-tools.json");
   return managedToolsPayload;
+}
+
+async function ensureDesignSystem() {
+  if (!designSystemPayload) designSystemPayload = await fetchJson("./design-system.json");
+  return designSystemPayload;
 }
 
 function getByPath(object, path) {
@@ -708,6 +717,76 @@ async function renderManagedSurface() {
   }
 }
 
+
+function detailRows(target, rows) {
+  target.replaceChildren();
+  const list = document.createElement("dl");
+  list.className = "design-facts";
+  for (const [label, value] of rows) {
+    const row = document.createElement("div");
+    const dt = document.createElement("dt");
+    const dd = document.createElement("dd");
+    dt.textContent = label;
+    dd.textContent = value;
+    row.append(dt, dd);
+    list.append(row);
+  }
+  target.append(list);
+}
+
+async function renderDesignSystem() {
+  const design = await ensureDesignSystem();
+
+  detailRows(designColorEl, [
+    [locale.ui.design.siteColor, locale.ui.design.systemAdaptive],
+    [locale.ui.design.terminalColor, `${locale.ui.design.everforest} · ${design.color.terminal.background} / ${design.color.terminal.foreground}`]
+  ]);
+
+  detailRows(designTypeEl, [
+    [locale.ui.design.siteUI, design.typography.siteUI],
+    [locale.ui.design.siteCode, design.typography.siteCode],
+    [locale.ui.design.terminalFont, `${design.typography.terminal} · ${design.typography.terminalSize}`],
+    [locale.ui.design.managedFont, design.typography.managedAsset]
+  ]);
+
+  controlGroupsEl.replaceChildren();
+
+  const philosophy = document.createElement("article");
+  philosophy.className = "control-card";
+  const pTitle = document.createElement("h3");
+  pTitle.textContent = locale.ui.design.philosophy;
+  const pList = document.createElement("ul");
+  for (const [index, item] of design.interaction.philosophy.entries()) {
+    const li = document.createElement("li");
+    li.textContent = locale.ui.design.philosophyItems?.[index] || item;
+    pList.append(li);
+  }
+  philosophy.append(pTitle, pList);
+  controlGroupsEl.append(philosophy);
+
+  for (const group of design.interaction.groups) {
+    const article = document.createElement("article");
+    article.className = "control-card";
+    const title = document.createElement("h3");
+    title.textContent = group.title;
+    const dl = document.createElement("dl");
+    dl.className = "keybinding-list";
+    for (const [index, [action, binding]] of group.bindings.entries()) {
+      const row = document.createElement("div");
+      const dt = document.createElement("dt");
+      const dd = document.createElement("dd");
+      dt.textContent = locale.ui.design.controls?.[group.id]?.[index] || action;
+      const code = document.createElement("code");
+      code.textContent = binding;
+      dd.append(code);
+      row.append(dt, dd);
+      dl.append(row);
+    }
+    article.append(title, dl);
+    controlGroupsEl.append(article);
+  }
+}
+
 async function applyLanguage(language) {
   locale = await loadLocale(language);
   selectedLanguage = language;
@@ -735,7 +814,7 @@ async function render() {
     ? locale.ui.install.termuxNote
     : locale.ui.install.bashNote;
 
-  await Promise.all([renderPlan(), renderCatalog(), renderManagedSurface()]);
+  await Promise.all([renderPlan(), renderCatalog(), renderManagedSurface(), renderDesignSystem()]);
 }
 
 languageSelect.addEventListener("change", async event => {
