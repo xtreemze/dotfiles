@@ -22,6 +22,7 @@ packages:
   - { name: gh, probe: gh, pacman: github-cli, apk: github-cli, version: system, reason: "Authenticates GitHub and unlocks the private dotfiles overlay when authorized" }
   - { name: lazygit, probe: lazygit, version: system, reason: "Interactive Git workflow in the terminal" }
   - { name: fnm, probe: fnm, version: system, reason: "Node.js runtime version management for development roles" }
+  - { name: jq, probe: jq, version: system, reason: "Reliable JSON inspection and scripting in terminal workflows" }
   - { name: btop, probe: btop, version: system, reason: "Interactive system and process monitoring" }
   - { name: fastfetch, probe: fastfetch, version: system, reason: "Compact machine and environment diagnostics" }
   - { name: gdu, probe: gdu|gdu-go, version: system, reason: "Fast disk usage inspection" }
