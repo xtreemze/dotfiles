@@ -1,7 +1,6 @@
 {
   "roles": [
-    "base",
-    "server"
+    "base"
   ],
   "packages": [
     {
@@ -45,20 +44,6 @@
       "source": "base",
       "version": ">=1.58",
       "reason": "Provides the human-facing command interface and shell completions"
-    },
-    {
-      "name": "htop",
-      "requirement": "optional",
-      "source": "server",
-      "version": "system",
-      "reason": "Process inspection on headless systems"
-    },
-    {
-      "name": "rclone",
-      "requirement": "optional",
-      "source": "server",
-      "version": "system",
-      "reason": "Remote file transfer and synchronization for server roles"
     }
   ]
 }

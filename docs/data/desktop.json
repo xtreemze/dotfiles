@@ -5,13 +5,6 @@
   ],
   "packages": [
     {
-      "name": "base",
-      "requirement": "required",
-      "source": "base",
-      "version": "system",
-      "reason": "Managed terminal dependency"
-    },
-    {
       "name": "git",
       "requirement": "required",
       "source": "base",
@@ -52,13 +45,6 @@
       "source": "base",
       "version": ">=1.58",
       "reason": "Provides the human-facing command interface and shell completions"
-    },
-    {
-      "name": "desktop",
-      "requirement": "required",
-      "source": "desktop",
-      "version": "system",
-      "reason": "Managed terminal dependency"
     },
     {
       "name": "btop",
