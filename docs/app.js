@@ -1,3 +1,5 @@
+import "./components/dotfiles-terminal.js";
+
 const supportedLanguages = ["en", "es", "sv"];
 const supportedThemes = ["auto", "light", "dark"];
 const query = new URLSearchParams(location.search);
@@ -111,6 +113,7 @@ function applyStaticTranslations() {
   document.documentElement.lang = selectedLanguage;
   languageSelect.value = selectedLanguage;
   themeSelect.value = selectedTheme;
+  document.querySelector("#terminal-demo")?.setAttribute("lang", selectedLanguage);
 
   for (const element of document.querySelectorAll("[data-i18n]")) {
     const value = t(element.dataset.i18n, element.textContent);
@@ -180,7 +183,9 @@ function applyTheme() {
     document.documentElement.dataset.theme = selectedTheme;
   }
   themeSelect.value = selectedTheme;
-  themeColorMeta?.setAttribute("content", effectiveTheme() === "dark" ? "#111318" : "#f7f7f4");
+  const resolved = effectiveTheme();
+  themeColorMeta?.setAttribute("content", resolved === "dark" ? "#111318" : "#f7f7f4");
+  document.querySelector("#terminal-demo")?.setAttribute("data-terminal-theme", resolved);
 }
 
 function syncUrl() {
@@ -1073,6 +1078,32 @@ catalogTabsEl.addEventListener("keydown", event => {
   renderCatalog();
   syncUrl();
   catalogTabsEl.querySelector(`[data-catalog="${selectedCatalogLayer}"]`)?.focus();
+});
+
+document.addEventListener("dotfiles-action", async event => {
+  const action = event.detail;
+  if (!action?.type) return;
+
+  if (action.type === "theme" && supportedThemes.includes(action.value)) {
+    selectedTheme = action.value;
+    if (selectedTheme === "auto") localStorage.removeItem("dotfiles-theme");
+    else localStorage.setItem("dotfiles-theme", selectedTheme);
+    applyTheme();
+    return;
+  }
+
+  if (action.type === "language" && supportedLanguages.includes(action.value)) {
+    await applyLanguage(action.value);
+    syncUrl();
+    await render();
+    return;
+  }
+
+  if (action.type === "role" && ["development", "desktop", "server", "remote", "mobile"].includes(action.role)) {
+    if (action.operation === "add") selectedRoles.add(action.role);
+    if (action.operation === "remove") selectedRoles.delete(action.role);
+    await render();
+  }
 });
 
 copyEl.addEventListener("click", async () => {
