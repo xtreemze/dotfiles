@@ -1,0 +1,772 @@
+{
+  "version": 1,
+  "tools": [
+    {
+      "id": "git",
+      "title": "Git",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "git",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://git-scm.com/",
+      "alternatives": [
+        "Jujutsu (jj)",
+        "Mercurial",
+        "Fossil"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "stow",
+      "title": "GNU Stow",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://www.gnu.org/software/stow/",
+      "alternatives": [
+        "chezmoi",
+        "yadm",
+        "Dotbot"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "just",
+      "title": "just",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://just.systems/",
+      "alternatives": [
+        "make",
+        "Task",
+        "mise tasks"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "bash",
+      "title": "Bash",
+      "install": [
+        "system"
+      ],
+      "config": "bash",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://www.gnu.org/software/bash/",
+      "alternatives": [
+        "Zsh",
+        "Fish",
+        "Nushell"
+      ],
+      "deployment": "stow",
+      "summary": "Interactive shell configuration for portable aliases, completions, environment setup, and command behavior.",
+      "icon": "bash.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "zsh",
+      "title": "Zsh",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "zsh",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://www.zsh.org/",
+      "alternatives": [
+        "Fish",
+        "Nushell",
+        "Bash"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "fish",
+      "title": "Fish",
+      "install": [
+        "external"
+      ],
+      "config": "fish",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://fishshell.com/",
+      "alternatives": [
+        "Zsh",
+        "Nushell",
+        "Bash"
+      ],
+      "deployment": "stow",
+      "summary": "Fish shell configuration for interactive navigation, completions, prompt integration, and terminal tooling.",
+      "icon": "fish.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "nushell",
+      "title": "Nushell",
+      "install": [
+        "external"
+      ],
+      "config": "nushell",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://www.nushell.sh/",
+      "alternatives": [
+        "Fish",
+        "Zsh",
+        "Elvish"
+      ],
+      "deployment": "stow",
+      "summary": "Structured shell configuration for Nushell commands, environment behavior, and terminal integrations.",
+      "icon": "nushell.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "starship",
+      "title": "Starship",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "starship",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://starship.rs/",
+      "alternatives": [
+        "Oh My Posh",
+        "Powerlevel10k",
+        "pure"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "atuin",
+      "title": "Atuin",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "atuin",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://atuin.sh/",
+      "alternatives": [
+        "McFly",
+        "hstr",
+        "fzf history"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "zoxide",
+      "title": "zoxide",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/ajeetdsouza/zoxide",
+      "alternatives": [
+        "autojump",
+        "z",
+        "fasd"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "eza",
+      "title": "eza",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://eza.rocks/",
+      "alternatives": [
+        "ls",
+        "lsd",
+        "colorls"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "bat",
+      "title": "bat",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "bat",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://github.com/sharkdp/bat",
+      "alternatives": [
+        "cat",
+        "less",
+        "highlight"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "fd",
+      "title": "fd",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/sharkdp/fd",
+      "alternatives": [
+        "find",
+        "bfs",
+        "fdfind"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "ripgrep",
+      "title": "ripgrep",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/BurntSushi/ripgrep",
+      "alternatives": [
+        "grep",
+        "The Silver Searcher",
+        "ack"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "skim",
+      "title": "skim",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/skim-rs/skim",
+      "alternatives": [
+        "fzf",
+        "fzy",
+        "peco"
+      ],
+      "deployment": "none",
+      "summary": "Fuzzy finder used to build fast interactive selection workflows from shell and terminal tools."
+    },
+    {
+      "id": "carapace",
+      "title": "Carapace",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://carapace-sh.github.io/carapace-bin/",
+      "alternatives": [
+        "native shell completions",
+        "Fig",
+        "inshellisense"
+      ],
+      "deployment": "none",
+      "summary": "Multi-shell completion engine used to provide richer command completions across supported shells."
+    },
+    {
+      "id": "helix",
+      "title": "Helix",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "helix",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://helix-editor.com/",
+      "alternatives": [
+        "Neovim",
+        "Kakoune",
+        "Vim"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "tmux",
+      "title": "tmux",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "tmux",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://github.com/tmux/tmux",
+      "alternatives": [
+        "Zellij",
+        "GNU Screen",
+        "WezTerm multiplexer"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "lazygit",
+      "title": "lazygit",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "lazygit",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://github.com/jesseduffield/lazygit",
+      "alternatives": [
+        "gitui",
+        "tig",
+        "Git CLI"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "git-delta",
+      "title": "delta",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://dandavison.github.io/delta/",
+      "alternatives": [
+        "diff-so-fancy",
+        "difftastic",
+        "git diff"
+      ],
+      "deployment": "none",
+      "summary": "Syntax-aware pager for Git diffs that makes review output easier to scan in the terminal."
+    },
+    {
+      "id": "gh",
+      "title": "GitHub CLI",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "gh",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://cli.github.com/",
+      "alternatives": [
+        "glab",
+        "git + browser",
+        "GitHub API clients"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "yazi",
+      "title": "Yazi",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "yazi",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://yazi-rs.github.io/",
+      "alternatives": [
+        "ranger",
+        "lf",
+        "nnn"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "lnav",
+      "title": "lnav",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "lnav",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://lnav.org/",
+      "alternatives": [
+        "less",
+        "multitail",
+        "angle-grinder"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "btop",
+      "title": "btop",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "btop",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://github.com/aristocratos/btop",
+      "alternatives": [
+        "htop",
+        "bottom",
+        "Glances"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "fastfetch",
+      "title": "Fastfetch",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/fastfetch-cli/fastfetch",
+      "alternatives": [
+        "Neofetch",
+        "macchina",
+        "screenfetch"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "gdu",
+      "title": "gdu",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "gdu",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://github.com/dundee/gdu",
+      "alternatives": [
+        "ncdu",
+        "dust",
+        "du"
+      ],
+      "deployment": "stow"
+    },
+    {
+      "id": "jq",
+      "title": "jq",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://jqlang.org/",
+      "alternatives": [
+        "jaq",
+        "yq",
+        "fx"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "fnm",
+      "title": "fnm",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/Schniz/fnm",
+      "alternatives": [
+        "mise",
+        "nvm",
+        "Volta"
+      ],
+      "deployment": "none"
+    },
+    {
+      "id": "npm",
+      "title": "npm",
+      "install": [
+        "runtime"
+      ],
+      "config": "npm",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://www.npmjs.com/",
+      "alternatives": [
+        "pnpm",
+        "Yarn",
+        "Bun"
+      ],
+      "deployment": "stow",
+      "summary": "npm client configuration for Node.js package registry and package-manager behavior.",
+      "icon": "npm.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "age",
+      "title": "age",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://age-encryption.org/",
+      "alternatives": [
+        "GnuPG",
+        "OpenSSL",
+        "minisign + encrypted storage"
+      ],
+      "deployment": "none",
+      "summary": "Small modern encryption tool used as part of the private secrets-management workflow."
+    },
+    {
+      "id": "sops",
+      "title": "SOPS",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://getsops.io/",
+      "alternatives": [
+        "git-crypt",
+        "BlackBox",
+        "Ansible Vault"
+      ],
+      "deployment": "none",
+      "summary": "Structured secrets editor used to keep encrypted configuration safely version-controlled."
+    },
+    {
+      "id": "gitleaks",
+      "title": "Gitleaks",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://gitleaks.io/",
+      "alternatives": [
+        "TruffleHog",
+        "detect-secrets",
+        "GitGuardian CLI"
+      ],
+      "deployment": "none",
+      "summary": "Secret scanner used to catch credentials and high-risk material before it reaches published history."
+    },
+    {
+      "id": "kanata",
+      "title": "Kanata",
+      "install": [
+        "brew"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/jtroo/kanata",
+      "alternatives": [
+        "Karabiner-Elements",
+        "keyd",
+        "KMonad"
+      ],
+      "deployment": "none",
+      "summary": "Cross-platform keyboard remapping engine used for programmable input behavior outside application-specific shortcuts."
+    },
+    {
+      "id": "ghostty",
+      "title": "Ghostty",
+      "install": [
+        "brew-cask"
+      ],
+      "config": "ghostty",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://ghostty.org/",
+      "alternatives": [
+        "WezTerm",
+        "Alacritty",
+        "Kitty"
+      ],
+      "deployment": "stow",
+      "summary": "Terminal emulator whose private configuration is managed by the dotfiles repository.",
+      "icon": "ghostty.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "karabiner",
+      "title": "Karabiner-Elements",
+      "install": [
+        "brew-cask"
+      ],
+      "config": "karabiner",
+      "visibility": "private",
+      "kind": "software+config",
+      "homepage": "https://karabiner-elements.pqrs.org/",
+      "alternatives": [
+        "Kanata",
+        "KMonad",
+        "macOS keyboard settings"
+      ],
+      "deployment": "stow",
+      "summary": "macOS keyboard customization application with repository-managed private configuration.",
+      "brewName": "karabiner-elements"
+    },
+    {
+      "id": "stats",
+      "title": "Stats",
+      "install": [
+        "brew-cask"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/exelban/stats",
+      "alternatives": [
+        "iStat Menus",
+        "MenuMeters",
+        "btop"
+      ],
+      "deployment": "none",
+      "summary": "macOS menu-bar system monitor for quick CPU, memory, disk, network, and sensor visibility."
+    },
+    {
+      "id": "font-monaspace",
+      "title": "Monaspace",
+      "install": [
+        "brew-cask"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "asset",
+      "homepage": "https://monaspace.githubnext.com/",
+      "alternatives": [
+        "Berkeley Mono",
+        "JetBrains Mono",
+        "Iosevka"
+      ],
+      "deployment": "none",
+      "summary": "Monaspace font family installed for consistent terminal and editor typography."
+    },
+    {
+      "id": "ssh",
+      "title": "OpenSSH configuration",
+      "install": [
+        "system",
+        "role"
+      ],
+      "config": "ssh",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://www.openssh.com/",
+      "alternatives": [
+        "Dropbear",
+        "Mosh",
+        "Eternal Terminal"
+      ],
+      "deployment": "stow",
+      "summary": "Private OpenSSH client configuration for hosts, identities, connection behavior, and remote workflows."
+    },
+    {
+      "id": "aws-sso",
+      "title": "AWS SSO configuration",
+      "install": [
+        "external"
+      ],
+      "config": "aws-sso",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html",
+      "alternatives": [
+        "aws-vault",
+        "Granted",
+        "Leapp"
+      ],
+      "deployment": "repo-only",
+      "summary": "Repository-held AWS SSO configuration for authenticated cloud access; metadata is private and not publicly exported."
+    },
+    {
+      "id": "oatmeal",
+      "title": "Oatmeal",
+      "install": [
+        "external"
+      ],
+      "config": "oatmeal",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://github.com/dustinblackman/oatmeal",
+      "alternatives": [
+        "aichat",
+        "mods",
+        "llm"
+      ],
+      "deployment": "stow",
+      "summary": "Terminal AI client configuration managed privately for interactive command-line workflows."
+    },
+    {
+      "id": "streamrip",
+      "title": "streamrip",
+      "install": [
+        "external"
+      ],
+      "config": "streamrip",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://github.com/nathom/streamrip",
+      "alternatives": [
+        "yt-dlp",
+        "beets",
+        "rclone"
+      ],
+      "deployment": "repo-only",
+      "summary": "Private streamrip configuration for command-line media retrieval workflows."
+    },
+    {
+      "id": "termux-config",
+      "title": "Termux",
+      "install": [
+        "platform"
+      ],
+      "config": "termux",
+      "visibility": "private",
+      "kind": "config",
+      "homepage": "https://termux.dev/",
+      "alternatives": [
+        "UserLAnd",
+        "JuiceSSH",
+        "native Linux shell"
+      ],
+      "deployment": "stow",
+      "summary": "Termux-specific terminal settings and mobile integration configuration for Android devices."
+    }
+  ]
+}
