@@ -10,7 +10,8 @@
       "install": "Installera",
       "plan": "Plan",
       "packages": "Paket",
-      "trust": "Förtroende"
+      "trust": "Förtroende",
+      "managed": "Hanterad yta"
     },
     "preferences": {
       "language": "Språk",
@@ -161,7 +162,41 @@
       "note": "<code>just</code> är endast ett bekvämlighetslager. Installationsprogrammet och <code>dotfiles</code>-CLI:n kan fortfarande användas direkt."
     },
     "footer": "Säker publik bootstrap för nya maskiner.",
-    "noScript": "JavaScript används endast för rollkonfiguratorn. Standardkommandot för utvecklingsinstallation är:"
+    "noScript": "JavaScript används endast för rollkonfiguratorn. Standardkommandot för utvecklingsinstallation är:",
+    "managed": {
+      "eyebrow": "Hanterad yta",
+      "title": "Allt som det här arkivet hanterar",
+      "intro": "Inventeringen kombinerar programinstallation och konfigurationsägarskap. Den omfattar program som installeras av Homebrew eller roller, shell- och appkonfiguration som distribueras med Stow samt privat repository-konfiguration som medvetet inte publiceras.",
+      "all": "Alla",
+      "installed": "Installerat",
+      "configured": "Konfigurerat",
+      "private": "Privat config",
+      "public": "Publik config",
+      "repoOnly": "Endast repository",
+      "installedBy": "Installeras av",
+      "configPackage": "Config-paket",
+      "visibility": "Synlighet",
+      "deployment": "Distribution",
+      "brew": "Homebrew",
+      "brewCask": "Homebrew cask",
+      "role": "Roll/inbyggt",
+      "system": "System",
+      "runtime": "Runtime",
+      "external": "Extern/manuell",
+      "platform": "Plattform",
+      "stow": "Stow",
+      "repoOnlyLabel": "Endast repository",
+      "none": "Ingen",
+      "publicLabel": "Publik",
+      "privateLabel": "Privat",
+      "noConfig": "Ingen hanterad config",
+      "software": "Programvara",
+      "config": "Konfiguration",
+      "softwareConfig": "Programvara + config",
+      "asset": "Resurs",
+      "items": "hanterade objekt",
+      "empty": "Inga hanterade objekt matchar filtret."
+    }
   },
   "platforms": {
     "macos": {
@@ -367,5 +402,27 @@
       "summary": "Strömmande JSON-processor för att fråga, omforma och kombinera strukturerad utdata.",
       "why": "Publikt macOS-basverktyg för pålitlig JSON-inspektion och scripting."
     }
+  },
+  "managedTools": {
+    "bash": "Bash-konfiguration för portabla alias, komplettering, miljöinställningar och kommandobeteende.",
+    "fish": "Fish-konfiguration för interaktiv navigering, komplettering, prompt och terminalintegrationer.",
+    "nushell": "Strukturerad Nushell-konfiguration för kommandon, miljöbeteende och terminalintegrationer.",
+    "skim": "Fuzzy finder för snabba interaktiva urvalsflöden från shell och terminalverktyg.",
+    "carapace": "Kompletteringsmotor för flera shellar som ger rikare kommandokomplettering.",
+    "git-delta": "Syntaxmedveten pager för Git-diffar som gör granskningsutdata lättare att läsa i terminalen.",
+    "npm": "npm-klientkonfiguration för Node.js-paketregister och pakethanterarbeteende.",
+    "age": "Litet modernt krypteringsverktyg som används i det privata flödet för hemlighetshantering.",
+    "sops": "Editor för strukturerade hemligheter som gör det möjligt att versionshantera krypterad konfiguration säkert.",
+    "gitleaks": "Hemlighetsskanner som fångar autentiseringsuppgifter och högriskmaterial innan det når publicerad historik.",
+    "kanata": "Plattformsoberoende tangentbordsomappning för programmerbart inmatningsbeteende.",
+    "ghostty": "Terminalemulator vars privata konfiguration hanteras av dotfiles-arkivet.",
+    "karabiner": "macOS-app för tangentbordsanpassning med privat repository-hanterad konfiguration.",
+    "stats": "Systemövervakare i macOS-menyraden för CPU, minne, disk, nätverk och sensorer.",
+    "font-monaspace": "Monaspace-typsnittsfamiljen installerad för konsekvent typografi i terminal och editor.",
+    "ssh": "Privat OpenSSH-klientkonfiguration för värdar, identiteter, anslutningsbeteende och fjärrflöden.",
+    "aws-sso": "AWS SSO-konfiguration som hålls i repositoryt för autentiserad molnåtkomst; metadata förblir privat.",
+    "oatmeal": "Privat konfiguration för terminalbaserade AI-klienten Oatmeal.",
+    "streamrip": "Privat streamrip-konfiguration för kommandoradsbaserade medieflöden.",
+    "termux-config": "Termux-specifika terminalinställningar och mobilintegrationskonfiguration för Android-enheter."
   }
 }
