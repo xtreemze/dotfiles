@@ -1,0 +1,343 @@
+{
+  "version": 1,
+  "packages": {
+    "git": {
+      "title": "Git",
+      "summary": "Distributed version control used to clone, update, and manage the dotfiles repositories.",
+      "why": "Core bootstrap dependency and the source-control layer for every managed machine.",
+      "homepage": "https://git-scm.com/",
+      "alternatives": [
+        "Jujutsu (jj)",
+        "Mercurial",
+        "Fossil"
+      ],
+      "icon": "git.svg",
+      "iconMode": "monochrome"
+    },
+    "tmux": {
+      "title": "tmux",
+      "summary": "Terminal multiplexer for persistent sessions, panes, and resilient remote workflows.",
+      "why": "Keeps the same terminal workspace available locally and over SSH.",
+      "homepage": "https://github.com/tmux/tmux",
+      "alternatives": [
+        "Zellij",
+        "GNU Screen",
+        "WezTerm multiplexer"
+      ],
+      "icon": "tmux.svg",
+      "iconMode": "monochrome"
+    },
+    "curl": {
+      "title": "curl",
+      "summary": "Command-line data transfer tool used for HTTPS bootstrap and artifact retrieval.",
+      "why": "Provides the smallest broadly available path for fetching the public installer and verified artifacts.",
+      "homepage": "https://curl.se/",
+      "alternatives": [
+        "wget",
+        "HTTPie",
+        "xh"
+      ],
+      "icon": "curl.svg",
+      "iconMode": "monochrome"
+    },
+    "tar": {
+      "title": "GNU tar",
+      "summary": "Archive utility used to unpack release artifacts and portable tool fallbacks.",
+      "why": "Needed by the bootstrap path when a package is acquired as a verified archive.",
+      "homepage": "https://www.gnu.org/software/tar/",
+      "alternatives": [
+        "bsdtar",
+        "7-Zip",
+        "pax"
+      ],
+      "icon": "gnu.svg",
+      "iconMode": "monochrome"
+    },
+    "stow": {
+      "title": "GNU Stow",
+      "summary": "Symlink farm manager that maps repository packages into the home directory.",
+      "why": "The sole configuration deployment authority, keeping changes reversible and inspectable.",
+      "homepage": "https://www.gnu.org/software/stow/",
+      "alternatives": [
+        "chezmoi",
+        "yadm",
+        "Dotbot"
+      ],
+      "icon": "gnu.svg",
+      "iconMode": "monochrome"
+    },
+    "just": {
+      "title": "just",
+      "summary": "Command runner that exposes memorable dotfiles recipes without owning installer logic.",
+      "why": "Adds discoverable commands and shell completions while keeping the underlying CLI authoritative.",
+      "homepage": "https://just.systems/",
+      "alternatives": [
+        "make",
+        "Task",
+        "mise tasks"
+      ],
+      "icon": "just.svg",
+      "iconMode": "monochrome"
+    },
+    "openssh": {
+      "title": "OpenSSH",
+      "summary": "SSH client and tooling for secure remote shell access.",
+      "why": "Required on Termux and remote-oriented machines so the terminal environment can follow you across hosts.",
+      "homepage": "https://www.openssh.com/",
+      "alternatives": [
+        "Dropbear",
+        "Mosh",
+        "Eternal Terminal"
+      ],
+      "icon": null
+    },
+    "zsh": {
+      "title": "Zsh",
+      "summary": "Interactive Unix shell with strong completion and customization support.",
+      "why": "One of the supported interactive shells for a consistent local terminal experience.",
+      "homepage": "https://www.zsh.org/",
+      "alternatives": [
+        "Fish",
+        "Nushell",
+        "Bash"
+      ],
+      "icon": "zsh.svg",
+      "iconMode": "monochrome"
+    },
+    "helix": {
+      "title": "Helix",
+      "summary": "Modal terminal editor with built-in tree-sitter, LSP, and multiple-selection workflows.",
+      "why": "Primary terminal-native editor across development, remote, Linux, and mobile roles.",
+      "homepage": "https://helix-editor.com/",
+      "alternatives": [
+        "Neovim",
+        "Kakoune",
+        "Vim"
+      ],
+      "icon": "helix.svg",
+      "iconMode": "monochrome"
+    },
+    "yazi": {
+      "title": "Yazi",
+      "summary": "Fast terminal file manager with previews, tabs, async I/O, and keyboard-first navigation.",
+      "why": "Provides the same filesystem workflow on local, remote, and mobile terminals.",
+      "homepage": "https://yazi-rs.github.io/",
+      "alternatives": [
+        "ranger",
+        "lf",
+        "nnn"
+      ],
+      "icon": null
+    },
+    "starship": {
+      "title": "Starship",
+      "summary": "Cross-shell prompt that surfaces repository, runtime, and system context.",
+      "why": "Keeps prompt information consistent across supported shells and machines.",
+      "homepage": "https://starship.rs/",
+      "alternatives": [
+        "Oh My Posh",
+        "Powerlevel10k",
+        "pure"
+      ],
+      "icon": "starship.svg",
+      "iconMode": "monochrome"
+    },
+    "atuin": {
+      "title": "Atuin",
+      "summary": "Searchable shell history stored in a structured local database with optional encrypted sync.",
+      "why": "Replaces fragile reverse-search history with contextual search across managed shells.",
+      "homepage": "https://atuin.sh/",
+      "alternatives": [
+        "McFly",
+        "hstr",
+        "fzf history"
+      ],
+      "icon": null
+    },
+    "zoxide": {
+      "title": "zoxide",
+      "summary": "Frequency-aware directory jumper that learns the paths used most often.",
+      "why": "Makes navigation consistent and fast without maintaining hand-written directory aliases.",
+      "homepage": "https://github.com/ajeetdsouza/zoxide",
+      "alternatives": [
+        "autojump",
+        "z",
+        "fasd"
+      ],
+      "icon": "zoxide.svg"
+    },
+    "eza": {
+      "title": "eza",
+      "summary": "Modern replacement for ls with better defaults, metadata, Git state, and tree views.",
+      "why": "Improves everyday directory inspection in the portable shell layer.",
+      "homepage": "https://eza.rocks/",
+      "alternatives": [
+        "ls",
+        "lsd",
+        "colorls"
+      ],
+      "icon": null
+    },
+    "bat": {
+      "title": "bat",
+      "summary": "Syntax-highlighted cat replacement with paging, line numbers, and Git-aware output.",
+      "why": "Used for readable file previews, manuals, and fuzzy-finder previews.",
+      "homepage": "https://github.com/sharkdp/bat",
+      "alternatives": [
+        "cat",
+        "less",
+        "highlight"
+      ],
+      "icon": "bat.svg",
+      "iconMode": "monochrome"
+    },
+    "fd": {
+      "title": "fd",
+      "summary": "Fast, user-friendly filesystem search tool with sensible defaults and regex support.",
+      "why": "Supports editor, shell, and file-manager search flows without verbose find syntax.",
+      "homepage": "https://github.com/sharkdp/fd",
+      "alternatives": [
+        "find",
+        "fdfind",
+        "bfs"
+      ],
+      "icon": null
+    },
+    "ripgrep": {
+      "title": "ripgrep",
+      "summary": "Recursive text search optimized for speed while respecting ignore files by default.",
+      "why": "Core search primitive for development, editor, and remote workflows.",
+      "homepage": "https://github.com/BurntSushi/ripgrep",
+      "alternatives": [
+        "grep",
+        "The Silver Searcher",
+        "ack"
+      ],
+      "icon": null
+    },
+    "gh": {
+      "title": "GitHub CLI",
+      "summary": "Official GitHub command-line client for authentication, repositories, pull requests, and API workflows.",
+      "why": "Acts as the authentication gateway from the safe public bootstrap to the private dotfiles overlay.",
+      "homepage": "https://cli.github.com/",
+      "alternatives": [
+        "glab",
+        "git + browser",
+        "GitHub API clients"
+      ],
+      "icon": "github.svg",
+      "iconMode": "monochrome"
+    },
+    "lazygit": {
+      "title": "lazygit",
+      "summary": "Terminal UI for common Git staging, history, branch, merge, and rebase operations.",
+      "why": "Provides a fast interactive Git surface without replacing Git itself.",
+      "homepage": "https://github.com/jesseduffield/lazygit",
+      "alternatives": [
+        "gitui",
+        "tig",
+        "Git CLI"
+      ],
+      "icon": null
+    },
+    "fnm": {
+      "title": "fnm",
+      "summary": "Fast Node.js version manager with per-shell and per-project version switching.",
+      "why": "Keeps Node runtimes explicit and isolated for development machines.",
+      "homepage": "https://github.com/Schniz/fnm",
+      "alternatives": [
+        "mise",
+        "nvm",
+        "Volta"
+      ],
+      "icon": "nodedotjs.svg",
+      "iconMode": "monochrome"
+    },
+    "btop": {
+      "title": "btop",
+      "summary": "Interactive resource monitor for CPU, memory, disks, network, and processes.",
+      "why": "Desktop role monitor for quickly understanding machine pressure and runaway processes.",
+      "homepage": "https://github.com/aristocratos/btop",
+      "alternatives": [
+        "htop",
+        "bottom",
+        "Glances"
+      ],
+      "icon": "btop.svg"
+    },
+    "fastfetch": {
+      "title": "Fastfetch",
+      "summary": "Fast system-information summary for OS, hardware, shell, terminal, and runtime context.",
+      "why": "Useful for workstation diagnostics and quickly confirming which environment is active.",
+      "homepage": "https://github.com/fastfetch-cli/fastfetch",
+      "alternatives": [
+        "Neofetch",
+        "macchina",
+        "screenfetch"
+      ],
+      "icon": "fastfetch.svg"
+    },
+    "gdu": {
+      "title": "gdu",
+      "summary": "Fast disk-usage analyzer with an interactive terminal interface.",
+      "why": "Desktop role utility for finding large directories and storage regressions quickly.",
+      "homepage": "https://github.com/dundee/gdu",
+      "alternatives": [
+        "ncdu",
+        "dust",
+        "du"
+      ],
+      "icon": null
+    },
+    "lnav": {
+      "title": "lnav",
+      "summary": "Log-file navigator that merges, tails, searches, filters, and queries structured logs in the terminal.",
+      "why": "Provides a richer inspection surface for development and workstation troubleshooting.",
+      "homepage": "https://lnav.org/",
+      "alternatives": [
+        "less",
+        "multitail",
+        "angle-grinder"
+      ],
+      "icon": "lnav.svg"
+    },
+    "htop": {
+      "title": "htop",
+      "summary": "Interactive process viewer for CPU, memory, process trees, signals, and priorities.",
+      "why": "Server role fallback that is widely packaged and usable over constrained remote shells.",
+      "homepage": "https://htop.dev/",
+      "alternatives": [
+        "btop",
+        "top",
+        "bottom"
+      ],
+      "icon": null
+    },
+    "rclone": {
+      "title": "Rclone",
+      "summary": "Command-line file synchronization and transfer across local storage and many cloud providers.",
+      "why": "Server role tool for backups, transfers, and remote storage operations without a desktop client.",
+      "homepage": "https://rclone.org/",
+      "alternatives": [
+        "rsync",
+        "restic",
+        "Syncthing"
+      ],
+      "icon": "rclone.svg",
+      "iconMode": "monochrome"
+    },
+    "jq": {
+      "title": "jq",
+      "summary": "Streaming JSON processor for querying, transforming, and composing structured command output.",
+      "why": "macOS public baseline utility for reliable JSON inspection and scripting.",
+      "homepage": "https://jqlang.org/",
+      "alternatives": [
+        "jaq",
+        "yq",
+        "fx"
+      ],
+      "icon": "json.svg",
+      "iconMode": "monochrome"
+    }
+  }
+}
