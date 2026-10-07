@@ -58,7 +58,7 @@ const translations = {
 const virtualFs = {
   "~/.dotfiles": {
     type: "dir",
-    entries: ["README.md", "Brewfile", "bootstrap.sh", "install.sh", "packages", "public", "rclone", "ghostty", "tmux", "helix"]
+    entries: ["README.md", "Brewfile", "bootstrap.sh", "install.sh", "packages", "public", "rclone", "ghostty", "starship", "zsh", "tmux", "helix", "yazi", "atuin"]
   },
   "~/.dotfiles/packages": {
     type: "dir",
@@ -67,6 +67,10 @@ const virtualFs = {
   "~/.dotfiles/public": { type: "dir", entries: ["README.md", "Brewfile", "site", "bootstrap.sh"] },
   "~/.dotfiles/rclone": { type: "dir", entries: [".config", ".local"] },
   "~/.dotfiles/ghostty": { type: "dir", entries: [".config"] },
+  "~/.dotfiles/starship": { type: "dir", entries: [".config"] },
+  "~/.dotfiles/zsh": { type: "dir", entries: [".zshrc", ".zshenv", ".zprofile"] },
+  "~/.dotfiles/yazi": { type: "dir", entries: [".config"] },
+  "~/.dotfiles/atuin": { type: "dir", entries: [".config"] },
   "~/.dotfiles/tmux": { type: "dir", entries: [".tmux.conf", "tmux-session-switcher.sh", "tmux-project-switcher.sh"] },
   "~/.dotfiles/helix": { type: "dir", entries: [".config"] }
 };
@@ -108,6 +112,7 @@ packages:
   - just
   - rclone
 `,
+  "~/.dotfiles/zsh/.zshrc": `bindkey -e\n# Atuin, zsh-autocomplete, autosuggestions, syntax highlighting, zoxide and Starship are enabled when installed.\n`,
   "~/.dotfiles/rclone/.config/dotfiles/rclone-vfs.env": `RCLONE_CLOUD_REMOTE="cloud:"
 RCLONE_CLOUD_MOUNT="$HOME/Cloud"
 RCLONE_VFS_CACHE_MODE="full"
@@ -116,15 +121,17 @@ RCLONE_VFS_CACHE_MAX_SIZE="20Gi"
 };
 
 class DotfilesTerminal extends HTMLElement {
-  static observedAttributes = ["lang"];
+  static observedAttributes = ["lang", "data-terminal-theme"];
 
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this.cwd = "~/.dotfiles";
-    this.history = [];
-    this.historyIndex = 0;
+    this.history = ["git status", "just doctor", "just plan development", "dotfiles packages development", "rg rclone .", "eza -la", "bat README.md", "rclone status"];
+    this.historyIndex = this.history.length;
     this.theme = "dark";
+    this.lastDuration = 0;
+    this.completions = [];
   }
 
   connectedCallback() {
@@ -160,7 +167,14 @@ class DotfilesTerminal extends HTMLElement {
         --blue: #7fbbb3;
         --purple: #d699b6;
         --cyan: #83c092;
+        --orange: #e69875;
+        --bg1: #343f44;
+        --bg2: #3d484d;
         font-family: "Monaspace Krypton", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 14px;
+        font-feature-settings: "calt" 1, "liga" 1, "ss01" 1, "ss02" 1, "ss03" 1, "ss04" 1, "ss05" 1, "ss06" 1, "ss07" 1, "ss08" 1, "ss09" 1;
+        font-variant-ligatures: common-ligatures contextual;
+        font-synthesis: none;
       }
       :host([data-terminal-theme="light"]) {
         --bg: #fdf6e3;
@@ -172,52 +186,42 @@ class DotfilesTerminal extends HTMLElement {
         --blue: #3a94c5;
         --purple: #df69ba;
         --cyan: #35a77c;
+        --orange: #f57d26;
+        --bg1: #f4f0d9;
+        --bg2: #efebd4;
       }
       * { box-sizing: border-box; }
       .window {
         overflow: hidden;
         border: 1px solid color-mix(in srgb, var(--fg) 22%, transparent);
-        border-radius: 1rem;
+        border-radius: 10px;
         background: var(--bg);
         color: var(--fg);
         box-shadow: 0 1.5rem 4rem color-mix(in srgb, #000 18%, transparent);
       }
       .titlebar {
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto minmax(0, 1fr) auto;
         gap: .8rem;
-        align-items: center;
-        padding: .68rem .8rem;
+        align-items: end;
+        min-height: 42px;
+        padding: 7px 10px 0;
         border-bottom: 1px solid color-mix(in srgb, var(--fg) 12%, transparent);
         background: color-mix(in srgb, var(--fg) 3%, var(--bg));
       }
-      .lights { display: flex; gap: .42rem; }
-      .light { width: .72rem; height: .72rem; border-radius: 50%; }
-      .light:nth-child(1) { background: var(--red); }
-      .light:nth-child(2) { background: var(--yellow); }
-      .light:nth-child(3) { background: var(--green); }
-      .title {
-        min-width: 0;
-        overflow: hidden;
-        text-align: center;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: .75rem;
-        opacity: .68;
-      }
-      .stack { display: flex; gap: .3rem; flex-wrap: wrap; justify-content: end; }
-      .badge {
-        padding: .16rem .36rem;
-        border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent);
-        border-radius: 999px;
-        font-size: .62rem;
-        opacity: .72;
-      }
+      .lights { display: flex; gap: 8px; padding: 0 10px 12px 2px; }
+      .light { width: 12px; height: 12px; border-radius: 50%; }
+      .light:nth-child(1) { background: #ff5f57; }
+      .light:nth-child(2) { background: #febc2e; }
+      .light:nth-child(3) { background: #28c840; }
+      .title { display:flex; align-items:center; gap:7px; min-width:0; max-width:300px; align-self:stretch; padding:0 13px; border:1px solid color-mix(in srgb,var(--fg) 10%,transparent); border-bottom:0; border-radius:7px 7px 0 0; background:var(--bg); font:12px system-ui,sans-serif; color:var(--fg); text-align:left; }
+      .title span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+      .stack { padding:0 0 10px 10px; font:11px system-ui,sans-serif; opacity:.5; }
       .screen {
         min-height: 27rem;
         max-height: 35rem;
         overflow: auto;
-        padding: 1rem;
+        padding: 12px 10px 18px;
         scrollbar-color: color-mix(in srgb, var(--fg) 25%, transparent) transparent;
       }
       .line {
@@ -235,16 +239,23 @@ class DotfilesTerminal extends HTMLElement {
       .red { color: var(--red); }
       .cyan { color: var(--cyan); }
       .purple { color: var(--purple); }
-      .prompt-row {
-        display: grid;
-        grid-template-columns: auto auto auto minmax(2rem, 1fr);
-        gap: .35rem;
-        align-items: center;
-        margin-top: .25rem;
-      }
-      .cwd { color: var(--green); font-weight: 650; }
-      .branch { color: var(--blue); }
-      .symbol { color: var(--yellow); font-weight: 800; }
+      .orange { color: var(--orange); }
+      .prompt-shell { margin-top: 8px; }
+      .prompt-top { display:flex; justify-content:space-between; gap:18px; align-items:baseline; }
+      .prompt-left,.prompt-right { display:flex; flex-wrap:wrap; min-width:0; }
+      .prompt-right { margin-left:auto; }
+      .prompt-row { display:grid; grid-template-columns:auto minmax(2rem,1fr); gap:.5rem; align-items:center; margin-top:1px; }
+      .os { color: var(--blue); }
+      .shell { color: var(--green); }
+      .cwd { color: var(--orange); }
+      .branch { color: var(--green); }
+      .symbol { color: var(--green); font-weight: 800; }
+      .right-status { color: var(--red); }
+      .duration { color: var(--green); }
+      .prompt-editor { display:grid; grid-template-areas:"stack"; min-width:0; position:relative; }
+      .prompt-editor input, .autosuggest { grid-area:stack; }
+      .autosuggest { color:var(--muted); pointer-events:none; white-space:pre; overflow:hidden; line-height:1.45; }
+      .autosuggest .prefix { visibility:hidden; }
       input {
         min-width: 0;
         border: 0;
@@ -252,7 +263,7 @@ class DotfilesTerminal extends HTMLElement {
         background: transparent;
         color: var(--fg);
         font: inherit;
-        font-size: .88rem;
+        font-size: 14px;
         caret-color: var(--fg);
       }
       .command-line { color: var(--fg); }
@@ -296,23 +307,25 @@ class DotfilesTerminal extends HTMLElement {
       <div class="window" role="application" aria-label="Interactive dotfiles terminal">
         <div class="titlebar">
           <div class="lights" aria-hidden="true"><span class="light"></span><span class="light"></span><span class="light"></span></div>
-          <div class="title">~/.dotfiles — zsh — Ghostty</div>
-          <div class="stack" aria-hidden="true">
-            <span class="badge">Ghostty</span><span class="badge">zsh</span><span class="badge">Starship</span><span class="badge">Everforest</span><span class="badge">Monaspace Krypton</span>
-          </div>
+          <div class="title"><span>⌁ ~/.dotfiles — zsh</span></div>
+          <div class="stack" aria-hidden="true">Ghostty</div>
         </div>
         <div class="screen" tabindex="0">
           <div class="output" aria-live="polite"></div>
-          <form class="prompt-row">
-            <span class="cwd">~/.dotfiles</span>
-            <span class="branch">master</span>
-            <span class="symbol">❯</span>
-            <input aria-label="Terminal command" autocomplete="off" autocapitalize="off" spellcheck="false">
-          </form>
+          <div class="prompt-shell">
+            <div class="prompt-top">
+              <div class="prompt-left"><span class="os"> </span><span class="shell">zsh </span><span class="cwd">dotfiles </span><span class="branch"> master </span></div>
+              <div class="prompt-right"><span class="right-status"></span><span class="duration"></span></div>
+            </div>
+            <form class="prompt-row">
+              <span class="symbol">❯</span>
+              <div class="prompt-editor"><span class="autosuggest" aria-hidden="true"></span><input aria-label="Terminal command" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+            </form>
+          </div>
         </div>
       </div>`;
 
-    this.shadowRoot.querySelector("form").addEventListener("submit", event => {
+    this.shadowRoot.querySelector("form").addEventListener("submit", async event => {
       event.preventDefault();
       const input = this.shadowRoot.querySelector("input");
       const command = input.value.trim();
@@ -321,10 +334,15 @@ class DotfilesTerminal extends HTMLElement {
       this.history.push(command);
       this.historyIndex = this.history.length;
       input.value = "";
-      this.execute(command);
+      this.updateSuggestion();
+      const started = performance.now();
+      await this.execute(command);
+      this.lastDuration = performance.now() - started;
+      this.updateRightPrompt();
     });
 
     const input = this.shadowRoot.querySelector("input");
+    input.addEventListener("input", () => this.updateSuggestion());
     input.addEventListener("keydown", event => {
       if (event.key === "ArrowUp") {
         event.preventDefault();
@@ -334,8 +352,24 @@ class DotfilesTerminal extends HTMLElement {
       }
       if (event.key === "ArrowDown") {
         event.preventDefault();
-        if (this.historyIndex < this.history.length) this.historyIndex += 1;
-        input.value = this.history[this.historyIndex] || "";
+        this.showCompletions();
+      }
+      if (event.key === "ArrowRight" && input.selectionStart === input.value.length) {
+        const suggestion = this.suggestionFor(input.value);
+        if (suggestion) {
+          event.preventDefault();
+          input.value = suggestion;
+          input.setSelectionRange(input.value.length, input.value.length);
+          this.updateSuggestion();
+        }
+      }
+      if (event.key === "Tab") {
+        event.preventDefault();
+        this.acceptSuggestionWord();
+      }
+      if (event.key.toLowerCase() === "r" && event.ctrlKey) {
+        event.preventDefault();
+        this.showAtuinHistory();
       }
       if (event.key === "l" && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
@@ -356,8 +390,9 @@ class DotfilesTerminal extends HTMLElement {
 
   writeIntro() {
     this.line(this.t.intro, "dim");
-    this.line(this.t.hint, "dim");
+    this.line("↑ / Ctrl+R: Atuin history · ↓: completions · →: accept suggestion · Tab: accept word", "dim");
     this.line("");
+    this.updateSuggestion();
   }
 
   line(text = "", className = "") {
@@ -379,9 +414,59 @@ class DotfilesTerminal extends HTMLElement {
   }
 
   echoCommand(command) {
-    this.htmlLine(`<span class="green">${this.cwd}</span> <span class="blue">master</span> <span class="yellow">❯</span> <span class="typed"></span>`, "command-line");
+    this.htmlLine(`<span class="blue"></span> <span class="green">zsh</span> <span class="orange">${this.cwd.replace("~/.dotfiles", "dotfiles")}</span> <span class="green"> master</span>`, "command-line");
+    this.htmlLine(`<span class="green">❯</span> <span class="typed"></span>`, "command-line");
     const last = this.shadowRoot.querySelector(".output .line:last-child .typed");
     last.textContent = command;
+  }
+
+  updateRightPrompt() {
+    const duration = this.shadowRoot.querySelector(".duration");
+    if (!duration) return;
+    duration.textContent = this.lastDuration >= 500 ? `${(this.lastDuration / 1000).toFixed(1)}s  ` : "";
+  }
+
+  suggestionFor(value) {
+    if (!value) return "";
+    return [...this.history].reverse().find(item => item !== value && item.startsWith(value)) || "";
+  }
+
+  updateSuggestion() {
+    const input = this.shadowRoot.querySelector("input");
+    const target = this.shadowRoot.querySelector(".autosuggest");
+    if (!input || !target) return;
+    const suggestion = this.suggestionFor(input.value);
+    if (!suggestion) { target.textContent = ""; return; }
+    target.innerHTML = `<span class="prefix">${this.escapeHtml(input.value)}</span>${this.escapeHtml(suggestion.slice(input.value.length))}`;
+  }
+
+  escapeHtml(value) {
+    return value.replace(/[&<>]/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[char]));
+  }
+
+  acceptSuggestionWord() {
+    const input = this.shadowRoot.querySelector("input");
+    const suggestion = this.suggestionFor(input.value);
+    if (!suggestion) { this.showCompletions(); return; }
+    const rest = suggestion.slice(input.value.length);
+    const chunk = rest.match(/^(\\S+\\s?)/)?.[1] || rest;
+    input.value += chunk;
+    input.setSelectionRange(input.value.length, input.value.length);
+    this.updateSuggestion();
+  }
+
+  showAtuinHistory() {
+    this.line("Atuin history search", "yellow");
+    [...this.history].reverse().slice(0, 8).forEach((item, index) => this.line(`${String(index + 1).padStart(2)}  ${item}`));
+  }
+
+  showCompletions() {
+    const input = this.shadowRoot.querySelector("input");
+    const commands = ["help","clear","pwd","eza","tree","cd","bat","fd","rg","git","just","dotfiles","rclone","zoxide","atuin","starship","hx","yazi","lazygit","theme","lang","role","install","copy","open"];
+    const word = input.value.trim().split(/\\s+/).pop() || "";
+    const matches = commands.filter(command => command.startsWith(word)).slice(0, 8);
+    if (!matches.length) return;
+    this.line(`completions: ${matches.join("  ")}`, "dim");
   }
 
   clear() {
@@ -423,9 +508,21 @@ class DotfilesTerminal extends HTMLElement {
       case "whoami": return this.line("visitor");
       case "uname": return this.line(`Browser ${navigator.platform || "Web"} · sandboxed demo`);
       case "ls": return this.ls(joined);
+      case "eza": return this.eza(joined);
       case "tree": return this.tree();
       case "cd": return this.cd(joined);
       case "cat": return this.cat(joined);
+      case "bat": return this.bat(joined);
+      case "fd": return this.fd(joined);
+      case "rg": return this.rg(joined);
+      case "zoxide": return this.zoxide(args);
+      case "z": return this.cd(joined);
+      case "atuin": return this.atuin(args);
+      case "starship": return this.starship(args);
+      case "hx":
+      case "helix": return this.helix(args);
+      case "yazi": return this.yazi();
+      case "lazygit": return this.lazygit();
       case "git": return this.git(args);
       case "just": return this.just(args);
       case "dotfiles": return this.dotfiles(args);
@@ -446,8 +543,11 @@ class DotfilesTerminal extends HTMLElement {
     const grid = document.createElement("div");
     grid.className = "help-grid";
     const rows = [
-      ["pwd / ls / tree / cd / cat", this.t.readonly],
-      ["git status / git branch", this.t.readonly],
+      ["pwd / eza / tree / cd / bat", this.t.readonly],
+      ["fd / rg / zoxide / z", this.t.readonly],
+      ["atuin history list / search", this.t.readonly],
+      ["hx README.md / yazi / lazygit", this.t.readonly],
+      ["git status / git branch / git log", this.t.readonly],
       ["just / just plan development", this.t.readonly],
       ["dotfiles packages development", this.t.readonly],
       ["rclone status", this.t.readonly],
@@ -498,8 +598,7 @@ class DotfilesTerminal extends HTMLElement {
     const target = this.normalizePath(path || "~/.dotfiles");
     if (!virtualFs[target]) return this.line(`cd: ${this.t.cwd} ${target}`, "red");
     this.cwd = target;
-    const label = target.replace("~/.dotfiles", "~/.dotfiles");
-    this.shadowRoot.querySelector(".cwd").textContent = label;
+    this.shadowRoot.querySelector(".cwd").textContent = `${target.replace("~/.dotfiles", "dotfiles")} `;
   }
 
   cat(path) {
@@ -507,6 +606,95 @@ class DotfilesTerminal extends HTMLElement {
     const content = virtualFiles[target];
     if (!content) return this.line(`cat: ${this.t.file} ${target}`, "red");
     for (const row of content.trimEnd().split("\n")) this.line(row);
+  }
+
+
+  eza(path) {
+    const target = this.normalizePath(path.replace(/^-.*$/, "").trim());
+    const dir = virtualFs[target];
+    if (!dir) return this.line(`eza: ${this.t.cwd} ${target}`, "red");
+    dir.entries.forEach(entry => this.line(entry, entry.includes(".") ? "cyan" : "blue"));
+  }
+
+  bat(path) {
+    const target = this.normalizePath(path);
+    const content = virtualFiles[target];
+    if (!content) return this.line(`bat: ${this.t.file} ${target}`, "red");
+    content.trimEnd().split("\n").forEach((row, index) => this.htmlLine(`<span class="dim">${String(index + 1).padStart(3)} │</span> ${this.escapeHtml(row)}`));
+  }
+
+  fd(query = "") {
+    const matches = [...Object.keys(virtualFs), ...Object.keys(virtualFiles)]
+      .map(path => path.replace("~/.dotfiles/", ""))
+      .filter(path => path.includes(query));
+    if (!matches.length) return this.line("no matches", "dim");
+    matches.slice(0, 20).forEach(path => this.line(path, "blue"));
+  }
+
+  rg(query) {
+    if (!query) return this.line("rg: search pattern required", "red");
+    let count = 0;
+    for (const [path, content] of Object.entries(virtualFiles)) {
+      content.split("\n").forEach((row, index) => {
+        if (row.toLowerCase().includes(query.toLowerCase())) {
+          this.htmlLine(`<span class="purple">${this.escapeHtml(path.replace("~/.dotfiles/", ""))}</span><span class="dim">:${index + 1}:</span>${this.escapeHtml(row)}`);
+          count += 1;
+        }
+      });
+    }
+    if (!count) this.line("no matches", "dim");
+  }
+
+  zoxide(args) {
+    if (args[0] === "query") {
+      const query = args.slice(1).join(" ");
+      const hit = Object.keys(virtualFs).find(path => path.includes(query));
+      return this.line(hit || "~/.dotfiles");
+    }
+    this.line("zoxide: query <name> · z <directory>", "dim");
+  }
+
+  atuin(args) {
+    if (args[0] === "history" && args[1] === "list") {
+      [...this.history].reverse().slice(0, 12).forEach((item, index) => this.line(`${String(index + 1).padStart(2)}  ${item}`));
+      return;
+    }
+    if (args[0] === "search" || args[0] === "history") return this.showAtuinHistory();
+    this.line("atuin: history list · search", "dim");
+  }
+
+  starship(args) {
+    if (args[0] === "explain") {
+      this.line("left: os → shell → directory → git_branch", "dim");
+      this.line("right: git_commit → git_status → cmd_duration", "dim");
+      this.line("character: second line, ❯ success / ❯ error", "dim");
+      return;
+    }
+    this.line("starship: explain", "dim");
+  }
+
+  helix(args) {
+    const file = args[0] || "README.md";
+    const target = this.normalizePath(file);
+    const content = virtualFiles[target] || virtualFiles["~/.dotfiles/README.md"];
+    this.line(`NORMAL  ${file}                                      Helix · read-only preview`, "yellow");
+    content.trimEnd().split("\n").slice(0, 14).forEach((row, index) => this.htmlLine(`<span class="dim">${String(index + 1).padStart(3)}</span>  ${this.escapeHtml(row)}`));
+  }
+
+  yazi() {
+    this.line("Yazi · ~/.dotfiles · read-only preview", "yellow");
+    this.line("README.md   Brewfile   packages/   public/");
+    this.line("ghostty/    starship/  zsh/        tmux/");
+    this.line("helix/      yazi/      atuin/      rclone/");
+  }
+
+  lazygit() {
+    this.line("lazygit · master · read-only preview", "yellow");
+    this.line("working tree  clean", "green");
+    this.line("master → origin/master");
+    this.line("7163297  interactive terminal");
+    this.line("117f608  palette + Monaspace");
+    this.line("79b3ff1  Rclone + site");
   }
 
   git(args) {
@@ -517,7 +705,7 @@ class DotfilesTerminal extends HTMLElement {
       return;
     }
     if (args[0] === "branch") return this.line("* master", "green");
-    if (args[0] === "log") return this.line("117f608 feat: showcase Everforest palette and Monaspace");
+    if (args[0] === "log") { this.line("7163297 feat: add embeddable interactive terminal"); this.line("117f608 feat: showcase Everforest palette and Monaspace"); this.line("79b3ff1 feat: finalize public site, managed tooling, and rclone cloud"); return; }
     this.line("git: demo supports status, branch, and log", "dim");
   }
 
