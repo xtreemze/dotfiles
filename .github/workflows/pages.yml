@@ -3,45 +3,60 @@ name: Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    paths:
+      - "docs/**"
+      - "packages/**"
+      - "scripts/**"
+      - "bin/**"
+      - "bootstrap.sh"
+      - "install.sh"
+      - "justfile"
+      - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Validate shell entrypoints
         run: |
           shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan
           bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
       - name: Verify generated site data
         run: |
-          for role in development desktop server remote mobile; do
-            test -s "docs/data/$role.json"
-            python3 -m json.tool "docs/data/$role.json" >/dev/null
+          for plan in development desktop server remote mobile linux termux macos; do
+            test -s "docs/data/$plan.json"
+            python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
+          node --check docs/app.js
+          grep -Fq 'bash -s --' docs/index.html
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: validate
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs
       - name: Deploy
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

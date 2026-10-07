@@ -11,13 +11,13 @@ Review the installer first when possible:
 ```sh
 curl -fsSLO https://xtreemze.github.io/dotfiles/install
 less install
-sh install --role development
+bash install --role development
 ```
 
 Or bootstrap in one command:
 
 ```sh
-curl -fsSL https://xtreemze.github.io/dotfiles/install | sh -s -- --role development
+curl -fsSL https://xtreemze.github.io/dotfiles/install | bash -s -- --role development
 ```
 
 The flow is:

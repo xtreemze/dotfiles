@@ -1,0 +1,155 @@
+{
+  "roles": [
+    "base",
+    "termux"
+  ],
+  "packages": [
+    {
+      "name": "base",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Managed terminal dependency"
+    },
+    {
+      "name": "git",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Source control and repository bootstrap"
+    },
+    {
+      "name": "tmux",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Provides persistent terminal sessions locally and over SSH"
+    },
+    {
+      "name": "curl",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Downloads bootstrap and release artifacts"
+    },
+    {
+      "name": "tar",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Extracts verified release archives"
+    },
+    {
+      "name": "stow",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Deploys configuration as reversible symlinks"
+    },
+    {
+      "name": "just",
+      "requirement": "optional",
+      "source": "base",
+      "version": ">=1.58",
+      "reason": "Provides the human-facing command interface and shell completions"
+    },
+    {
+      "name": "termux",
+      "requirement": "required",
+      "source": "termux",
+      "version": "system",
+      "reason": "Managed terminal dependency"
+    },
+    {
+      "name": "openssh",
+      "requirement": "required",
+      "source": "termux",
+      "version": "system",
+      "reason": "Provides SSH client access for remote workflows"
+    },
+    {
+      "name": "zsh",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Portable interactive shell configuration"
+    },
+    {
+      "name": "helix",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Terminal-native editor used across managed environments"
+    },
+    {
+      "name": "yazi",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Terminal file manager for local and remote navigation"
+    },
+    {
+      "name": "starship",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Cross-shell prompt with consistent context"
+    },
+    {
+      "name": "atuin",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Searchable shell history across supported shells"
+    },
+    {
+      "name": "zoxide",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Fast directory navigation based on usage"
+    },
+    {
+      "name": "eza",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Modern directory listing used by shell aliases"
+    },
+    {
+      "name": "bat",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Readable syntax-highlighted file inspection"
+    },
+    {
+      "name": "fd",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Fast filesystem search used by editor and shell workflows"
+    },
+    {
+      "name": "ripgrep",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Fast recursive text search for terminal workflows"
+    },
+    {
+      "name": "gh",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Authenticates GitHub and unlocks the private dotfiles overlay when authorized"
+    },
+    {
+      "name": "lazygit",
+      "requirement": "optional",
+      "source": "termux",
+      "version": "system",
+      "reason": "Interactive Git workflow in the terminal"
+    }
+  ]
+}

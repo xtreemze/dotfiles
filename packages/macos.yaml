@@ -1,0 +1,26 @@
+name: macos
+description: Public macOS package baseline
+version: "1.0"
+packages:
+  - { name: git, install: required }
+  - { name: stow, install: required }
+  - { name: just, install: optional }
+  - { name: zsh, install: optional }
+  - { name: starship, install: optional }
+  - { name: atuin, install: optional }
+  - { name: zoxide, install: optional }
+  - { name: eza, install: optional }
+  - { name: bat, install: optional }
+  - { name: fd, install: optional }
+  - { name: ripgrep, install: optional }
+  - { name: helix, install: optional }
+  - { name: tmux, install: required }
+  - { name: lazygit, install: optional }
+  - { name: gh, install: optional }
+  - { name: yazi, install: optional }
+  - { name: lnav, install: optional }
+  - { name: btop, install: optional }
+  - { name: fastfetch, install: optional }
+  - { name: gdu, install: optional }
+  - { name: jq, install: optional }
+  - { name: fnm, install: optional }
