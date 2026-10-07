@@ -11,7 +11,8 @@
       "plan": "Plan",
       "packages": "Packages",
       "trust": "Trust",
-      "managed": "Managed surface"
+      "managed": "Managed surface",
+      "design": "Presentation"
     },
     "preferences": {
       "language": "Language",
@@ -196,6 +197,81 @@
       "asset": "Asset",
       "items": "managed items",
       "empty": "No managed items match this filter."
+    },
+    "design": {
+      "eyebrow": "Presentation & controls",
+      "title": "A consistent visual and interaction language",
+      "intro": "The repository treats presentation, typography, keyboard behavior, and controls as part of the configuration contract.",
+      "colorTitle": "Color",
+      "typeTitle": "Typography",
+      "siteColor": "Site",
+      "terminalColor": "Terminal",
+      "systemAdaptive": "System-adaptive light/dark neutral surfaces",
+      "everforest": "Everforest terminal palette",
+      "siteUI": "Site UI",
+      "siteCode": "Commands/code",
+      "terminalFont": "Terminal",
+      "managedFont": "Managed font asset",
+      "philosophy": "Interaction principles",
+      "keybindings": "Key bindings",
+      "philosophyItems": [
+        "Keyboard-first",
+        "Home-row navigation",
+        "Modal-editor safe",
+        "Native platform conventions where they do not conflict",
+        "Mouse available but secondary"
+      ],
+      "controls": {
+        "tmux": [
+          "Prefix",
+          "Move pane",
+          "Resize pane",
+          "Split around current pane",
+          "File picker",
+          "Directory picker",
+          "Session selector",
+          "Project selector",
+          "Window finder",
+          "Pane finder"
+        ],
+        "ghostty": [
+          "New tab",
+          "New split right",
+          "New split down",
+          "Move between splits",
+          "Resize splits",
+          "Select tab",
+          "Last tab",
+          "Toggle split zoom",
+          "Fullscreen"
+        ],
+        "helix": [
+          "Editor model",
+          "Move selection line down",
+          "Move selection line up",
+          "Duplicate line below",
+          "Duplicate line above",
+          "Increment",
+          "Decrement"
+        ],
+        "site": [
+          "Catalog tabs",
+          "First / last tab",
+          "Theme and language",
+          "Primary navigation"
+        ]
+      }
+    },
+    "cloud": {
+      "eyebrow": "Cloud storage",
+      "title": "One canonical Rclone cloud surface",
+      "intro": "Rclone is the authorized cloud-storage abstraction. Provider credentials stay local, while the dotfiles standardize access through <code>cloud:</code> and, where supported, mount it automatically at <code>~/Cloud</code>.",
+      "identityTitle": "Provider abstraction",
+      "identityBody": "Any configured backend can be exposed through the canonical <code>cloud:</code> alias, keeping scripts and workflows provider-independent.",
+      "vfsTitle": "Automatic VFS",
+      "vfsBody": "macOS uses Rclone NFS mounting; supported Linux hosts use FUSE 3. VFS full caching is enabled with bounded cache size and age.",
+      "safeTitle": "Safe fallback",
+      "safeBody": "Credentials are never committed. Termux and hosts without filesystem mounting continue to use Rclone copy, sync, and transfer commands directly."
     }
   },
   "platforms": {
@@ -293,7 +369,12 @@
       "note": "Platform-specific Termux packages are shown separately from this role."
     }
   },
-  "packages": {},
+  "packages": {
+    "fuse3": {
+      "summary": "Userspace filesystem support required for mounting Rclone remotes as filesystems on Linux.",
+      "why": "Enables the automatic Rclone VFS mount on supported Linux hosts without coupling the cloud workflow to a specific provider."
+    }
+  },
   "managedTools": {
     "bash": "Interactive shell configuration for portable aliases, completions, environment setup, and command behavior.",
     "fish": "Fish shell configuration for interactive navigation, completions, prompt integration, and terminal tooling.",
@@ -314,6 +395,8 @@
     "aws-sso": "Repository-held AWS SSO configuration for authenticated cloud access; metadata is private and not publicly exported.",
     "oatmeal": "Terminal AI client configuration managed privately for interactive command-line workflows.",
     "streamrip": "Private streamrip configuration for command-line media retrieval workflows.",
-    "termux-config": "Termux-specific terminal settings and mobile integration configuration for Android devices."
+    "termux-config": "Termux-specific terminal settings and mobile integration configuration for Android devices.",
+    "rclone": "Authorized cloud-storage abstraction for synchronization, transfer, and automatic VFS access across managed machines.",
+    "fuse3": "Userspace filesystem support used by Rclone VFS mounts on Linux."
   }
 }
