@@ -767,6 +767,44 @@
       ],
       "deployment": "stow",
       "summary": "Termux-specific terminal settings and mobile integration configuration for Android devices."
+    },
+    {
+      "id": "rclone",
+      "title": "Rclone",
+      "install": [
+        "brew",
+        "role"
+      ],
+      "config": "rclone",
+      "visibility": "public",
+      "kind": "software+config",
+      "homepage": "https://rclone.org/",
+      "alternatives": [
+        "restic",
+        "Syncthing",
+        "rsync + provider-specific clients"
+      ],
+      "deployment": "stow",
+      "summary": "Authorized cloud-storage abstraction for synchronization, transfer, and automatic VFS access across managed machines.",
+      "icon": "rclone.svg",
+      "iconMode": "monochrome"
+    },
+    {
+      "id": "fuse3",
+      "title": "FUSE 3",
+      "install": [
+        "role"
+      ],
+      "config": null,
+      "visibility": "none",
+      "kind": "software",
+      "homepage": "https://github.com/libfuse/libfuse",
+      "alternatives": [
+        "network filesystem mounts",
+        "rclone sync/copy"
+      ],
+      "deployment": "none",
+      "summary": "Userspace filesystem support used by Rclone VFS mounts on Linux."
     }
   ]
 }
