@@ -47,6 +47,13 @@
       "reason": "Provides the human-facing command interface and shell completions"
     },
     {
+      "name": "rclone",
+      "requirement": "optional",
+      "source": "base",
+      "version": "system",
+      "reason": "Authorized cloud-storage abstraction, synchronization, and VFS access"
+    },
+    {
       "name": "zsh",
       "requirement": "optional",
       "source": "linux",
@@ -115,6 +122,13 @@
       "source": "linux",
       "version": "system",
       "reason": "Fast recursive text search for terminal workflows"
+    },
+    {
+      "name": "fuse3",
+      "requirement": "optional",
+      "source": "linux",
+      "version": "system",
+      "reason": "Userspace filesystem support for automatic Rclone VFS mounts on Linux"
     }
   ]
 }
