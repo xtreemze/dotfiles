@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>xtreemze dotfiles</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">xtreemze / dotfiles</p>
+      <h1>A portable terminal environment from one command.</h1>
+      <p class="lede">Start from a safe public baseline. GNU Stow remains the deployment authority; GitHub authentication can then unlock the private machine and identity configuration without exposing it here.</p>
+    </header>
+
+    <section aria-labelledby="install-title">
+      <h2 id="install-title">Install</h2>
+      <div class="roles" id="roles" aria-label="Machine role"></div>
+      <div class="command">
+        <code id="command"></code>
+        <button id="copy" type="button">Copy</button>
+      </div>
+      <p class="hint">The public bootstrap installs safe packages first, ensures GitHub CLI is available, and asks you to authenticate when needed. Authorized accounts then hand off to the private <code>xtreemze/.dotfiles</code> installer; everyone else receives the public Stow configuration.</p>
+    </section>
+
+    <section aria-labelledby="flow-title">
+      <h2 id="flow-title">Setup boundary</h2>
+      <pre><code>public dotfiles
+  → safe packages
+  → GitHub CLI
+  → gh auth login
+      ├─ private access → ~/.dotfiles → private installer
+      └─ no access      → public Stow configuration</code></pre>
+      <p class="hint">The public checkout is staged separately under <code>~/.local/share/xtreemze/dotfiles-public</code>, leaving <code>~/.dotfiles</code> reserved for the authenticated private repository.</p>
+    </section>
+
+    <section aria-labelledby="deps-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="deps-title">Dependencies</h2>
+          <p id="role-description"></p>
+        </div>
+        <span id="package-count"></span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Program</th><th>Requirement</th><th>Version policy</th><th>Why</th></tr></thead>
+          <tbody id="packages"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="commands-title">
+      <h2 id="commands-title">After installation</h2>
+      <pre><code>just
+just plan development
+just install development
+just packages development
+just doctor
+just update</code></pre>
+      <p class="hint"><code>just</code> is the preferred command layer, not the installer authority. Direct <code>dotfiles</code> and <code>install.sh</code> commands remain available if <code>just</code> is unavailable.</p>
+    </section>
+  </main>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
