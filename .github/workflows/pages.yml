@@ -38,15 +38,31 @@ jobs:
             python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
           python3 -m json.tool docs/package-details.json >/dev/null
+          for locale in en es sv; do
+            python3 -m json.tool "docs/locales/$locale.json" >/dev/null
+          done
           node --check docs/app.js
           node - <<'NODE'
           const fs = require('fs');
           const details = JSON.parse(fs.readFileSync('docs/package-details.json', 'utf8')).packages;
+          const locales = Object.fromEntries(['en','es','sv'].map(name => [
+            name,
+            JSON.parse(fs.readFileSync(`docs/locales/${name}.json`, 'utf8'))
+          ]));
           const plans = ['base','development','desktop','server','remote','mobile','linux','termux','macos']
             .map(name => JSON.parse(fs.readFileSync(`docs/data/${name}.json`, 'utf8')));
           const names = new Set(plans.flatMap(plan => plan.packages.map(pkg => pkg.name)));
           const missing = [...names].filter(name => !details[name]);
           if (missing.length) throw new Error(`Missing package details: ${missing.join(', ')}`);
+          for (const language of ['es','sv']) {
+            const untranslated = [...names].filter(name => !locales[language].packages?.[name]?.summary || !locales[language].packages?.[name]?.why);
+            if (untranslated.length) throw new Error(`Missing ${language} package translations: ${untranslated.join(', ')}`);
+          }
+          for (const language of ['en','es','sv']) {
+            for (const key of ['ui','platforms','roles','catalogLayers']) {
+              if (!locales[language][key]) throw new Error(`Missing ${language} locale section: ${key}`);
+            }
+          }
           NODE
           grep -Fq 'bash -s --' docs/index.html
 
