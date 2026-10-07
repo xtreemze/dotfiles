@@ -1,0 +1,6 @@
+name: server
+description: Server role
+version: "2.0"
+packages:
+  - { name: htop, install: optional }
+  - { name: rclone, install: optional }
