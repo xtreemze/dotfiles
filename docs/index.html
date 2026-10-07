@@ -30,6 +30,7 @@
         <a href="#catalog" data-i18n="nav.packages">Packages</a>
         <a href="#managed" data-i18n="nav.managed">Managed surface</a>
         <a href="#design" data-i18n="nav.design">Presentation</a>
+        <a href="#terminal" data-i18n="nav.terminal">Terminal</a>
         <a href="#trust" data-i18n="nav.trust">Trust</a>
         <a href="https://github.com/xtreemze/dotfiles">GitHub</a>
       </nav>
@@ -240,6 +241,40 @@
         </div>
         <div class="control-grid" id="control-groups"></div>
       </section>
+    </section>
+
+    <section id="terminal" class="panel" aria-labelledby="terminal-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="terminal.eyebrow">Interactive terminal</p>
+          <h2 id="terminal-title" data-i18n="terminal.title">Try the configured shell experience</h2>
+          <p class="catalog-intro" data-i18n="terminal.intro">A browser-safe terminal specimen that combines the managed Ghostty presentation, zsh/Starship-style prompt, Everforest palette, and Monaspace typography while starting in <code>~/.dotfiles</code>.</p>
+        </div>
+      </div>
+
+      <dotfiles-terminal id="terminal-demo" lang="en" data-terminal-theme="dark"></dotfiles-terminal>
+
+      <div class="terminal-notes">
+        <article>
+          <h3 data-i18n="terminal.safeTitle">What is real</h3>
+          <p data-i18n="terminal.safeBody">Theme, language, role selection, clipboard actions, links, and published package-plan reads affect the actual page or browser environment.</p>
+        </article>
+        <article>
+          <h3 data-i18n="terminal.virtualTitle">What is virtual</h3>
+          <p data-i18n="terminal.virtualBody">The shell and filesystem are a read-only browser model. There is no hidden PTY, SSH session, WebContainer, or unrestricted process execution.</p>
+        </article>
+        <article>
+          <h3 data-i18n="terminal.hostTitle">What needs a host</h3>
+          <p data-i18n="terminal.hostBody">Package installation, arbitrary shell commands, SSH, secrets, local files, and cloud mounts require the real machine after installation.</p>
+        </article>
+      </div>
+
+      <details class="inspect terminal-embed">
+        <summary data-i18n="terminal.embedTitle">Embed this terminal</summary>
+        <p data-i18n="terminal.embedBody">The terminal is implemented as a reusable custom element with no backend dependency. Other pages can import the component and provide their own action bridge or virtual filesystem.</p>
+        <pre><code>&lt;script type="module" src="/components/dotfiles-terminal.js"&gt;&lt;/script&gt;
+&lt;dotfiles-terminal lang="en" data-terminal-theme="dark"&gt;&lt;/dotfiles-terminal&gt;</code></pre>
+      </details>
     </section>
 
     <section id="trust" class="split" aria-labelledby="trust-title">
