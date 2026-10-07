@@ -2,6 +2,8 @@
 set -euo pipefail
 
 policy="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/rclone-vfs.env"
+# The policy is a Stow-managed, non-secret machine-local path.
+# shellcheck disable=SC1090
 [[ -r "$policy" ]] && source "$policy"
 
 remote="${RCLONE_CLOUD_REMOTE:-cloud:}"
