@@ -12,7 +12,8 @@
       "packages": "Packages",
       "trust": "Trust",
       "managed": "Managed surface",
-      "design": "Presentation"
+      "design": "Presentation",
+      "terminal": "Terminal"
     },
     "preferences": {
       "language": "Language",
@@ -300,6 +301,19 @@
       "vfsBody": "macOS uses Rclone NFS mounting; supported Linux hosts use FUSE 3. VFS full caching is enabled with bounded cache size and age.",
       "safeTitle": "Safe fallback",
       "safeBody": "Credentials are never committed. Termux and hosts without filesystem mounting continue to use Rclone copy, sync, and transfer commands directly."
+    },
+    "terminal": {
+      "eyebrow": "Interactive terminal",
+      "title": "Try the configured shell experience",
+      "intro": "A browser-safe terminal specimen that combines the managed Ghostty presentation, zsh/Starship-style prompt, Everforest palette, and Monaspace typography while starting in <code>~/.dotfiles</code>.",
+      "safeTitle": "What is real",
+      "safeBody": "Theme, language, role selection, clipboard actions, links, and published package-plan reads affect the actual page or browser environment.",
+      "virtualTitle": "What is virtual",
+      "virtualBody": "The shell and filesystem are a read-only browser model. There is no hidden PTY, SSH session, WebContainer, or unrestricted process execution.",
+      "hostTitle": "What needs a host",
+      "hostBody": "Package installation, arbitrary shell commands, SSH, secrets, local files, and cloud mounts require the real machine after installation.",
+      "embedTitle": "Embed this terminal",
+      "embedBody": "The terminal is implemented as a reusable custom element with no backend dependency. Other pages can import the component and provide their own action bridge or virtual filesystem."
     }
   },
   "platforms": {
