@@ -9,74 +9,100 @@
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>xtreemze dotfiles · safe bootstrap</title>
+  <link rel="alternate" hreflang="en" href="?lang=en">
+  <link rel="alternate" hreflang="es" href="?lang=es">
+  <link rel="alternate" hreflang="sv" href="?lang=sv">
+  <link rel="alternate" hreflang="x-default" href="?lang=en">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Skip to content</a>
 
   <header class="site-header">
     <a class="brand" href="./" aria-label="xtreemze dotfiles home">
       <span class="brand-mark" aria-hidden="true">~/</span>
       <span>dotfiles</span>
     </a>
-    <nav aria-label="Primary">
-      <a href="#install">Install</a>
-      <a href="#plan">Plan</a>
-      <a href="#catalog">Packages</a>
-      <a href="#trust">Trust</a>
-      <a href="https://github.com/xtreemze/dotfiles">GitHub</a>
-    </nav>
+    <div class="header-actions">
+      <nav aria-label="Primary" data-i18n-aria="nav.primary">
+        <a href="#install" data-i18n="nav.install">Install</a>
+        <a href="#plan" data-i18n="nav.plan">Plan</a>
+        <a href="#catalog" data-i18n="nav.packages">Packages</a>
+        <a href="#managed" data-i18n="nav.managed">Managed surface</a>
+        <a href="#design" data-i18n="nav.design">Presentation</a>
+        <a href="#trust" data-i18n="nav.trust">Trust</a>
+        <a href="https://github.com/xtreemze/dotfiles">GitHub</a>
+      </nav>
+      <div class="site-preferences">
+        <label>
+          <span class="sr-only" data-i18n="preferences.language">Language</span>
+          <select id="language-select" aria-label="Language" data-i18n-aria="preferences.language">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="sv">Svenska</option>
+          </select>
+        </label>
+        <label>
+          <span class="sr-only" data-i18n="preferences.theme">Theme</span>
+          <select id="theme-select" aria-label="Theme" data-i18n-aria="preferences.theme">
+            <option value="auto" data-i18n="theme.auto">Auto</option>
+            <option value="light" data-i18n="theme.light">Light</option>
+            <option value="dark" data-i18n="theme.dark">Dark</option>
+          </select>
+        </label>
+      </div>
+    </div>
   </header>
 
   <main id="main">
     <section class="hero">
-      <p class="eyebrow">Public bootstrap · private overlay</p>
-      <h1>Set up a fresh machine from one inspectable command.</h1>
-      <p class="lede">The public repository contains only safe, audited configuration. It installs the baseline, authenticates GitHub locally when needed, and hands off to the private <code>xtreemze/.dotfiles</code> repository only for accounts that can access it.</p>
+      <p class="eyebrow" data-i18n="hero.eyebrow">Public bootstrap · private overlay</p>
+      <h1 data-i18n="hero.title">Set up a fresh machine from one inspectable command.</h1>
+      <p class="lede" data-i18n-html="hero.lede">The public repository contains only safe, audited configuration. It installs the baseline, authenticates GitHub locally when needed, and hands off to the private <code>xtreemze/.dotfiles</code> repository only for accounts that can access it.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#install">Build install command</a>
-        <a class="button" href="https://github.com/xtreemze/dotfiles">Browse source</a>
+        <a class="button primary" href="#install" data-i18n="hero.build">Build install command</a>
+        <a class="button" href="https://github.com/xtreemze/dotfiles" data-i18n="hero.source">Browse source</a>
       </div>
       <dl class="hero-facts" aria-label="Installer properties">
-        <div><dt>Deployment</dt><dd>GNU Stow</dd></div>
-        <div><dt>Command layer</dt><dd>just</dd></div>
-        <div><dt>Platforms</dt><dd>macOS · Linux · Termux</dd></div>
-        <div><dt>Private data</dt><dd>Auth-gated</dd></div>
+        <div><dt data-i18n="facts.deployment">Deployment</dt><dd>GNU Stow</dd></div>
+        <div><dt data-i18n="facts.commandLayer">Command layer</dt><dd>just</dd></div>
+        <div><dt data-i18n="facts.platforms">Platforms</dt><dd>macOS · Linux · Termux</dd></div>
+        <div><dt data-i18n="facts.privateData">Private data</dt><dd data-i18n="facts.authGated">Auth-gated</dd></div>
       </dl>
     </section>
 
     <section id="install" class="panel" aria-labelledby="install-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Configurator</p>
-          <h2 id="install-title">Choose this machine</h2>
+          <p class="eyebrow" data-i18n="install.eyebrow">Configurator</p>
+          <h2 id="install-title" data-i18n="install.title">Choose this machine</h2>
         </div>
         <span class="status-pill" id="selection-summary" aria-live="polite"></span>
       </div>
 
       <fieldset>
-        <legend>Platform</legend>
-        <p class="field-help">The bootstrap detects the platform automatically. This selection previews the package plan for the machine you intend to configure.</p>
+        <legend data-i18n="install.platform">Platform</legend>
+        <p class="field-help" data-i18n="install.platformHelp">The bootstrap detects the platform automatically. This selection previews the package plan for the machine you intend to configure.</p>
         <div class="choice-grid" id="platforms"></div>
       </fieldset>
 
       <fieldset>
-        <legend>Roles</legend>
-        <p class="field-help">Roles are additive. Select everything this machine should do.</p>
+        <legend data-i18n="install.roles">Roles</legend>
+        <p class="field-help" data-i18n="install.rolesHelp">Roles are additive. Select everything this machine should do.</p>
         <div class="choice-grid" id="roles"></div>
       </fieldset>
 
       <div class="command-card">
-        <div class="command-label">One-line bootstrap</div>
+        <div class="command-label" data-i18n="install.oneLine">One-line bootstrap</div>
         <div class="command-row">
           <code id="command"></code>
-          <button id="copy" type="button">Copy</button>
+          <button id="copy" type="button" data-i18n="install.copy">Copy</button>
         </div>
         <p id="command-note">Uses Bash explicitly because the bootstrap relies on Bash features.</p>
       </div>
 
       <details class="inspect">
-        <summary>Inspect before running</summary>
+        <summary data-i18n="install.inspect">Inspect before running</summary>
         <pre><code id="inspect-command"></code></pre>
       </details>
     </section>
@@ -84,9 +110,9 @@
     <section id="plan" class="panel" aria-labelledby="plan-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Resolved plan</p>
-          <h2 id="plan-title">What gets installed</h2>
-          <p id="plan-description">The table combines the base, selected platform, and selected roles.</p>
+          <p class="eyebrow" data-i18n="plan.eyebrow">Resolved plan</p>
+          <h2 id="plan-title" data-i18n="plan.title">What gets installed</h2>
+          <p id="plan-description" data-i18n="plan.description">The table combines the base, selected platform, and selected roles.</p>
         </div>
         <span id="package-count"></span>
       </div>
@@ -97,11 +123,11 @@
         <table>
           <thead>
             <tr>
-              <th scope="col">Program</th>
-              <th scope="col">Requirement</th>
-              <th scope="col">Source</th>
-              <th scope="col">Version policy</th>
-              <th scope="col">Why</th>
+              <th scope="col" data-i18n="plan.program">Program</th>
+              <th scope="col" data-i18n="plan.requirement">Requirement</th>
+              <th scope="col" data-i18n="plan.source">Source</th>
+              <th scope="col" data-i18n="plan.version">Version policy</th>
+              <th scope="col" data-i18n="plan.why">Why</th>
             </tr>
           </thead>
           <tbody id="packages"></tbody>
@@ -113,9 +139,9 @@
     <section id="catalog" class="panel" aria-labelledby="catalog-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Role catalog</p>
-          <h2 id="catalog-title">Every package, explained</h2>
-          <p class="catalog-intro">Explore the baseline, platform layers, and each role independently. Every tool includes its purpose in this setup, alternatives worth considering, and a link to the upstream project. Alternatives are informational only and are not installed.</p>
+          <p class="eyebrow" data-i18n="catalog.eyebrow">Role catalog</p>
+          <h2 id="catalog-title" data-i18n="catalog.title">Every package, explained</h2>
+          <p class="catalog-intro" data-i18n="catalog.intro">Explore the baseline, platform layers, and each role independently. Every tool includes its purpose in this setup, alternatives worth considering, and a link to the upstream project. Alternatives are informational only and are not installed.</p>
         </div>
         <span id="catalog-count" class="status-pill" aria-live="polite"></span>
       </div>
@@ -130,16 +156,76 @@
         <p id="catalog-layer-note"></p>
       </div>
 
-      <p class="field-help catalog-help"><strong>Required</strong> packages are part of the minimum contract. <strong>Optional</strong> packages are attempted when available and may be skipped without making the bootstrap unusable.</p>
+      <p class="field-help catalog-help" data-i18n-html="catalog.help"><strong>Required</strong> packages are part of the minimum contract. <strong>Optional</strong> packages are attempted when available and may be skipped without making the bootstrap unusable.</p>
       <div class="package-grid" id="package-cards" aria-live="polite"></div>
       <p class="error" id="catalog-error" role="alert" hidden></p>
     </section>
 
+    <section id="managed" class="panel" aria-labelledby="managed-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="managed.eyebrow">Managed surface</p>
+          <h2 id="managed-title" data-i18n="managed.title">Everything this repository manages</h2>
+          <p class="catalog-intro" data-i18n="managed.intro">This inventory combines package installation and configuration ownership. It includes software installed by Homebrew or role manifests, shell and application configuration deployed with Stow, and private repository configuration that is intentionally not published.</p>
+        </div>
+        <span id="managed-count" class="status-pill" aria-live="polite"></span>
+      </div>
+
+      <div class="managed-filters" id="managed-filters" role="group" aria-label="Managed surface filters"></div>
+      <div class="managed-grid" id="managed-cards" aria-live="polite"></div>
+      <p class="error" id="managed-error" role="alert" hidden></p>
+    </section>
+
+    <section id="cloud" class="panel" aria-labelledby="cloud-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="cloud.eyebrow">Cloud storage</p>
+          <h2 id="cloud-title" data-i18n="cloud.title">One canonical Rclone cloud surface</h2>
+          <p class="catalog-intro" data-i18n-html="cloud.intro">Rclone is the authorized cloud-storage abstraction. Provider credentials stay local, while the dotfiles standardize access through <code>cloud:</code> and, where supported, mount it automatically at <code>~/Cloud</code>.</p>
+        </div>
+      </div>
+      <div class="policy-grid">
+        <article>
+          <h3 data-i18n="cloud.identityTitle">Provider abstraction</h3>
+          <p data-i18n-html="cloud.identityBody">Any configured backend can be exposed through the canonical <code>cloud:</code> alias, keeping scripts and workflows provider-independent.</p>
+        </article>
+        <article>
+          <h3 data-i18n="cloud.vfsTitle">Automatic VFS</h3>
+          <p data-i18n="cloud.vfsBody">macOS uses Rclone NFS mounting; supported Linux hosts use FUSE 3. VFS full caching is enabled with bounded cache size and age.</p>
+        </article>
+        <article>
+          <h3 data-i18n="cloud.safeTitle">Safe fallback</h3>
+          <p data-i18n="cloud.safeBody">Credentials are never committed. Termux and hosts without filesystem mounting continue to use Rclone copy, sync, and transfer commands directly.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="design" class="panel" aria-labelledby="design-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="design.eyebrow">Presentation & controls</p>
+          <h2 id="design-title" data-i18n="design.title">A consistent visual and interaction language</h2>
+          <p class="catalog-intro" data-i18n="design.intro">The repository treats presentation, typography, keyboard behavior, and controls as part of the configuration contract.</p>
+        </div>
+      </div>
+      <div class="design-grid">
+        <article class="design-card">
+          <h3 data-i18n="design.colorTitle">Color</h3>
+          <div id="design-color"></div>
+        </article>
+        <article class="design-card">
+          <h3 data-i18n="design.typeTitle">Typography</h3>
+          <div id="design-type"></div>
+        </article>
+      </div>
+      <div class="control-grid" id="control-groups"></div>
+    </section>
+
     <section id="trust" class="split" aria-labelledby="trust-title">
       <div>
-        <p class="eyebrow">Trust boundary</p>
-        <h2 id="trust-title">Public first. Private only after authentication.</h2>
-        <p>The public checkout lives at <code>~/.local/share/xtreemze/dotfiles-public</code>. The private checkout keeps the canonical <code>~/.dotfiles</code> path and is never fetched until GitHub CLI confirms access.</p>
+        <p class="eyebrow" data-i18n="trust.eyebrow">Trust boundary</p>
+        <h2 id="trust-title" data-i18n="trust.title">Public first. Private only after authentication.</h2>
+        <p data-i18n-html="trust.description">The public checkout lives at <code>~/.local/share/xtreemze/dotfiles-public</code>. The private checkout keeps the canonical <code>~/.dotfiles</code> path and is never fetched until GitHub CLI confirms access.</p>
       </div>
       <ol class="flow" aria-label="Bootstrap flow">
         <li><span>1</span><div><strong>Public bootstrap</strong><small>Clone safe repository and install baseline packages.</small></div></li>
@@ -154,8 +240,8 @@
     <section class="panel" aria-labelledby="public-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Exposure policy</p>
-          <h2 id="public-title">What is safe to publish</h2>
+          <p class="eyebrow" data-i18n="policy.eyebrow">Exposure policy</p>
+          <h2 id="public-title" data-i18n="policy.title">What is safe to publish</h2>
         </div>
       </div>
       <div class="policy-grid">
@@ -175,8 +261,8 @@
     </section>
 
     <section class="panel" aria-labelledby="after-title">
-      <p class="eyebrow">After installation</p>
-      <h2 id="after-title">A small command vocabulary</h2>
+      <p class="eyebrow" data-i18n="after.eyebrow">After installation</p>
+      <h2 id="after-title" data-i18n="after.title">A small command vocabulary</h2>
       <div class="command-list">
         <div><code>just</code><span>List common dotfiles commands.</span></div>
         <div><code>just plan development</code><span>Preview changes without modifying the machine.</span></div>

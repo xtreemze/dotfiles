@@ -34,6 +34,8 @@ Available roles include `development`, `desktop`, `server`, `remote`, and `mobil
 
 GNU Stow is the configuration deployment authority. `just` provides the preferred command vocabulary after installation but is not required for bootstrap or recovery.
 
+Rclone is installed as the standard cloud-storage abstraction. The safe public configuration defines the VFS policy and canonical `cloud:` / `~/Cloud` contract, but never contains provider credentials or tokens. Authorized private setup can create the `cloud:` alias from a locally configured backend and enable automatic VFS access where the platform supports it; Termux and unsupported hosts retain direct Rclone copy/sync workflows.
+
 ## Common commands
 
 ```sh

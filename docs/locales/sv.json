@@ -1,0 +1,510 @@
+{
+  "locale": "sv",
+  "name": "Svenska",
+  "ui": {
+    "a11y": {
+      "skip": "Hoppa till innehåll"
+    },
+    "nav": {
+      "primary": "Huvudnavigation",
+      "install": "Installera",
+      "plan": "Plan",
+      "packages": "Paket",
+      "trust": "Förtroende",
+      "managed": "Hanterad yta",
+      "design": "Presentation"
+    },
+    "preferences": {
+      "language": "Språk",
+      "theme": "Tema"
+    },
+    "theme": {
+      "auto": "Automatiskt",
+      "light": "Ljust",
+      "dark": "Mörkt"
+    },
+    "hero": {
+      "eyebrow": "Publik bootstrap · privat lager",
+      "title": "Konfigurera en ny dator med ett enda granskningsbart kommando.",
+      "lede": "Det publika arkivet innehåller endast säker och granskad konfiguration. Det installerar basen, autentiserar GitHub lokalt vid behov och lämnar över till det privata arkivet <code>xtreemze/.dotfiles</code> endast för konton som har åtkomst.",
+      "build": "Skapa installationskommando",
+      "source": "Visa källkod"
+    },
+    "facts": {
+      "deployment": "Driftsättning",
+      "commandLayer": "Kommandolager",
+      "platforms": "Plattformar",
+      "privateData": "Privata data",
+      "authGated": "Skyddade av autentisering"
+    },
+    "install": {
+      "eyebrow": "Konfigurator",
+      "title": "Välj den här maskinen",
+      "platform": "Plattform",
+      "platformHelp": "Bootstrapen identifierar plattformen automatiskt. Valet här visar en förhandsvisning av paketplanen för maskinen du tänker konfigurera.",
+      "roles": "Roller",
+      "rolesHelp": "Roller är additiva. Välj allt som den här maskinen ska kunna göra.",
+      "oneLine": "Bootstrap på en rad",
+      "copy": "Kopiera",
+      "copied": "Kopierat",
+      "inspect": "Granska innan körning",
+      "bashNote": "Bash används uttryckligen eftersom bootstrapen använder Bash-funktioner.",
+      "termuxNote": "Kör detta inuti Termux. Bash installeras som bootstrap-krav vid behov."
+    },
+    "plan": {
+      "eyebrow": "Löst plan",
+      "title": "Vad som installeras",
+      "description": "Tabellen kombinerar basen, vald plattform och valda roller.",
+      "program": "Program",
+      "requirement": "Krav",
+      "source": "Källa",
+      "version": "Versionspolicy",
+      "why": "Varför",
+      "loading": "Laddar…",
+      "unavailable": "Planen är inte tillgänglig",
+      "programSingular": "program",
+      "programPlural": "program"
+    },
+    "catalog": {
+      "eyebrow": "Rollkatalog",
+      "title": "Varje paket, förklarat",
+      "intro": "Utforska basen, plattformslagren och varje roll separat. Varje verktyg visar vad det gör i den här konfigurationen, möjliga alternativ och en länk till projektet. Alternativen är endast information och installeras inte.",
+      "help": "<strong>Obligatoriska</strong> paket ingår i minimikontraktet. <strong>Valfria</strong> paket försöker installeras när de finns tillgängliga och kan hoppas över utan att bootstrapen blir oanvändbar.",
+      "required": "obligatoriskt",
+      "optional": "valfritt",
+      "whyHere": "Varför det finns här: ",
+      "alternatives": "Alternativ",
+      "loading": "Laddar…",
+      "unavailable": "Katalogen är inte tillgänglig",
+      "baselinePackage": "baspaket",
+      "baselinePackages": "baspaket",
+      "layer": "lager",
+      "base": "bas"
+    },
+    "trust": {
+      "eyebrow": "Förtroendegräns",
+      "title": "Publikt först. Privat först efter autentisering.",
+      "description": "Den publika utcheckningen ligger i <code>~/.local/share/xtreemze/dotfiles-public</code>. Den privata utcheckningen behåller den kanoniska sökvägen <code>~/.dotfiles</code> och hämtas aldrig innan GitHub CLI har bekräftat åtkomst.",
+      "flowLabel": "Bootstrap-flöde",
+      "steps": [
+        [
+          "Publik bootstrap",
+          "Klona det säkra arkivet och installera baspaketen."
+        ],
+        [
+          "GitHub CLI",
+          "Installera <code>gh</code> om det saknas och återanvänd befintlig autentisering när det går."
+        ],
+        [
+          "Lokal autentisering",
+          "Kör <code>gh auth login</code>; ingen token lagras i det här arkivet."
+        ],
+        [
+          "Åtkomstkontroll",
+          "Verifiera att kontot kan läsa <code>xtreemze/.dotfiles</code>."
+        ],
+        [
+          "Privat överlämning",
+          "Auktoriserade maskiner klonar den privata konfigurationen till <code>~/.dotfiles</code>."
+        ],
+        [
+          "Säker fallback",
+          "Utan privat åtkomst används endast de granskade publika Stow-paketen."
+        ]
+      ]
+    },
+    "policy": {
+      "eyebrow": "Exponeringspolicy",
+      "title": "Vad som är säkert att publicera",
+      "cards": [
+        [
+          "Publikt",
+          "Bootstrap-logik, paketmetadata, dokumentation, rollplaner och uttryckligen granskad konfiguration som inte är beroende av privata sökvägar."
+        ],
+        [
+          "Privat",
+          "Maskinmetadata, personlig Git-identitet, SSH-material, autentiseringstillstånd, hemligheter, tjänsteuppgifter, privata hjälpskript och konfiguration som fortfarande förutsätter privata sökvägar."
+        ],
+        [
+          "Fail closed",
+          "Publiceringsflödet använder en tillåtelselista, avvisar symboliska länkar, söker efter högriskmönster för hemligheter och validerar shell-ingångspunkter innan Pages distribueras."
+        ]
+      ]
+    },
+    "after": {
+      "eyebrow": "Efter installation",
+      "title": "Ett litet kommandospråk",
+      "commands": [
+        [
+          "just",
+          "Visa vanliga dotfiles-kommandon."
+        ],
+        [
+          "just plan development",
+          "Förhandsvisa ändringar utan att ändra maskinen."
+        ],
+        [
+          "just install development",
+          "Synkronisera paket och konfiguration."
+        ],
+        [
+          "just packages development",
+          "Visa den lösta paketplanen."
+        ],
+        [
+          "just doctor",
+          "Kontrollera verktyg, Stow-länkar och plattformskrav."
+        ],
+        [
+          "just update",
+          "Uppdatera och tillämpa den hanterade konfigurationen igen."
+        ]
+      ],
+      "note": "<code>just</code> är endast ett bekvämlighetslager. Installationsprogrammet och <code>dotfiles</code>-CLI:n kan fortfarande användas direkt."
+    },
+    "footer": "Säker publik bootstrap för nya maskiner.",
+    "noScript": "JavaScript används endast för rollkonfiguratorn. Standardkommandot för utvecklingsinstallation är:",
+    "managed": {
+      "eyebrow": "Hanterad yta",
+      "title": "Allt som det här arkivet hanterar",
+      "intro": "Inventeringen kombinerar programinstallation och konfigurationsägarskap. Den omfattar program som installeras av Homebrew eller roller, shell- och appkonfiguration som distribueras med Stow samt privat repository-konfiguration som medvetet inte publiceras.",
+      "all": "Alla",
+      "installed": "Installerat",
+      "configured": "Konfigurerat",
+      "private": "Privat config",
+      "public": "Publik config",
+      "repoOnly": "Endast repository",
+      "installedBy": "Installeras av",
+      "configPackage": "Config-paket",
+      "visibility": "Synlighet",
+      "deployment": "Distribution",
+      "brew": "Homebrew",
+      "brewCask": "Homebrew cask",
+      "role": "Roll/inbyggt",
+      "system": "System",
+      "runtime": "Runtime",
+      "external": "Extern/manuell",
+      "platform": "Plattform",
+      "stow": "Stow",
+      "repoOnlyLabel": "Endast repository",
+      "none": "Ingen",
+      "publicLabel": "Publik",
+      "privateLabel": "Privat",
+      "noConfig": "Ingen hanterad config",
+      "software": "Programvara",
+      "config": "Konfiguration",
+      "softwareConfig": "Programvara + config",
+      "asset": "Resurs",
+      "items": "hanterade objekt",
+      "empty": "Inga hanterade objekt matchar filtret."
+    },
+    "design": {
+      "eyebrow": "Presentation och kontroller",
+      "title": "Ett konsekvent visuellt och interaktivt språk",
+      "intro": "Repositoryt behandlar presentation, typografi, tangentbordsbeteende och kontroller som en del av konfigurationskontraktet.",
+      "colorTitle": "Färg",
+      "typeTitle": "Typografi",
+      "siteColor": "Webbplats",
+      "terminalColor": "Terminal",
+      "systemAdaptive": "Systemanpassade neutrala ljusa/mörka ytor",
+      "everforest": "Everforest-palett för terminalen",
+      "siteUI": "Webbplats-UI",
+      "siteCode": "Kommandon/kod",
+      "terminalFont": "Terminal",
+      "managedFont": "Hanterad fontresurs",
+      "philosophy": "Interaktionsprinciper",
+      "keybindings": "Tangentbindningar",
+      "philosophyItems": [
+        "Tangentbord först",
+        "Navigering från hemraden",
+        "Säker för modal editor",
+        "Inbyggda plattformskonventioner när de inte krockar",
+        "Mus tillgänglig men sekundär"
+      ],
+      "controls": {
+        "tmux": [
+          "Prefix",
+          "Flytta panel",
+          "Ändra panelstorlek",
+          "Dela runt aktuell panel",
+          "Filväljare",
+          "Katalogväljare",
+          "Sessionsväljare",
+          "Projektväljare",
+          "Fönstersökare",
+          "Panelsökare"
+        ],
+        "ghostty": [
+          "Ny flik",
+          "Ny delning åt höger",
+          "Ny delning nedåt",
+          "Flytta mellan delningar",
+          "Ändra delningsstorlek",
+          "Välj flik",
+          "Sista fliken",
+          "Växla delningszoom",
+          "Helskärm"
+        ],
+        "helix": [
+          "Editormodell",
+          "Flytta markering en rad ned",
+          "Flytta markering en rad upp",
+          "Duplicera rad nedanför",
+          "Duplicera rad ovanför",
+          "Öka",
+          "Minska"
+        ],
+        "site": [
+          "Katalogflikar",
+          "Första / sista fliken",
+          "Tema och språk",
+          "Huvudnavigation"
+        ]
+      }
+    },
+    "cloud": {
+      "eyebrow": "Molnlagring",
+      "title": "En kanonisk molnyta med Rclone",
+      "intro": "Rclone är den auktoriserade abstraktionen för molnlagring. Leverantörens autentiseringsuppgifter stannar lokalt, medan dotfiles standardiserar åtkomst via <code>cloud:</code> och, där det stöds, monterar den automatiskt på <code>~/Cloud</code>.",
+      "identityTitle": "Leverantörsabstraktion",
+      "identityBody": "Valfri konfigurerad backend kan exponeras via det kanoniska aliaset <code>cloud:</code>, så att skript och arbetsflöden förblir leverantörsoberoende.",
+      "vfsTitle": "Automatisk VFS",
+      "vfsBody": "macOS använder Rclones NFS-montering; stödda Linux-värdar använder FUSE 3. Full VFS-cache används med begränsad storlek och ålder.",
+      "safeTitle": "Säker fallback",
+      "safeBody": "Autentiseringsuppgifter versionshanteras aldrig. Termux och värdar utan filsystemsmontering fortsätter använda Rclone copy, sync och överföringskommandon direkt."
+    }
+  },
+  "platforms": {
+    "macos": {
+      "label": "macOS",
+      "detail": "Önskat tillstånd med Homebrew",
+      "note": "Den publika Brewfile-filen är paketauktoritet på macOS; rollflaggor följer även med till den autentiserade privata överlämningen."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "apt · dnf · pacman · apk",
+      "note": "Installationsprogrammet identifierar den inbyggda pakethanteraren och löser logiska paketnamn via den publika katalogen."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Android · pkg",
+      "note": "Termux använder endast inbyggda paket för den publika basen och håller mobilkonfigurationen separerad från skrivbordsantaganden."
+    }
+  },
+  "roles": {
+    "development": {
+      "label": "Utveckling",
+      "detail": "Editor, Git och runtime-verktyg"
+    },
+    "desktop": {
+      "label": "Skrivbord",
+      "detail": "Övervakning och verktyg för arbetsstation"
+    },
+    "server": {
+      "label": "Server",
+      "detail": "Headless-inspektion och synkronisering"
+    },
+    "remote": {
+      "label": "Fjärr",
+      "detail": "Interaktiv SSH-miljö"
+    },
+    "mobile": {
+      "label": "Mobil",
+      "detail": "Terminalverktyg anpassade för Termux"
+    }
+  },
+  "catalogLayers": {
+    "base": {
+      "label": "Bas",
+      "detail": "Krävs överallt",
+      "description": "Minsta terminalgrund som installeras på varje hanterad maskin.",
+      "note": "Det här är bootstrap- och konfigurationsprimitiver, inte en användarroll för arbetsbelastning."
+    },
+    "macos": {
+      "label": "macOS",
+      "detail": "Publik Homebrew-bas",
+      "description": "Publik paketuppsättning för arbetsstationer på macOS.",
+      "note": "Paketläget på macOS styrs av den publika Brewfile-filen; privat konfiguration kan lägga till känsliga eller maskinspecifika lager efter autentisering."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "Portabelt Linux-lager",
+      "description": "Portabla shell- och terminaltillägg via stödda Linux-pakethanterare.",
+      "note": "Paketnamn kan skilja sig mellan apt, dnf, pacman och apk även om det logiska verktyget är detsamma."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Android-terminallager",
+      "description": "Inbyggda Termux-paket för en användbar mobil terminal och GitHub-autentiserad överlämning.",
+      "note": "Den publika vägen undviker medvetet ocertifierade nedladdade binärer i Termux."
+    },
+    "development": {
+      "label": "Utveckling",
+      "detail": "Kod och Git-flöden",
+      "description": "Utvecklarinriktade verktyg för editor, repository, sökning och runtimes.",
+      "note": "Det här lagret läggs ovanpå basen och den identifierade plattformen."
+    },
+    "desktop": {
+      "label": "Skrivbord",
+      "detail": "Synlighet på arbetsstationen",
+      "description": "Interaktiv övervakning, systeminspektion, diskanalys och loggar för skrivbords- och arbetsstationsmaskiner.",
+      "note": "Verktygen är valfria bekvämligheter och ändrar inte konfigurationsauktoriteten."
+    },
+    "server": {
+      "label": "Server",
+      "detail": "Headless-drift",
+      "description": "Små och brett paketerade verktyg för processinspektion och fjärrsynkronisering.",
+      "note": "Optimerat för headless-värdar där grafiska diagnostikverktyg saknas."
+    },
+    "remote": {
+      "label": "Fjärr",
+      "detail": "SSH-shellupplevelse",
+      "description": "Editor, filnavigering, prompt, historik, kataloghopp och sökning för interaktiva fjärrsessioner.",
+      "note": "Utformat för att en SSH-shell ska kännas nära den lokala terminalmiljön."
+    },
+    "mobile": {
+      "label": "Mobil",
+      "detail": "Kompakt terminal-UX",
+      "description": "En avsiktligt mindre terminalmiljö för telefoner och andra begränsade klienter.",
+      "note": "Termux-specifika plattformspaket visas separat från den här rollen."
+    }
+  },
+  "packages": {
+    "git": {
+      "summary": "Distribuerad versionshantering som används för att klona, uppdatera och hantera dotfiles-arkiven.",
+      "why": "Central bootstrap-beroende och källkodslager för varje hanterad maskin."
+    },
+    "tmux": {
+      "summary": "Terminalmultiplexer för beständiga sessioner, paneler och robusta fjärrflöden.",
+      "why": "Håller samma terminalarbetsyta tillgänglig lokalt och via SSH."
+    },
+    "curl": {
+      "summary": "Kommandoradsverktyg för dataöverföring som används för HTTPS-bootstrap och artefakthämtning.",
+      "why": "Ger den minsta brett tillgängliga vägen för att hämta det publika installationsprogrammet och verifierade artefakter."
+    },
+    "tar": {
+      "summary": "Arkivverktyg för att packa upp release-artefakter och portabla fallback-paket.",
+      "why": "Behövs när ett verktyg hämtas som ett verifierat arkiv."
+    },
+    "stow": {
+      "summary": "Symlänkshanterare som projicerar repository-paket in i hemkatalogen.",
+      "why": "Är den enda auktoriteten för konfigurationsdistribution och håller ändringar reversibla och granskningsbara."
+    },
+    "just": {
+      "summary": "Kommandokörare som exponerar minnesvärda recept utan att äga installationslogiken.",
+      "why": "Lägger till upptäckbara kommandon och shell-komplettering samtidigt som den underliggande CLI:n förblir auktoritativ."
+    },
+    "openssh": {
+      "summary": "SSH-klient och verktyg för säker fjärråtkomst.",
+      "why": "Krävs i Termux och på fjärrinriktade maskiner så att terminalmiljön kan följa med mellan värdar."
+    },
+    "zsh": {
+      "summary": "Interaktiv Unix-shell med starkt stöd för komplettering och anpassning.",
+      "why": "En av de stödda interaktiva shellarna för en konsekvent lokal terminalupplevelse."
+    },
+    "helix": {
+      "summary": "Modal terminaleditor med inbyggd tree-sitter, LSP och flerval.",
+      "why": "Primär terminaleditor för utvecklings-, fjärr-, Linux- och mobilroller."
+    },
+    "yazi": {
+      "summary": "Snabb terminalfilhanterare med förhandsvisningar, flikar, asynkron I/O och tangentbordsstyrning.",
+      "why": "Ger samma filsystemarbetsflöde i lokala, fjärr- och mobilterminaler."
+    },
+    "starship": {
+      "summary": "Shell-oberoende prompt som visar repository-, runtime- och systemkontext.",
+      "why": "Håller promptinformationen konsekvent mellan stödda shellar och maskiner."
+    },
+    "atuin": {
+      "summary": "Sökbar shellhistorik lagrad i en strukturerad lokal databas med valfri krypterad synkronisering.",
+      "why": "Ersätter bräcklig omvänd historiksökning med kontextuell sökning mellan hanterade shellar."
+    },
+    "zoxide": {
+      "summary": "Frekvensmedvetet kataloghopp som lär sig vilka sökvägar som används oftast.",
+      "why": "Gör navigeringen snabb och konsekvent utan handskrivna katalogalias."
+    },
+    "eza": {
+      "summary": "Modernt ersättningsverktyg för ls med bättre standardvärden, metadata, Git-status och trädvyer.",
+      "why": "Förbättrar vardaglig kataloginspektion i det portabla shell-lagret."
+    },
+    "bat": {
+      "summary": "Ersättning för cat med syntaxmarkering, paginering, radnummer och Git-medveten utdata.",
+      "why": "Används för läsbara filförhandsvisningar, manualer och fuzzy-finder-förhandsvisningar."
+    },
+    "fd": {
+      "summary": "Snabb och användarvänlig filsökning med vettiga standardvärden och regex-stöd.",
+      "why": "Stöder sökflöden i editor, shell och filhanterare utan find-kommandots verbose syntax."
+    },
+    "ripgrep": {
+      "summary": "Rekursiv textsökning optimerad för hastighet och med respekt för ignore-filer som standard.",
+      "why": "Central sökprimitiv för utveckling, editor och fjärrarbete."
+    },
+    "gh": {
+      "summary": "GitHubs officiella kommandoradsklient för autentisering, repositories, pull requests och API-flöden.",
+      "why": "Fungerar som autentiseringsport från den säkra publika bootstrapen till det privata dotfiles-lagret."
+    },
+    "lazygit": {
+      "summary": "Terminalgränssnitt för vanlig Git-staging, historik, grenar, merge och rebase.",
+      "why": "Ger ett snabbt interaktivt Git-gränssnitt utan att ersätta Git."
+    },
+    "fnm": {
+      "summary": "Snabb versionshanterare för Node.js med växling per shell och projekt.",
+      "why": "Håller Node-runtimes explicita och isolerade på utvecklingsmaskiner."
+    },
+    "btop": {
+      "summary": "Interaktiv resursövervakare för CPU, minne, diskar, nätverk och processer.",
+      "why": "Ger snabb överblick över systembelastning och skenande processer på arbetsstationer."
+    },
+    "fastfetch": {
+      "summary": "Snabb sammanfattning av operativsystem, hårdvara, shell, terminal och runtimes.",
+      "why": "Användbart för diagnostik och för att snabbt bekräfta vilken miljö som är aktiv."
+    },
+    "gdu": {
+      "summary": "Snabb diskanalys med interaktiv terminalvy.",
+      "why": "Hjälper skrivbordsrollen att hitta stora kataloger och lagringsregressioner snabbt."
+    },
+    "lnav": {
+      "summary": "Loggnavigerare som sammanför, följer, söker, filtrerar och frågar strukturerade loggar.",
+      "why": "Ger en rikare inspektionsyta för utveckling och felsökning på arbetsstationer."
+    },
+    "htop": {
+      "summary": "Interaktiv processvisare för CPU, minne, processträd, signaler och prioriteringar.",
+      "why": "Brett paketerad serverfallback som fungerar bra i begränsade fjärrshellar."
+    },
+    "rclone": {
+      "summary": "Kommandoradssynkronisering och filöverföring mellan lokal lagring och många molnleverantörer.",
+      "why": "Serververktyg för backup, överföringar och fjärrlagring utan grafisk klient."
+    },
+    "jq": {
+      "summary": "Strömmande JSON-processor för att fråga, omforma och kombinera strukturerad utdata.",
+      "why": "Publikt macOS-basverktyg för pålitlig JSON-inspektion och scripting."
+    },
+    "fuse3": {
+      "summary": "Filsystemsstöd i användarutrymme som krävs för att montera Rclone-remotes som filsystem på Linux.",
+      "why": "Möjliggör automatisk Rclone VFS-montering på stödda Linux-värdar utan att binda molnflödet till en specifik leverantör."
+    }
+  },
+  "managedTools": {
+    "bash": "Bash-konfiguration för portabla alias, komplettering, miljöinställningar och kommandobeteende.",
+    "fish": "Fish-konfiguration för interaktiv navigering, komplettering, prompt och terminalintegrationer.",
+    "nushell": "Strukturerad Nushell-konfiguration för kommandon, miljöbeteende och terminalintegrationer.",
+    "skim": "Fuzzy finder för snabba interaktiva urvalsflöden från shell och terminalverktyg.",
+    "carapace": "Kompletteringsmotor för flera shellar som ger rikare kommandokomplettering.",
+    "git-delta": "Syntaxmedveten pager för Git-diffar som gör granskningsutdata lättare att läsa i terminalen.",
+    "npm": "npm-klientkonfiguration för Node.js-paketregister och pakethanterarbeteende.",
+    "age": "Litet modernt krypteringsverktyg som används i det privata flödet för hemlighetshantering.",
+    "sops": "Editor för strukturerade hemligheter som gör det möjligt att versionshantera krypterad konfiguration säkert.",
+    "gitleaks": "Hemlighetsskanner som fångar autentiseringsuppgifter och högriskmaterial innan det når publicerad historik.",
+    "kanata": "Plattformsoberoende tangentbordsomappning för programmerbart inmatningsbeteende.",
+    "ghostty": "Terminalemulator vars privata konfiguration hanteras av dotfiles-arkivet.",
+    "karabiner": "macOS-app för tangentbordsanpassning med privat repository-hanterad konfiguration.",
+    "stats": "Systemövervakare i macOS-menyraden för CPU, minne, disk, nätverk och sensorer.",
+    "font-monaspace": "Monaspace-typsnittsfamiljen installerad för konsekvent typografi i terminal och editor.",
+    "ssh": "Privat OpenSSH-klientkonfiguration för värdar, identiteter, anslutningsbeteende och fjärrflöden.",
+    "aws-sso": "AWS SSO-konfiguration som hålls i repositoryt för autentiserad molnåtkomst; metadata förblir privat.",
+    "oatmeal": "Privat konfiguration för terminalbaserade AI-klienten Oatmeal.",
+    "streamrip": "Privat streamrip-konfiguration för kommandoradsbaserade medieflöden.",
+    "termux-config": "Termux-specifika terminalinställningar och mobilintegrationskonfiguration för Android-enheter.",
+    "rclone": "Auktoriserat molnlagringslager för synkronisering, överföring och automatisk VFS-åtkomst på hanterade maskiner.",
+    "fuse3": "Filsystemsstöd i användarutrymme som används av Rclone VFS-monteringar på Linux."
+  }
+}

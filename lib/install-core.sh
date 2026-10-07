@@ -633,7 +633,7 @@ stow_failures=0
 stow_configurations() {
   local os="$1" shell="$2" pm="$3" package
   local core=(git tmux ssh)
-  local capability=(atuin bat btop gdu gh helix lazygit starship yazi)
+  local capability=(atuin bat btop gdu gh helix lazygit rclone starship yazi)
   local optional=(lazynpm lnav npm oatmeal)
   local macos=(ghostty karabiner kanata)
 

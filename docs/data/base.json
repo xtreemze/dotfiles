@@ -44,6 +44,13 @@
       "source": "base",
       "version": ">=1.58",
       "reason": "Provides the human-facing command interface and shell completions"
+    },
+    {
+      "name": "rclone",
+      "requirement": "optional",
+      "source": "base",
+      "version": "system",
+      "reason": "Authorized cloud-storage abstraction, synchronization, and VFS access"
     }
   ]
 }

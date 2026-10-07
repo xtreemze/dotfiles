@@ -1,0 +1,402 @@
+{
+  "locale": "en",
+  "name": "English",
+  "ui": {
+    "a11y": {
+      "skip": "Skip to content"
+    },
+    "nav": {
+      "primary": "Primary",
+      "install": "Install",
+      "plan": "Plan",
+      "packages": "Packages",
+      "trust": "Trust",
+      "managed": "Managed surface",
+      "design": "Presentation"
+    },
+    "preferences": {
+      "language": "Language",
+      "theme": "Theme"
+    },
+    "theme": {
+      "auto": "Auto",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "hero": {
+      "eyebrow": "Public bootstrap · private overlay",
+      "title": "Set up a fresh machine from one inspectable command.",
+      "lede": "The public repository contains only safe, audited configuration. It installs the baseline, authenticates GitHub locally when needed, and hands off to the private <code>xtreemze/.dotfiles</code> repository only for accounts that can access it.",
+      "build": "Build install command",
+      "source": "Browse source"
+    },
+    "facts": {
+      "deployment": "Deployment",
+      "commandLayer": "Command layer",
+      "platforms": "Platforms",
+      "privateData": "Private data",
+      "authGated": "Auth-gated"
+    },
+    "install": {
+      "eyebrow": "Configurator",
+      "title": "Choose this machine",
+      "platform": "Platform",
+      "platformHelp": "The bootstrap detects the platform automatically. This selection previews the package plan for the machine you intend to configure.",
+      "roles": "Roles",
+      "rolesHelp": "Roles are additive. Select everything this machine should do.",
+      "oneLine": "One-line bootstrap",
+      "copy": "Copy",
+      "copied": "Copied",
+      "inspect": "Inspect before running",
+      "bashNote": "Uses Bash explicitly because the bootstrap relies on Bash features.",
+      "termuxNote": "Run this inside Termux. Bash is installed as a bootstrap prerequisite if necessary."
+    },
+    "plan": {
+      "eyebrow": "Resolved plan",
+      "title": "What gets installed",
+      "description": "The table combines the base, selected platform, and selected roles.",
+      "program": "Program",
+      "requirement": "Requirement",
+      "source": "Source",
+      "version": "Version policy",
+      "why": "Why",
+      "loading": "Loading…",
+      "unavailable": "Plan unavailable",
+      "programSingular": "program",
+      "programPlural": "programs"
+    },
+    "catalog": {
+      "eyebrow": "Role catalog",
+      "title": "Every package, explained",
+      "intro": "Explore the baseline, platform layers, and each role independently. Every tool includes its purpose in this setup, alternatives worth considering, and a link to the upstream project. Alternatives are informational only and are not installed.",
+      "help": "<strong>Required</strong> packages are part of the minimum contract. <strong>Optional</strong> packages are attempted when available and may be skipped without making the bootstrap unusable.",
+      "required": "required",
+      "optional": "optional",
+      "whyHere": "Why here: ",
+      "alternatives": "Alternatives",
+      "loading": "Loading…",
+      "unavailable": "Catalog unavailable",
+      "baselinePackage": "baseline package",
+      "baselinePackages": "baseline packages",
+      "layer": "layer",
+      "base": "base"
+    },
+    "trust": {
+      "eyebrow": "Trust boundary",
+      "title": "Public first. Private only after authentication.",
+      "description": "The public checkout lives at <code>~/.local/share/xtreemze/dotfiles-public</code>. The private checkout keeps the canonical <code>~/.dotfiles</code> path and is never fetched until GitHub CLI confirms access.",
+      "flowLabel": "Bootstrap flow",
+      "steps": [
+        [
+          "Public bootstrap",
+          "Clone safe repository and install baseline packages."
+        ],
+        [
+          "GitHub CLI",
+          "Install <code>gh</code> if missing and reuse existing auth where possible."
+        ],
+        [
+          "Local authentication",
+          "Run <code>gh auth login</code>; no token is stored in this repository."
+        ],
+        [
+          "Access check",
+          "Verify the account can read <code>xtreemze/.dotfiles</code>."
+        ],
+        [
+          "Private handoff",
+          "Authorized machines clone private configuration into <code>~/.dotfiles</code>."
+        ],
+        [
+          "Safe fallback",
+          "Without private access, apply only the audited public Stow packages."
+        ]
+      ]
+    },
+    "policy": {
+      "eyebrow": "Exposure policy",
+      "title": "What is safe to publish",
+      "cards": [
+        [
+          "Public",
+          "Bootstrap logic, package metadata, documentation, role plans, and explicitly audited path-agnostic configuration."
+        ],
+        [
+          "Private",
+          "Machine metadata, personal Git identity, SSH material, auth state, secrets, service credentials, private helpers, and configuration that still assumes private paths."
+        ],
+        [
+          "Fail closed",
+          "The publication pipeline uses an allowlist, rejects symlinks, scans for high-risk secret patterns, and validates shell entrypoints before Pages deploys."
+        ]
+      ]
+    },
+    "after": {
+      "eyebrow": "After installation",
+      "title": "A small command vocabulary",
+      "commands": [
+        [
+          "just",
+          "List common dotfiles commands."
+        ],
+        [
+          "just plan development",
+          "Preview changes without modifying the machine."
+        ],
+        [
+          "just install development",
+          "Reconcile packages and configuration."
+        ],
+        [
+          "just packages development",
+          "Show the resolved package plan."
+        ],
+        [
+          "just doctor",
+          "Check tools, Stow links, and platform prerequisites."
+        ],
+        [
+          "just update",
+          "Update and re-apply managed configuration."
+        ]
+      ],
+      "note": "<code>just</code> is convenience only. The installer and <code>dotfiles</code> CLI remain usable directly."
+    },
+    "footer": "Safe public bootstrap for fresh machines.",
+    "noScript": "JavaScript is only used for the role configurator. The default development install command is:",
+    "managed": {
+      "eyebrow": "Managed surface",
+      "title": "Everything this repository manages",
+      "intro": "This inventory combines package installation and configuration ownership. It includes software installed by Homebrew or role manifests, shell and application configuration deployed with Stow, and private repository configuration that is intentionally not published.",
+      "all": "All",
+      "installed": "Installed",
+      "configured": "Configured",
+      "private": "Private config",
+      "public": "Public config",
+      "repoOnly": "Repo-only config",
+      "installedBy": "Installed by",
+      "configPackage": "Config package",
+      "visibility": "Visibility",
+      "deployment": "Deployment",
+      "brew": "Homebrew",
+      "brewCask": "Homebrew cask",
+      "role": "Role/native",
+      "system": "System",
+      "runtime": "Runtime",
+      "external": "External/manual",
+      "platform": "Platform",
+      "stow": "Stow",
+      "repoOnlyLabel": "Repository only",
+      "none": "None",
+      "publicLabel": "Public",
+      "privateLabel": "Private",
+      "noConfig": "No managed config",
+      "software": "Software",
+      "config": "Configuration",
+      "softwareConfig": "Software + config",
+      "asset": "Asset",
+      "items": "managed items",
+      "empty": "No managed items match this filter."
+    },
+    "design": {
+      "eyebrow": "Presentation & controls",
+      "title": "A consistent visual and interaction language",
+      "intro": "The repository treats presentation, typography, keyboard behavior, and controls as part of the configuration contract.",
+      "colorTitle": "Color",
+      "typeTitle": "Typography",
+      "siteColor": "Site",
+      "terminalColor": "Terminal",
+      "systemAdaptive": "System-adaptive light/dark neutral surfaces",
+      "everforest": "Everforest terminal palette",
+      "siteUI": "Site UI",
+      "siteCode": "Commands/code",
+      "terminalFont": "Terminal",
+      "managedFont": "Managed font asset",
+      "philosophy": "Interaction principles",
+      "keybindings": "Key bindings",
+      "philosophyItems": [
+        "Keyboard-first",
+        "Home-row navigation",
+        "Modal-editor safe",
+        "Native platform conventions where they do not conflict",
+        "Mouse available but secondary"
+      ],
+      "controls": {
+        "tmux": [
+          "Prefix",
+          "Move pane",
+          "Resize pane",
+          "Split around current pane",
+          "File picker",
+          "Directory picker",
+          "Session selector",
+          "Project selector",
+          "Window finder",
+          "Pane finder"
+        ],
+        "ghostty": [
+          "New tab",
+          "New split right",
+          "New split down",
+          "Move between splits",
+          "Resize splits",
+          "Select tab",
+          "Last tab",
+          "Toggle split zoom",
+          "Fullscreen"
+        ],
+        "helix": [
+          "Editor model",
+          "Move selection line down",
+          "Move selection line up",
+          "Duplicate line below",
+          "Duplicate line above",
+          "Increment",
+          "Decrement"
+        ],
+        "site": [
+          "Catalog tabs",
+          "First / last tab",
+          "Theme and language",
+          "Primary navigation"
+        ]
+      }
+    },
+    "cloud": {
+      "eyebrow": "Cloud storage",
+      "title": "One canonical Rclone cloud surface",
+      "intro": "Rclone is the authorized cloud-storage abstraction. Provider credentials stay local, while the dotfiles standardize access through <code>cloud:</code> and, where supported, mount it automatically at <code>~/Cloud</code>.",
+      "identityTitle": "Provider abstraction",
+      "identityBody": "Any configured backend can be exposed through the canonical <code>cloud:</code> alias, keeping scripts and workflows provider-independent.",
+      "vfsTitle": "Automatic VFS",
+      "vfsBody": "macOS uses Rclone NFS mounting; supported Linux hosts use FUSE 3. VFS full caching is enabled with bounded cache size and age.",
+      "safeTitle": "Safe fallback",
+      "safeBody": "Credentials are never committed. Termux and hosts without filesystem mounting continue to use Rclone copy, sync, and transfer commands directly."
+    }
+  },
+  "platforms": {
+    "macos": {
+      "label": "macOS",
+      "detail": "Homebrew desired state",
+      "note": "The public Brewfile is the package authority on macOS; role flags still carry forward to the authenticated private handoff."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "apt · dnf · pacman · apk",
+      "note": "The installer detects the native package manager and resolves logical package names through the public catalog."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Android · pkg",
+      "note": "Termux uses native packages only for the public baseline and keeps mobile configuration isolated from desktop assumptions."
+    }
+  },
+  "roles": {
+    "development": {
+      "label": "Development",
+      "detail": "Editor, Git and runtime tools"
+    },
+    "desktop": {
+      "label": "Desktop",
+      "detail": "Workstation monitoring and utilities"
+    },
+    "server": {
+      "label": "Server",
+      "detail": "Headless inspection and sync"
+    },
+    "remote": {
+      "label": "Remote",
+      "detail": "Interactive SSH environment"
+    },
+    "mobile": {
+      "label": "Mobile",
+      "detail": "Termux-oriented terminal tools"
+    }
+  },
+  "catalogLayers": {
+    "base": {
+      "label": "Base",
+      "detail": "Required everywhere",
+      "description": "Minimum terminal foundation installed on every managed machine.",
+      "note": "These are bootstrap and configuration-management primitives, not a user-facing workload role."
+    },
+    "macos": {
+      "label": "macOS",
+      "detail": "Public Homebrew baseline",
+      "description": "Public workstation package set used on macOS.",
+      "note": "macOS package state is driven by the public Brewfile; private setup can add sensitive or machine-specific layers after authentication."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "Portable Linux layer",
+      "description": "Portable shell and terminal additions available through supported Linux package managers.",
+      "note": "Package names may map differently across apt, dnf, pacman, and apk, while the logical tool remains the same."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Android terminal layer",
+      "description": "Native Termux packages for a usable mobile terminal and GitHub-authenticated handoff.",
+      "note": "The public path intentionally avoids uncertified downloaded binaries on Termux."
+    },
+    "development": {
+      "label": "Development",
+      "detail": "Code and Git workflows",
+      "description": "Developer-oriented editor, repository, search, and runtime tooling.",
+      "note": "This layer is additive to the base and detected platform."
+    },
+    "desktop": {
+      "label": "Desktop",
+      "detail": "Workstation visibility",
+      "description": "Interactive monitoring, system inspection, disk analysis, and logs for desktop/workstation machines.",
+      "note": "These tools are optional conveniences and do not alter configuration authority."
+    },
+    "server": {
+      "label": "Server",
+      "detail": "Headless operations",
+      "description": "Small, broadly packaged tools for process inspection and remote file synchronization.",
+      "note": "Optimized for headless hosts where graphical diagnostics are unavailable."
+    },
+    "remote": {
+      "label": "Remote",
+      "detail": "SSH shell experience",
+      "description": "Editor, file navigation, prompt, history, jumping, and search tools for interactive remote sessions.",
+      "note": "Designed to make an SSH shell feel close to the local terminal experience."
+    },
+    "mobile": {
+      "label": "Mobile",
+      "detail": "Compact terminal UX",
+      "description": "A deliberately smaller terminal experience for phones and other constrained clients.",
+      "note": "Platform-specific Termux packages are shown separately from this role."
+    }
+  },
+  "packages": {
+    "fuse3": {
+      "summary": "Userspace filesystem support required for mounting Rclone remotes as filesystems on Linux.",
+      "why": "Enables the automatic Rclone VFS mount on supported Linux hosts without coupling the cloud workflow to a specific provider."
+    }
+  },
+  "managedTools": {
+    "bash": "Interactive shell configuration for portable aliases, completions, environment setup, and command behavior.",
+    "fish": "Fish shell configuration for interactive navigation, completions, prompt integration, and terminal tooling.",
+    "nushell": "Structured shell configuration for Nushell commands, environment behavior, and terminal integrations.",
+    "skim": "Fuzzy finder used to build fast interactive selection workflows from shell and terminal tools.",
+    "carapace": "Multi-shell completion engine used to provide richer command completions across supported shells.",
+    "git-delta": "Syntax-aware pager for Git diffs that makes review output easier to scan in the terminal.",
+    "npm": "npm client configuration for Node.js package registry and package-manager behavior.",
+    "age": "Small modern encryption tool used as part of the private secrets-management workflow.",
+    "sops": "Structured secrets editor used to keep encrypted configuration safely version-controlled.",
+    "gitleaks": "Secret scanner used to catch credentials and high-risk material before it reaches published history.",
+    "kanata": "Cross-platform keyboard remapping engine used for programmable input behavior outside application-specific shortcuts.",
+    "ghostty": "Terminal emulator whose private configuration is managed by the dotfiles repository.",
+    "karabiner": "macOS keyboard customization application with repository-managed private configuration.",
+    "stats": "macOS menu-bar system monitor for quick CPU, memory, disk, network, and sensor visibility.",
+    "font-monaspace": "Monaspace font family installed for consistent terminal and editor typography.",
+    "ssh": "Private OpenSSH client configuration for hosts, identities, connection behavior, and remote workflows.",
+    "aws-sso": "Repository-held AWS SSO configuration for authenticated cloud access; metadata is private and not publicly exported.",
+    "oatmeal": "Terminal AI client configuration managed privately for interactive command-line workflows.",
+    "streamrip": "Private streamrip configuration for command-line media retrieval workflows.",
+    "termux-config": "Termux-specific terminal settings and mobile integration configuration for Android devices.",
+    "rclone": "Authorized cloud-storage abstraction for synchronization, transfer, and automatic VFS access across managed machines.",
+    "fuse3": "Userspace filesystem support used by Rclone VFS mounts on Linux."
+  }
+}

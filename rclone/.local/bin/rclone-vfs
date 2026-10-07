@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+policy="${XDG_CONFIG_HOME:-$HOME/.config}/dotfiles/rclone-vfs.env"
+# The policy is a Stow-managed, non-secret machine-local path.
+# shellcheck disable=SC1090
+[[ -r "$policy" ]] && source "$policy"
+
+remote="${RCLONE_CLOUD_REMOTE:-cloud:}"
+mountpoint="${RCLONE_CLOUD_MOUNT:-$HOME/Cloud}"
+cache_dir="${RCLONE_VFS_CACHE_DIR:-${XDG_CACHE_HOME:-$HOME/.cache}/rclone/vfs}"
+cache_mode="${RCLONE_VFS_CACHE_MODE:-full}"
+cache_size="${RCLONE_VFS_CACHE_MAX_SIZE:-20Gi}"
+cache_age="${RCLONE_VFS_CACHE_MAX_AGE:-168h}"
+dir_cache="${RCLONE_VFS_DIR_CACHE_TIME:-10m}"
+poll_interval="${RCLONE_VFS_POLL_INTERVAL:-1m}"
+read_ahead="${RCLONE_VFS_READ_AHEAD:-128Mi}"
+write_back="${RCLONE_VFS_WRITE_BACK:-5s}"
+
+remote_name="${remote%%:*}:"
+
+require_remote() {
+  command -v rclone >/dev/null 2>&1 || { echo "rclone is not installed" >&2; return 1; }
+  rclone listremotes | grep -Fxq "$remote_name" || {
+    echo "Rclone remote $remote_name is not configured. Run the dotfiles auth/setup hook or 'rclone config'." >&2
+    return 1
+  }
+}
+
+mount_cloud() {
+  require_remote
+  mkdir -p "$mountpoint" "$cache_dir"
+
+  common=(
+    --vfs-cache-mode "$cache_mode"
+    --cache-dir "$cache_dir"
+    --vfs-cache-max-size "$cache_size"
+    --vfs-cache-max-age "$cache_age"
+    --dir-cache-time "$dir_cache"
+    --poll-interval "$poll_interval"
+    --vfs-read-ahead "$read_ahead"
+    --vfs-write-back "$write_back"
+  )
+
+  case "$(uname -s)" in
+    Darwin)
+      exec rclone nfsmount "$remote" "$mountpoint" "${common[@]}"
+      ;;
+    Linux)
+      if [[ -n "${TERMUX_VERSION:-}" ]]; then
+        echo "Automatic VFS mounting is not enabled on Termux; use rclone copy/sync directly." >&2
+        return 2
+      fi
+      command -v fusermount3 >/dev/null 2>&1 || command -v fusermount >/dev/null 2>&1 || {
+        echo "FUSE is unavailable; install fuse3 before mounting." >&2
+        return 1
+      }
+      exec rclone mount "$remote" "$mountpoint" "${common[@]}"
+      ;;
+    *)
+      echo "Automatic Rclone VFS mounting is unsupported on this platform." >&2
+      return 2
+      ;;
+  esac
+}
+
+unmount_cloud() {
+  case "$(uname -s)" in
+    Darwin) umount "$mountpoint" 2>/dev/null || true ;;
+    Linux)
+      if command -v fusermount3 >/dev/null 2>&1; then fusermount3 -u "$mountpoint" 2>/dev/null || true
+      elif command -v fusermount >/dev/null 2>&1; then fusermount -u "$mountpoint" 2>/dev/null || true
+      else umount "$mountpoint" 2>/dev/null || true
+      fi
+      ;;
+  esac
+}
+
+status_cloud() {
+  if mount | grep -Fq " $mountpoint "; then
+    echo "mounted: $mountpoint <- $remote"
+    return 0
+  fi
+  echo "not mounted: $mountpoint"
+  return 1
+}
+
+case "${1:-mount}" in
+  mount) mount_cloud ;;
+  unmount) unmount_cloud ;;
+  status) status_cloud ;;
+  *) echo "Usage: rclone-vfs [mount|unmount|status]" >&2; exit 2 ;;
+esac

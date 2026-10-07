@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate shell entrypoints
         run: |
-          shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan
+          shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan rclone/.local/bin/rclone-vfs
           bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
       - name: Verify generated site data
         run: |
@@ -38,15 +38,41 @@ jobs:
             python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
           python3 -m json.tool docs/package-details.json >/dev/null
+          python3 -m json.tool docs/managed-tools.json >/dev/null
+          python3 -m json.tool docs/design-system.json >/dev/null
+          for locale in en es sv; do
+            python3 -m json.tool "docs/locales/$locale.json" >/dev/null
+          done
           node --check docs/app.js
           node - <<'NODE'
           const fs = require('fs');
           const details = JSON.parse(fs.readFileSync('docs/package-details.json', 'utf8')).packages;
+          const managed = JSON.parse(fs.readFileSync('docs/managed-tools.json', 'utf8')).tools;
+          const locales = Object.fromEntries(['en','es','sv'].map(name => [
+            name,
+            JSON.parse(fs.readFileSync(`docs/locales/${name}.json`, 'utf8'))
+          ]));
           const plans = ['base','development','desktop','server','remote','mobile','linux','termux','macos']
             .map(name => JSON.parse(fs.readFileSync(`docs/data/${name}.json`, 'utf8')));
           const names = new Set(plans.flatMap(plan => plan.packages.map(pkg => pkg.name)));
           const missing = [...names].filter(name => !details[name]);
           if (missing.length) throw new Error(`Missing package details: ${missing.join(', ')}`);
+          for (const language of ['es','sv']) {
+            const untranslated = [...names].filter(name => !locales[language].packages?.[name]?.summary || !locales[language].packages?.[name]?.why);
+            if (untranslated.length) throw new Error(`Missing ${language} package translations: ${untranslated.join(', ')}`);
+            const missingManaged = managed.filter(tool => !locales[language].packages?.[tool.id]?.summary && !locales[language].managedTools?.[tool.id]);
+            if (missingManaged.length) throw new Error(`Missing ${language} managed-tool translations: ${missingManaged.map(tool => tool.id).join(', ')}`);
+          }
+          for (const tool of managed) {
+            if (tool.icon && !fs.existsSync(`docs/icons/${tool.icon}`)) {
+              throw new Error(`Missing managed-tool icon: ${tool.icon}`);
+            }
+          }
+          for (const language of ['en','es','sv']) {
+            for (const key of ['ui','platforms','roles','catalogLayers']) {
+              if (!locales[language][key]) throw new Error(`Missing ${language} locale section: ${key}`);
+            }
+          }
           NODE
           grep -Fq 'bash -s --' docs/index.html
 

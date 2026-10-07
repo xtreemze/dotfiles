@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "color": {
+    "site": {
+      "mode": "system",
+      "description": "GitHub Pages uses the browser's native light/dark color scheme with neutral Canvas/CanvasText surfaces and minimal accent color."
+    },
+    "terminal": {
+      "family": "Everforest",
+      "variants": [
+        "dark hard",
+        "dark medium"
+      ],
+      "background": "#0e1012",
+      "foreground": "#d3c6aa",
+      "green": "#a7c080",
+      "aqua": "#83c092",
+      "blue": "#7fbbb3",
+      "purple": "#d699b6",
+      "red": "#e67e80",
+      "orange": "#e69875",
+      "yellow": "#dbbc7f"
+    }
+  },
+  "typography": {
+    "siteUI": "system-ui",
+    "siteCode": "ui-monospace",
+    "terminal": "Monaspace Krypton",
+    "terminalSize": "14pt",
+    "managedAsset": "Monaspace"
+  },
+  "interaction": {
+    "philosophy": [
+      "Keyboard-first",
+      "Home-row navigation",
+      "Modal-editor safe",
+      "Native platform conventions where they do not conflict",
+      "Mouse available but secondary"
+    ],
+    "groups": [
+      {
+        "id": "tmux",
+        "title": "tmux",
+        "bindings": [
+          [
+            "Prefix",
+            "Ctrl+Alt+Shift+Space"
+          ],
+          [
+            "Move pane",
+            "h / j / k / l"
+          ],
+          [
+            "Resize pane",
+            "Shift+h / j / k / l"
+          ],
+          [
+            "Split around current pane",
+            "Alt+h / j / k / l"
+          ],
+          [
+            "File picker",
+            "Ctrl+t"
+          ],
+          [
+            "Directory picker",
+            "Ctrl+g"
+          ],
+          [
+            "Session selector",
+            "Shift+s"
+          ],
+          [
+            "Project selector",
+            "Shift+p"
+          ],
+          [
+            "Window finder",
+            "Shift+f"
+          ],
+          [
+            "Pane finder",
+            "."
+          ]
+        ]
+      },
+      {
+        "id": "ghostty",
+        "title": "Ghostty",
+        "bindings": [
+          [
+            "New tab",
+            "⌘T"
+          ],
+          [
+            "New split right",
+            "⌘D"
+          ],
+          [
+            "New split down",
+            "⌘⇧D"
+          ],
+          [
+            "Move between splits",
+            "⌘⇧H / J / K / L"
+          ],
+          [
+            "Resize splits",
+            "⌘⌃H / J / K / L"
+          ],
+          [
+            "Select tab",
+            "⌘1 … ⌘8"
+          ],
+          [
+            "Last tab",
+            "⌘9"
+          ],
+          [
+            "Toggle split zoom",
+            "⌘⇧Return"
+          ],
+          [
+            "Fullscreen",
+            "⌘Return"
+          ]
+        ]
+      },
+      {
+        "id": "helix",
+        "title": "Helix",
+        "bindings": [
+          [
+            "Editor model",
+            "Helix modal defaults"
+          ],
+          [
+            "Move selection line down",
+            "Alt+J"
+          ],
+          [
+            "Move selection line up",
+            "Alt+K"
+          ],
+          [
+            "Duplicate line below",
+            "Alt+Shift+J"
+          ],
+          [
+            "Duplicate line above",
+            "Alt+Shift+K"
+          ],
+          [
+            "Increment",
+            "Ctrl+Shift+A"
+          ],
+          [
+            "Decrement",
+            "Ctrl+Shift+X"
+          ]
+        ]
+      },
+      {
+        "id": "site",
+        "title": "Website",
+        "bindings": [
+          [
+            "Catalog tabs",
+            "Left / Right arrows"
+          ],
+          [
+            "First / last tab",
+            "Home / End"
+          ],
+          [
+            "Theme and language",
+            "Native select controls"
+          ],
+          [
+            "Primary navigation",
+            "Standard links and focus order"
+          ]
+        ]
+      }
+    ]
+  }
+}
