@@ -47,18 +47,18 @@
       "reason": "Provides the human-facing command interface and shell completions"
     },
     {
+      "name": "rclone",
+      "requirement": "optional",
+      "source": "base",
+      "version": "system",
+      "reason": "Authorized cloud-storage abstraction, synchronization, and VFS access"
+    },
+    {
       "name": "htop",
       "requirement": "optional",
       "source": "server",
       "version": "system",
       "reason": "Process inspection on headless systems"
-    },
-    {
-      "name": "rclone",
-      "requirement": "optional",
-      "source": "server",
-      "version": "system",
-      "reason": "Remote file transfer and synchronization for server roles"
     }
   ]
 }
