@@ -10,7 +10,8 @@
       "install": "Install",
       "plan": "Plan",
       "packages": "Packages",
-      "trust": "Trust"
+      "trust": "Trust",
+      "managed": "Managed surface"
     },
     "preferences": {
       "language": "Language",
@@ -161,7 +162,41 @@
       "note": "<code>just</code> is convenience only. The installer and <code>dotfiles</code> CLI remain usable directly."
     },
     "footer": "Safe public bootstrap for fresh machines.",
-    "noScript": "JavaScript is only used for the role configurator. The default development install command is:"
+    "noScript": "JavaScript is only used for the role configurator. The default development install command is:",
+    "managed": {
+      "eyebrow": "Managed surface",
+      "title": "Everything this repository manages",
+      "intro": "This inventory combines package installation and configuration ownership. It includes software installed by Homebrew or role manifests, shell and application configuration deployed with Stow, and private repository configuration that is intentionally not published.",
+      "all": "All",
+      "installed": "Installed",
+      "configured": "Configured",
+      "private": "Private config",
+      "public": "Public config",
+      "repoOnly": "Repo-only config",
+      "installedBy": "Installed by",
+      "configPackage": "Config package",
+      "visibility": "Visibility",
+      "deployment": "Deployment",
+      "brew": "Homebrew",
+      "brewCask": "Homebrew cask",
+      "role": "Role/native",
+      "system": "System",
+      "runtime": "Runtime",
+      "external": "External/manual",
+      "platform": "Platform",
+      "stow": "Stow",
+      "repoOnlyLabel": "Repository only",
+      "none": "None",
+      "publicLabel": "Public",
+      "privateLabel": "Private",
+      "noConfig": "No managed config",
+      "software": "Software",
+      "config": "Configuration",
+      "softwareConfig": "Software + config",
+      "asset": "Asset",
+      "items": "managed items",
+      "empty": "No managed items match this filter."
+    }
   },
   "platforms": {
     "macos": {
@@ -258,5 +293,27 @@
       "note": "Platform-specific Termux packages are shown separately from this role."
     }
   },
-  "packages": {}
+  "packages": {},
+  "managedTools": {
+    "bash": "Interactive shell configuration for portable aliases, completions, environment setup, and command behavior.",
+    "fish": "Fish shell configuration for interactive navigation, completions, prompt integration, and terminal tooling.",
+    "nushell": "Structured shell configuration for Nushell commands, environment behavior, and terminal integrations.",
+    "skim": "Fuzzy finder used to build fast interactive selection workflows from shell and terminal tools.",
+    "carapace": "Multi-shell completion engine used to provide richer command completions across supported shells.",
+    "git-delta": "Syntax-aware pager for Git diffs that makes review output easier to scan in the terminal.",
+    "npm": "npm client configuration for Node.js package registry and package-manager behavior.",
+    "age": "Small modern encryption tool used as part of the private secrets-management workflow.",
+    "sops": "Structured secrets editor used to keep encrypted configuration safely version-controlled.",
+    "gitleaks": "Secret scanner used to catch credentials and high-risk material before it reaches published history.",
+    "kanata": "Cross-platform keyboard remapping engine used for programmable input behavior outside application-specific shortcuts.",
+    "ghostty": "Terminal emulator whose private configuration is managed by the dotfiles repository.",
+    "karabiner": "macOS keyboard customization application with repository-managed private configuration.",
+    "stats": "macOS menu-bar system monitor for quick CPU, memory, disk, network, and sensor visibility.",
+    "font-monaspace": "Monaspace font family installed for consistent terminal and editor typography.",
+    "ssh": "Private OpenSSH client configuration for hosts, identities, connection behavior, and remote workflows.",
+    "aws-sso": "Repository-held AWS SSO configuration for authenticated cloud access; metadata is private and not publicly exported.",
+    "oatmeal": "Terminal AI client configuration managed privately for interactive command-line workflows.",
+    "streamrip": "Private streamrip configuration for command-line media retrieval workflows.",
+    "termux-config": "Termux-specific terminal settings and mobile integration configuration for Android devices."
+  }
 }
