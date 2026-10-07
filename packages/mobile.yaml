@@ -1,0 +1,7 @@
+name: mobile
+description: Mobile terminal role
+version: "1.0"
+packages:
+  - { name: helix, install: optional }
+  - { name: yazi, install: optional }
+  - { name: starship, install: optional }
