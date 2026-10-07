@@ -38,6 +38,7 @@ jobs:
             python3 -m json.tool "docs/data/$plan.json" >/dev/null
           done
           python3 -m json.tool docs/package-details.json >/dev/null
+          python3 -m json.tool docs/managed-tools.json >/dev/null
           for locale in en es sv; do
             python3 -m json.tool "docs/locales/$locale.json" >/dev/null
           done
@@ -45,6 +46,7 @@ jobs:
           node - <<'NODE'
           const fs = require('fs');
           const details = JSON.parse(fs.readFileSync('docs/package-details.json', 'utf8')).packages;
+          const managed = JSON.parse(fs.readFileSync('docs/managed-tools.json', 'utf8')).tools;
           const locales = Object.fromEntries(['en','es','sv'].map(name => [
             name,
             JSON.parse(fs.readFileSync(`docs/locales/${name}.json`, 'utf8'))
@@ -57,6 +59,13 @@ jobs:
           for (const language of ['es','sv']) {
             const untranslated = [...names].filter(name => !locales[language].packages?.[name]?.summary || !locales[language].packages?.[name]?.why);
             if (untranslated.length) throw new Error(`Missing ${language} package translations: ${untranslated.join(', ')}`);
+            const missingManaged = managed.filter(tool => !locales[language].packages?.[tool.id]?.summary && !locales[language].managedTools?.[tool.id]);
+            if (missingManaged.length) throw new Error(`Missing ${language} managed-tool translations: ${missingManaged.map(tool => tool.id).join(', ')}`);
+          }
+          for (const tool of managed) {
+            if (tool.icon && !fs.existsSync(`docs/icons/${tool.icon}`)) {
+              throw new Error(`Missing managed-tool icon: ${tool.icon}`);
+            }
           }
           for (const language of ['en','es','sv']) {
             for (const key of ['ui','platforms','roles','catalogLayers']) {
