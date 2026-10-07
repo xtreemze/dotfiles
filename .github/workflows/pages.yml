@@ -1,0 +1,47 @@
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell entrypoints
+        run: |
+          shellcheck bootstrap.sh install.sh bin/dotfiles scripts/authenticate-private scripts/package-plan
+          bash scripts/package-plan --role development --json | python3 -m json.tool >/dev/null
+      - name: Verify generated site data
+        run: |
+          for role in development desktop server remote mobile; do
+            test -s "docs/data/$role.json"
+            python3 -m json.tool "docs/data/$role.json" >/dev/null
+          done
+
+  deploy:
+    needs: validate
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
