@@ -718,36 +718,255 @@ async function renderManagedSurface() {
 }
 
 
-function detailRows(target, rows) {
-  target.replaceChildren();
-  const list = document.createElement("dl");
-  list.className = "design-facts";
-  for (const [label, value] of rows) {
-    const row = document.createElement("div");
-    const dt = document.createElement("dt");
-    const dd = document.createElement("dd");
-    dt.textContent = label;
-    dd.textContent = value;
-    row.append(dt, dd);
-    list.append(row);
+function contrastText(hex) {
+  const value = hex.replace("#", "");
+  const r = parseInt(value.slice(0, 2), 16);
+  const g = parseInt(value.slice(2, 4), 16);
+  const b = parseInt(value.slice(4, 6), 16);
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  return luminance > 0.57 ? "#111318" : "#f7f7f4";
+}
+
+function paletteSwatch(name, value) {
+  const item = document.createElement("div");
+  item.className = "palette-swatch";
+  item.style.setProperty("--swatch", value);
+  item.style.setProperty("--swatch-text", contrastText(value));
+
+  const color = document.createElement("div");
+  color.className = "palette-swatch-color";
+  color.textContent = name;
+
+  const meta = document.createElement("div");
+  meta.className = "palette-swatch-meta";
+  const label = document.createElement("strong");
+  label.textContent = name;
+  const code = document.createElement("code");
+  code.textContent = value.toUpperCase();
+  meta.append(label, code);
+
+  item.append(color, meta);
+  return item;
+}
+
+function themeBoard(key, variant, active) {
+  const article = document.createElement("article");
+  article.className = "theme-board";
+  article.style.setProperty("--theme-bg", variant.background);
+  article.style.setProperty("--theme-fg", variant.foreground);
+
+  const header = document.createElement("div");
+  header.className = "theme-board-header";
+  const titleWrap = document.createElement("div");
+  const title = document.createElement("h4");
+  title.textContent = variant.label;
+  const pair = document.createElement("code");
+  pair.textContent = `${variant.background.toUpperCase()} · ${variant.foreground.toUpperCase()}`;
+  titleWrap.append(title, pair);
+  header.append(titleWrap);
+
+  if (active) {
+    const badge = document.createElement("span");
+    badge.className = "theme-active";
+    badge.textContent = locale.ui.design.active;
+    header.append(badge);
   }
-  target.append(list);
+
+  const terminal = document.createElement("div");
+  terminal.className = "theme-terminal-sample";
+  const prompt = document.createElement("code");
+  prompt.innerHTML = `<span style="color:${variant.palette.green}">~/dotfiles</span> <span style="color:${variant.palette.blue}">master</span> <span style="color:${variant.palette.yellow}">❯</span> rclone lsd <span style="color:${variant.palette.aqua || variant.palette.cyan}">cloud:</span>`;
+  terminal.append(prompt);
+
+  const semantic = document.createElement("div");
+  semantic.className = "palette-grid";
+  semantic.append(
+    paletteSwatch(locale.ui.design.background, variant.background),
+    paletteSwatch(locale.ui.design.foreground, variant.foreground),
+    paletteSwatch(locale.ui.design.selection, variant.selectionBackground),
+    ...Object.entries(variant.palette).map(([name, value]) => paletteSwatch(name, value))
+  );
+
+  article.append(header, terminal, semantic);
+  return article;
+}
+
+function fontSpecimenRow(label, text, size, weight = 400, style = "normal", family = "Monaspace Krypton") {
+  const row = document.createElement("div");
+  row.className = "font-specimen-row";
+
+  const meta = document.createElement("div");
+  meta.className = "font-specimen-meta";
+  const strong = document.createElement("strong");
+  strong.textContent = label;
+  const code = document.createElement("code");
+  code.textContent = `${size}px · ${weight}${style === "italic" ? " italic" : ""}`;
+  meta.append(strong, code);
+
+  const sample = document.createElement("div");
+  sample.className = "font-specimen-sample";
+  sample.style.fontFamily = `"${family}", ui-monospace, SFMono-Regular, Menlo, monospace`;
+  sample.style.fontSize = `${size}px`;
+  sample.style.fontWeight = String(weight);
+  sample.style.fontStyle = style;
+  sample.textContent = text;
+
+  row.append(meta, sample);
+  return row;
+}
+
+function renderPaletteShowcase(design) {
+  const target = document.querySelector("#palette-showcase");
+  target.replaceChildren();
+
+  const activeDark = design.color.terminal.active.dark.replace(/\s+/g, "").toLowerCase();
+  const activeLight = design.color.terminal.active.light.replace(/\s+/g, "").toLowerCase();
+
+  for (const [key, variant] of Object.entries(design.color.terminal.variants)) {
+    const normalized = variant.label.replace(/\s+/g, "").toLowerCase();
+    target.append(themeBoard(
+      key,
+      variant,
+      normalized === activeDark || normalized === activeLight
+    ));
+  }
+}
+
+function renderFontShowcase(design) {
+  const target = document.querySelector("#font-showcase");
+  const availability = document.querySelector("#font-availability");
+  target.replaceChildren();
+
+  const activeFace = design.typography.activeFace;
+  const available = document.fonts?.check?.(`14px "${activeFace}"`) ?? false;
+  availability.textContent = available
+    ? locale.ui.design.fontAvailable
+    : locale.ui.design.fontFallback;
+  availability.dataset.available = String(available);
+
+  const intro = document.createElement("div");
+  intro.className = "font-hero-specimen";
+  intro.style.fontFamily = `"${activeFace}", ui-monospace, SFMono-Regular, Menlo, monospace`;
+  const family = document.createElement("span");
+  family.className = "font-family-label";
+  family.textContent = activeFace;
+  const hero = document.createElement("div");
+  hero.className = "font-hero-text";
+  hero.textContent = design.typography.specimen.headline;
+  intro.append(family, hero);
+
+  const waterfall = document.createElement("section");
+  waterfall.className = "font-specimen-section";
+  const waterfallTitle = document.createElement("h4");
+  waterfallTitle.textContent = locale.ui.design.waterfall;
+  waterfall.append(waterfallTitle);
+  for (const size of [12, 14, 18, 24, 32, 48, 64]) {
+    waterfall.append(fontSpecimenRow(
+      `${size}px`,
+      design.typography.specimen.headline,
+      size,
+      size >= 48 ? 600 : 400,
+      "normal",
+      activeFace
+    ));
+  }
+
+  const characters = document.createElement("section");
+  characters.className = "font-specimen-section";
+  const charactersTitle = document.createElement("h4");
+  charactersTitle.textContent = locale.ui.design.characters;
+  characters.append(
+    charactersTitle,
+    fontSpecimenRow(locale.ui.design.uppercase, design.typography.specimen.alphabetUpper, 20, 400, "normal", activeFace),
+    fontSpecimenRow(locale.ui.design.lowercase, design.typography.specimen.alphabetLower, 20, 400, "normal", activeFace),
+    fontSpecimenRow(locale.ui.design.numerals, design.typography.specimen.numerals, 20, 400, "normal", activeFace),
+    fontSpecimenRow(locale.ui.design.punctuation, design.typography.specimen.punctuation, 18, 400, "normal", activeFace)
+  );
+
+  const weights = document.createElement("section");
+  weights.className = "font-specimen-section";
+  const weightsTitle = document.createElement("h4");
+  weightsTitle.textContent = locale.ui.design.weights;
+  weights.append(weightsTitle);
+  for (const weight of design.typography.weights) {
+    weights.append(fontSpecimenRow(
+      String(weight),
+      design.typography.specimen.headline,
+      24,
+      weight,
+      "normal",
+      activeFace
+    ));
+  }
+
+  const styles = document.createElement("section");
+  styles.className = "font-specimen-section";
+  const stylesTitle = document.createElement("h4");
+  stylesTitle.textContent = locale.ui.design.styles;
+  styles.append(
+    stylesTitle,
+    fontSpecimenRow(locale.ui.design.regular, design.typography.specimen.headline, 24, 400, "normal", activeFace),
+    fontSpecimenRow(locale.ui.design.italic, design.typography.specimen.headline, 24, 400, "italic", activeFace),
+    fontSpecimenRow(locale.ui.design.bold, design.typography.specimen.headline, 24, 700, "normal", activeFace),
+    fontSpecimenRow(locale.ui.design.boldItalic, design.typography.specimen.headline, 24, 700, "italic", activeFace)
+  );
+
+  const families = document.createElement("section");
+  families.className = "font-specimen-section";
+  const familiesTitle = document.createElement("h4");
+  familiesTitle.textContent = locale.ui.design.familyVariants;
+  families.append(familiesTitle);
+  const familyGrid = document.createElement("div");
+  familyGrid.className = "font-family-grid";
+  for (const variant of design.typography.familyVariants) {
+    const card = document.createElement("article");
+    card.className = "font-family-card";
+    if (variant.name === activeFace) card.dataset.active = "true";
+    const heading = document.createElement("div");
+    heading.className = "font-family-card-head";
+    const name = document.createElement("strong");
+    name.textContent = variant.name;
+    const role = document.createElement("span");
+    role.textContent = variant.role;
+    heading.append(name, role);
+    const sample = document.createElement("div");
+    sample.style.fontFamily = `"${variant.name}", ui-monospace, SFMono-Regular, Menlo, monospace`;
+    sample.textContent = "Aa Rr 0123 { } → != ===";
+    card.append(heading, sample);
+    familyGrid.append(card);
+  }
+  families.append(familyGrid);
+
+  const code = document.createElement("section");
+  code.className = "font-specimen-section";
+  const codeTitle = document.createElement("h4");
+  codeTitle.textContent = locale.ui.design.codeSample;
+  const pre = document.createElement("pre");
+  pre.className = "font-code-sample";
+  pre.style.fontFamily = `"${activeFace}", ui-monospace, SFMono-Regular, Menlo, monospace`;
+  pre.textContent = design.typography.specimen.code;
+  code.append(codeTitle, pre);
+
+  const features = document.createElement("section");
+  features.className = "font-specimen-section";
+  const featureTitle = document.createElement("h4");
+  featureTitle.textContent = locale.ui.design.features;
+  const list = document.createElement("div");
+  list.className = "font-feature-list";
+  for (const feature of design.typography.features) {
+    const chip = document.createElement("code");
+    chip.textContent = feature;
+    list.append(chip);
+  }
+  features.append(featureTitle, list);
+
+  target.append(intro, waterfall, characters, weights, styles, families, code, features);
 }
 
 async function renderDesignSystem() {
   const design = await ensureDesignSystem();
-
-  detailRows(designColorEl, [
-    [locale.ui.design.siteColor, locale.ui.design.systemAdaptive],
-    [locale.ui.design.terminalColor, `${locale.ui.design.everforest} · ${design.color.terminal.background} / ${design.color.terminal.foreground}`]
-  ]);
-
-  detailRows(designTypeEl, [
-    [locale.ui.design.siteUI, design.typography.siteUI],
-    [locale.ui.design.siteCode, design.typography.siteCode],
-    [locale.ui.design.terminalFont, `${design.typography.terminal} · ${design.typography.terminalSize}`],
-    [locale.ui.design.managedFont, design.typography.managedAsset]
-  ]);
+  renderPaletteShowcase(design);
+  renderFontShowcase(design);
 
   controlGroupsEl.replaceChildren();
 
