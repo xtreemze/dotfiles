@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PRIVATE_REPO="${PRIVATE_REPO:-xtreemze/.dotfiles}"
+PRIVATE_DOTFILES_DIR="${PRIVATE_DOTFILES_DIR:-$HOME/.dotfiles}"
+
+info() { printf 'dotfiles: %s\n' "$*"; }
+warn() { printf 'dotfiles: %s\n' "$*" >&2; }
+
+run_privileged() {
+  if [[ "$(id -u)" -eq 0 ]]; then "$@"
+  elif command -v sudo >/dev/null 2>&1; then sudo "$@"
+  else return 126
+  fi
+}
+
+ensure_gh() {
+  command -v gh >/dev/null 2>&1 && return 0
+
+  info "installing GitHub CLI for authenticated private setup"
+  case "$(uname -s)" in
+    Darwin)
+      command -v brew >/dev/null 2>&1 || return 1
+      brew install gh
+      ;;
+    Linux)
+      if [[ -n "${TERMUX_VERSION:-}" ]]; then
+        pkg install -y gh
+      elif command -v apt >/dev/null 2>&1; then
+        run_privileged apt update -qq
+        run_privileged apt install -y -qq gh
+      elif command -v dnf >/dev/null 2>&1; then
+        run_privileged dnf install -y gh
+      elif command -v pacman >/dev/null 2>&1; then
+        run_privileged pacman -S --needed --noconfirm github-cli
+      elif command -v apk >/dev/null 2>&1; then
+        run_privileged apk add github-cli
+      else
+        return 1
+      fi
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+
+  command -v gh >/dev/null 2>&1
+}
+
+authenticate() {
+  if gh auth status --hostname github.com >/dev/null 2>&1; then
+    return 0
+  fi
+
+  info "GitHub authentication is required before private configuration can be accessed"
+  if [[ -r /dev/tty && -w /dev/tty ]]; then
+    gh auth login --hostname github.com --git-protocol https --web </dev/tty >/dev/tty 2>/dev/tty
+  else
+    warn "no interactive terminal is available for GitHub authentication"
+    return 1
+  fi
+
+  gh auth status --hostname github.com >/dev/null 2>&1
+}
+
+verify_private_access() {
+  gh repo view "$PRIVATE_REPO" --json nameWithOwner >/dev/null 2>&1
+}
+
+clone_or_update_private() {
+  if [[ -d "$PRIVATE_DOTFILES_DIR/.git" ]]; then
+    local origin
+    origin=$(git -C "$PRIVATE_DOTFILES_DIR" remote get-url origin 2>/dev/null || true)
+    case "$origin" in
+      *github.com/xtreemze/.dotfiles.git|*github.com:xtreemze/.dotfiles.git)
+        git -C "$PRIVATE_DOTFILES_DIR" pull --ff-only
+        return 0
+        ;;
+      *)
+        warn "$PRIVATE_DOTFILES_DIR is already a different Git checkout; refusing to replace it"
+        return 1
+        ;;
+    esac
+  fi
+
+  if [[ -e "$PRIVATE_DOTFILES_DIR" ]]; then
+    warn "$PRIVATE_DOTFILES_DIR exists but is not the private dotfiles checkout"
+    return 1
+  fi
+
+  gh repo clone "$PRIVATE_REPO" "$PRIVATE_DOTFILES_DIR"
+}
+
+ensure_gh || {
+  warn "GitHub CLI could not be installed; continuing with the public configuration only"
+  exit 1
+}
+
+authenticate || {
+  warn "GitHub authentication was not completed; continuing with the public configuration only"
+  exit 1
+}
+
+gh auth setup-git --hostname github.com >/dev/null
+
+verify_private_access || {
+  warn "the authenticated GitHub account cannot access $PRIVATE_REPO; continuing with the public configuration only"
+  exit 1
+}
+
+info "private dotfiles access verified"
+clone_or_update_private || exit 1
+
+[[ -x "$PRIVATE_DOTFILES_DIR/install.sh" ]] || {
+  warn "private installer not found at $PRIVATE_DOTFILES_DIR/install.sh"
+  exit 1
+}
+
+info "handing off to authenticated private dotfiles"
+DOTFILES_DIR="$PRIVATE_DOTFILES_DIR" exec "$PRIVATE_DOTFILES_DIR/install.sh" "$@"
