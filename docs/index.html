@@ -9,7 +9,6 @@
   <meta name="referrer" content="no-referrer">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'">
   <title>xtreemze dotfiles · safe bootstrap</title>
-  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="alternate" hreflang="en" href="?lang=en">
   <link rel="alternate" hreflang="es" href="?lang=es">
   <link rel="alternate" hreflang="sv" href="?lang=sv">
@@ -209,17 +208,38 @@
           <p class="catalog-intro" data-i18n="design.intro">The repository treats presentation, typography, keyboard behavior, and controls as part of the configuration contract.</p>
         </div>
       </div>
-      <div class="design-grid">
-        <article class="design-card">
-          <h3 data-i18n="design.colorTitle">Color</h3>
-          <div id="design-color"></div>
-        </article>
-        <article class="design-card">
-          <h3 data-i18n="design.typeTitle">Typography</h3>
-          <div id="design-type"></div>
-        </article>
-      </div>
-      <div class="control-grid" id="control-groups"></div>
+
+      <section class="showcase-block" aria-labelledby="palette-showcase-title">
+        <div class="showcase-heading">
+          <div>
+            <p class="eyebrow" data-i18n="design.paletteEyebrow">Everforest palette</p>
+            <h3 id="palette-showcase-title" data-i18n="design.paletteTitle">Dark and light variants</h3>
+          </div>
+          <p data-i18n="design.paletteIntro">Exact colors from the managed Ghostty themes, including active hard-dark and medium-light variants.</p>
+        </div>
+        <div id="palette-showcase" class="palette-showcase"></div>
+      </section>
+
+      <section class="showcase-block" aria-labelledby="font-showcase-title">
+        <div class="showcase-heading">
+          <div>
+            <p class="eyebrow" data-i18n="design.fontEyebrow">Typography specimen</p>
+            <h3 id="font-showcase-title" data-i18n="design.fontTitle">Monaspace</h3>
+          </div>
+          <div id="font-availability" class="status-pill" aria-live="polite"></div>
+        </div>
+        <div id="font-showcase" class="font-showcase"></div>
+      </section>
+
+      <section class="showcase-block" aria-labelledby="controls-title">
+        <div class="showcase-heading">
+          <div>
+            <p class="eyebrow" data-i18n="design.controlsEyebrow">Controls</p>
+            <h3 id="controls-title" data-i18n="design.controlsTitle">Keyboard and interaction model</h3>
+          </div>
+        </div>
+        <div class="control-grid" id="control-groups"></div>
+      </section>
     </section>
 
     <section id="trust" class="split" aria-labelledby="trust-title">
