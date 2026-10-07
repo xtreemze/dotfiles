@@ -1,0 +1,10 @@
+name: base
+description: Minimal packages expected on every managed terminal
+version: "2.1"
+packages:
+  - { name: git, install: required }
+  - { name: tmux, install: required }
+  - { name: curl, install: required }
+  - { name: tar, install: required }
+  - { name: stow, install: required }
+  - { name: just, install: optional }
