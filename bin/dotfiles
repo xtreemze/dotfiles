@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/.dotfiles}"
+
+usage() {
+  cat <<'EOF'
+dotfiles <command> [args]
+
+Commands:
+  install [flags]   Run the canonical installer
+  plan [flags]      Preview installer changes
+  packages [role]   Show resolved public package plan
+  status            Show repository and tool status
+  doctor            Check required tooling and Stow availability
+  update            Fast-forward the public checkout and re-run install
+  help              Show this help
+EOF
+}
+
+cmd="${1:-status}"
+shift || true
+
+case "$cmd" in
+  install)
+    exec "$DOTFILES_DIR/install.sh" "$@"
+    ;;
+  plan)
+    exec "$DOTFILES_DIR/install.sh" --dry-run "$@"
+    ;;
+  packages)
+    if [[ $# -gt 0 ]]; then
+      exec "$DOTFILES_DIR/scripts/package-plan" --role "$1"
+    else
+      exec "$DOTFILES_DIR/scripts/package-plan"
+    fi
+    ;;
+  status)
+    printf 'Repository: %s\n' "$DOTFILES_DIR"
+    if [[ -d "$DOTFILES_DIR/.git" ]]; then
+      printf 'Commit:     %s\n' "$(git -C "$DOTFILES_DIR" rev-parse --short HEAD)"
+      printf 'Branch:     %s\n' "$(git -C "$DOTFILES_DIR" rev-parse --abbrev-ref HEAD)"
+    fi
+    for tool in git stow tmux just; do
+      if command -v "$tool" >/dev/null 2>&1; then
+        printf '%-10s %s\n' "$tool" "$("$tool" --version 2>/dev/null | head -1 || echo installed)"
+      else
+        printf '%-10s missing\n' "$tool"
+      fi
+    done
+    ;;
+  doctor)
+    failures=0
+    for tool in git stow tmux; do
+      if command -v "$tool" >/dev/null 2>&1; then
+        printf 'ok: %s\n' "$tool"
+      else
+        printf 'missing: %s\n' "$tool" >&2
+        failures=$((failures + 1))
+      fi
+    done
+    if command -v just >/dev/null 2>&1; then
+      printf 'ok: just\n'
+    else
+      printf 'optional: just is unavailable; install commands still work directly\n'
+    fi
+    exit "$failures"
+    ;;
+  update)
+    [[ -d "$DOTFILES_DIR/.git" ]] || { echo "not a Git checkout: $DOTFILES_DIR" >&2; exit 1; }
+    git -C "$DOTFILES_DIR" pull --ff-only
+    exec "$DOTFILES_DIR/install.sh"
+    ;;
+  help|-h|--help)
+    usage
+    ;;
+  *)
+    echo "unknown command: $cmd" >&2
+    usage >&2
+    exit 2
+    ;;
+esac
