@@ -11,7 +11,8 @@
       "plan": "Plan",
       "packages": "Paket",
       "trust": "Förtroende",
-      "managed": "Hanterad yta"
+      "managed": "Hanterad yta",
+      "design": "Presentation"
     },
     "preferences": {
       "language": "Språk",
@@ -196,6 +197,81 @@
       "asset": "Resurs",
       "items": "hanterade objekt",
       "empty": "Inga hanterade objekt matchar filtret."
+    },
+    "design": {
+      "eyebrow": "Presentation och kontroller",
+      "title": "Ett konsekvent visuellt och interaktivt språk",
+      "intro": "Repositoryt behandlar presentation, typografi, tangentbordsbeteende och kontroller som en del av konfigurationskontraktet.",
+      "colorTitle": "Färg",
+      "typeTitle": "Typografi",
+      "siteColor": "Webbplats",
+      "terminalColor": "Terminal",
+      "systemAdaptive": "Systemanpassade neutrala ljusa/mörka ytor",
+      "everforest": "Everforest-palett för terminalen",
+      "siteUI": "Webbplats-UI",
+      "siteCode": "Kommandon/kod",
+      "terminalFont": "Terminal",
+      "managedFont": "Hanterad fontresurs",
+      "philosophy": "Interaktionsprinciper",
+      "keybindings": "Tangentbindningar",
+      "philosophyItems": [
+        "Tangentbord först",
+        "Navigering från hemraden",
+        "Säker för modal editor",
+        "Inbyggda plattformskonventioner när de inte krockar",
+        "Mus tillgänglig men sekundär"
+      ],
+      "controls": {
+        "tmux": [
+          "Prefix",
+          "Flytta panel",
+          "Ändra panelstorlek",
+          "Dela runt aktuell panel",
+          "Filväljare",
+          "Katalogväljare",
+          "Sessionsväljare",
+          "Projektväljare",
+          "Fönstersökare",
+          "Panelsökare"
+        ],
+        "ghostty": [
+          "Ny flik",
+          "Ny delning åt höger",
+          "Ny delning nedåt",
+          "Flytta mellan delningar",
+          "Ändra delningsstorlek",
+          "Välj flik",
+          "Sista fliken",
+          "Växla delningszoom",
+          "Helskärm"
+        ],
+        "helix": [
+          "Editormodell",
+          "Flytta markering en rad ned",
+          "Flytta markering en rad upp",
+          "Duplicera rad nedanför",
+          "Duplicera rad ovanför",
+          "Öka",
+          "Minska"
+        ],
+        "site": [
+          "Katalogflikar",
+          "Första / sista fliken",
+          "Tema och språk",
+          "Huvudnavigation"
+        ]
+      }
+    },
+    "cloud": {
+      "eyebrow": "Molnlagring",
+      "title": "En kanonisk molnyta med Rclone",
+      "intro": "Rclone är den auktoriserade abstraktionen för molnlagring. Leverantörens autentiseringsuppgifter stannar lokalt, medan dotfiles standardiserar åtkomst via <code>cloud:</code> och, där det stöds, monterar den automatiskt på <code>~/Cloud</code>.",
+      "identityTitle": "Leverantörsabstraktion",
+      "identityBody": "Valfri konfigurerad backend kan exponeras via det kanoniska aliaset <code>cloud:</code>, så att skript och arbetsflöden förblir leverantörsoberoende.",
+      "vfsTitle": "Automatisk VFS",
+      "vfsBody": "macOS använder Rclones NFS-montering; stödda Linux-värdar använder FUSE 3. Full VFS-cache används med begränsad storlek och ålder.",
+      "safeTitle": "Säker fallback",
+      "safeBody": "Autentiseringsuppgifter versionshanteras aldrig. Termux och värdar utan filsystemsmontering fortsätter använda Rclone copy, sync och överföringskommandon direkt."
     }
   },
   "platforms": {
@@ -401,6 +477,10 @@
     "jq": {
       "summary": "Strömmande JSON-processor för att fråga, omforma och kombinera strukturerad utdata.",
       "why": "Publikt macOS-basverktyg för pålitlig JSON-inspektion och scripting."
+    },
+    "fuse3": {
+      "summary": "Filsystemsstöd i användarutrymme som krävs för att montera Rclone-remotes som filsystem på Linux.",
+      "why": "Möjliggör automatisk Rclone VFS-montering på stödda Linux-värdar utan att binda molnflödet till en specifik leverantör."
     }
   },
   "managedTools": {
@@ -423,6 +503,8 @@
     "aws-sso": "AWS SSO-konfiguration som hålls i repositoryt för autentiserad molnåtkomst; metadata förblir privat.",
     "oatmeal": "Privat konfiguration för terminalbaserade AI-klienten Oatmeal.",
     "streamrip": "Privat streamrip-konfiguration för kommandoradsbaserade medieflöden.",
-    "termux-config": "Termux-specifika terminalinställningar och mobilintegrationskonfiguration för Android-enheter."
+    "termux-config": "Termux-specifika terminalinställningar och mobilintegrationskonfiguration för Android-enheter.",
+    "rclone": "Auktoriserat molnlagringslager för synkronisering, överföring och automatisk VFS-åtkomst på hanterade maskiner.",
+    "fuse3": "Filsystemsstöd i användarutrymme som används av Rclone VFS-monteringar på Linux."
   }
 }
