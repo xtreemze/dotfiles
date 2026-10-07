@@ -12,7 +12,8 @@
       "packages": "Paket",
       "trust": "Förtroende",
       "managed": "Hanterad yta",
-      "design": "Presentation"
+      "design": "Presentation",
+      "terminal": "Terminal"
     },
     "preferences": {
       "language": "Språk",
@@ -260,7 +261,35 @@
           "Tema och språk",
           "Huvudnavigation"
         ]
-      }
+      },
+      "paletteEyebrow": "Everforest-palett",
+      "paletteTitle": "Mörka och ljusa varianter",
+      "paletteIntro": "Exakta färger från de hanterade Ghostty-temana, inklusive aktiva dark hard- och light medium-varianter.",
+      "fontEyebrow": "Typografiskt prov",
+      "fontTitle": "Monaspace",
+      "controlsEyebrow": "Kontroller",
+      "controlsTitle": "Tangentbords- och interaktionsmodell",
+      "active": "Aktiv",
+      "background": "Bakgrund",
+      "foreground": "Förgrund",
+      "selection": "Markering",
+      "fontAvailable": "Monaspace Krypton tillgänglig",
+      "fontFallback": "Monaspace Krypton är inte installerad i den här webbläsaren",
+      "waterfall": "Storleksskala",
+      "characters": "Teckenuppsättning",
+      "uppercase": "Versaler",
+      "lowercase": "Gemener",
+      "numerals": "Siffror",
+      "punctuation": "Interpunktion",
+      "weights": "Vikter",
+      "styles": "Stilar",
+      "regular": "Normal",
+      "italic": "Kursiv",
+      "bold": "Fet",
+      "boldItalic": "Fet kursiv",
+      "familyVariants": "Familjevarianter",
+      "codeSample": "Kodprov",
+      "features": "Aktiverade OpenType-funktioner"
     },
     "cloud": {
       "eyebrow": "Molnlagring",
@@ -272,6 +301,19 @@
       "vfsBody": "macOS använder Rclones NFS-montering; stödda Linux-värdar använder FUSE 3. Full VFS-cache används med begränsad storlek och ålder.",
       "safeTitle": "Säker fallback",
       "safeBody": "Autentiseringsuppgifter versionshanteras aldrig. Termux och värdar utan filsystemsmontering fortsätter använda Rclone copy, sync och överföringskommandon direkt."
+    },
+    "terminal": {
+      "eyebrow": "Interaktiv terminal",
+      "title": "Prova den konfigurerade shellupplevelsen",
+      "intro": "Ett webbläsarsäkert terminalprov som kombinerar den hanterade Ghostty-presentationen, en zsh/Starship-liknande prompt, Everforest-paletten och Monaspace-typografin och startar i <code>~/.dotfiles</code>.",
+      "safeTitle": "Vad som är verkligt",
+      "safeBody": "Tema, språk, rollval, urklippsåtgärder, länkar och läsning av publicerade paketplaner påverkar den faktiska sidan eller webbläsarmiljön.",
+      "virtualTitle": "Vad som är virtuellt",
+      "virtualBody": "Shellen och filsystemet är en skrivskyddad webbläsarmodell. Det finns ingen dold PTY, SSH-session, WebContainer eller obegränsad processexekvering.",
+      "hostTitle": "Vad som kräver en värd",
+      "hostBody": "Paketinstallation, godtyckliga shellkommandon, SSH, hemligheter, lokala filer och molnmonteringar kräver den riktiga maskinen efter installation.",
+      "embedTitle": "Bädda in terminalen",
+      "embedBody": "Terminalen är implementerad som ett återanvändbart custom element utan backend-beroende. Andra sidor kan importera komponenten och tillhandahålla en egen åtgärdsbrygga eller ett virtuellt filsystem."
     }
   },
   "platforms": {

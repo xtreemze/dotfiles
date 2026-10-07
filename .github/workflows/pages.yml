@@ -44,6 +44,11 @@ jobs:
             python3 -m json.tool "docs/locales/$locale.json" >/dev/null
           done
           node --check docs/app.js
+          node --check docs/components/dotfiles-terminal.js
+          if grep -Eq 'WebSocket|new Worker|SharedWorker|EventSource|node-pty|WebContainer' docs/components/dotfiles-terminal.js; then
+            echo "Embedded terminal must remain a browser-local bounded component" >&2
+            exit 1
+          fi
           node - <<'NODE'
           const fs = require('fs');
           const details = JSON.parse(fs.readFileSync('docs/package-details.json', 'utf8')).packages;
