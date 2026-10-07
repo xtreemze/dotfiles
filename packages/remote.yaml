@@ -1,0 +1,13 @@
+name: remote
+description: Interactive remote-shell role
+version: "1.0"
+packages:
+  - { name: helix, install: optional }
+  - { name: yazi, install: optional }
+  - { name: starship, install: optional }
+  - { name: atuin, install: optional }
+  - { name: zoxide, install: optional }
+  - { name: eza, install: optional }
+  - { name: bat, install: optional }
+  - { name: fd, install: optional }
+  - { name: ripgrep, install: optional }
