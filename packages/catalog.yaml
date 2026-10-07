@@ -28,4 +28,5 @@ packages:
   - { name: gdu, probe: gdu|gdu-go, version: system, reason: "Fast disk usage inspection" }
   - { name: lnav, probe: lnav, version: system, reason: "Structured terminal log inspection" }
   - { name: htop, probe: htop, version: system, reason: "Process inspection on headless systems" }
-  - { name: rclone, probe: rclone, version: system, reason: "Remote file transfer and synchronization for server roles" }
+  - { name: rclone, probe: rclone, version: system, reason: "Authorized cloud-storage abstraction, synchronization, and VFS access" }
+  - { name: fuse3, probe: fusermount3|fusermount, apt: fuse3, dnf: fuse3, pacman: fuse3, apk: fuse3, version: system, reason: "Userspace filesystem support for automatic Rclone VFS mounts on Linux" }
