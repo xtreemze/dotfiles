@@ -12,3 +12,4 @@ packages:
   - { name: bat, install: optional }
   - { name: fd, install: optional }
   - { name: ripgrep, install: optional }
+  - { name: fuse3, install: optional }
