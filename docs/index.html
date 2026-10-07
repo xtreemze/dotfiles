@@ -29,6 +29,7 @@
         <a href="#plan" data-i18n="nav.plan">Plan</a>
         <a href="#catalog" data-i18n="nav.packages">Packages</a>
         <a href="#managed" data-i18n="nav.managed">Managed surface</a>
+        <a href="#design" data-i18n="nav.design">Presentation</a>
         <a href="#trust" data-i18n="nav.trust">Trust</a>
         <a href="https://github.com/xtreemze/dotfiles">GitHub</a>
       </nav>
@@ -173,6 +174,51 @@
       <div class="managed-filters" id="managed-filters" role="group" aria-label="Managed surface filters"></div>
       <div class="managed-grid" id="managed-cards" aria-live="polite"></div>
       <p class="error" id="managed-error" role="alert" hidden></p>
+    </section>
+
+    <section id="cloud" class="panel" aria-labelledby="cloud-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="cloud.eyebrow">Cloud storage</p>
+          <h2 id="cloud-title" data-i18n="cloud.title">One canonical Rclone cloud surface</h2>
+          <p class="catalog-intro" data-i18n-html="cloud.intro">Rclone is the authorized cloud-storage abstraction. Provider credentials stay local, while the dotfiles standardize access through <code>cloud:</code> and, where supported, mount it automatically at <code>~/Cloud</code>.</p>
+        </div>
+      </div>
+      <div class="policy-grid">
+        <article>
+          <h3 data-i18n="cloud.identityTitle">Provider abstraction</h3>
+          <p data-i18n-html="cloud.identityBody">Any configured backend can be exposed through the canonical <code>cloud:</code> alias, keeping scripts and workflows provider-independent.</p>
+        </article>
+        <article>
+          <h3 data-i18n="cloud.vfsTitle">Automatic VFS</h3>
+          <p data-i18n="cloud.vfsBody">macOS uses Rclone NFS mounting; supported Linux hosts use FUSE 3. VFS full caching is enabled with bounded cache size and age.</p>
+        </article>
+        <article>
+          <h3 data-i18n="cloud.safeTitle">Safe fallback</h3>
+          <p data-i18n="cloud.safeBody">Credentials are never committed. Termux and hosts without filesystem mounting continue to use Rclone copy, sync, and transfer commands directly.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="design" class="panel" aria-labelledby="design-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow" data-i18n="design.eyebrow">Presentation & controls</p>
+          <h2 id="design-title" data-i18n="design.title">A consistent visual and interaction language</h2>
+          <p class="catalog-intro" data-i18n="design.intro">The repository treats presentation, typography, keyboard behavior, and controls as part of the configuration contract.</p>
+        </div>
+      </div>
+      <div class="design-grid">
+        <article class="design-card">
+          <h3 data-i18n="design.colorTitle">Color</h3>
+          <div id="design-color"></div>
+        </article>
+        <article class="design-card">
+          <h3 data-i18n="design.typeTitle">Typography</h3>
+          <div id="design-type"></div>
+        </article>
+      </div>
+      <div class="control-grid" id="control-groups"></div>
     </section>
 
     <section id="trust" class="split" aria-labelledby="trust-title">
