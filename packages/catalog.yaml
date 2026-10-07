@@ -1,0 +1,30 @@
+name: package-catalog
+description: Package-manager names, probes, version policy, and public documentation metadata
+version: "1.1"
+packages:
+  - { name: git, probe: git, version: system, reason: "Source control and repository bootstrap" }
+  - { name: curl, probe: curl, version: system, reason: "Downloads bootstrap and release artifacts" }
+  - { name: tar, probe: tar, version: system, reason: "Extracts verified release archives" }
+  - { name: stow, probe: stow, version: system, reason: "Deploys configuration as reversible symlinks" }
+  - { name: just, probe: just, version: ">=1.58", reason: "Provides the human-facing command interface and shell completions" }
+  - { name: tmux, probe: tmux, version: system, reason: "Provides persistent terminal sessions locally and over SSH" }
+  - { name: openssh, probe: ssh, apt: openssh-client, dnf: openssh-clients, pacman: openssh, apk: openssh-client-default, pkg: openssh, version: system, reason: "Provides SSH client access for remote workflows" }
+  - { name: zsh, probe: zsh, version: system, reason: "Portable interactive shell configuration" }
+  - { name: helix, probe: hx|helix, version: system, reason: "Terminal-native editor used across managed environments" }
+  - { name: yazi, probe: yazi, version: system, reason: "Terminal file manager for local and remote navigation" }
+  - { name: starship, probe: starship, version: system, reason: "Cross-shell prompt with consistent context" }
+  - { name: atuin, probe: atuin, version: system, reason: "Searchable shell history across supported shells" }
+  - { name: zoxide, probe: zoxide, version: system, reason: "Fast directory navigation based on usage" }
+  - { name: eza, probe: eza, version: system, reason: "Modern directory listing used by shell aliases" }
+  - { name: ripgrep, probe: rg, version: system, reason: "Fast recursive text search for terminal workflows" }
+  - { name: fd, probe: fd, apt: fd-find, apt_probe: fdfind|fd, dnf: fd-find, dnf_probe: fd, version: system, reason: "Fast filesystem search used by editor and shell workflows" }
+  - { name: bat, probe: bat, apt_probe: batcat|bat, version: system, reason: "Readable syntax-highlighted file inspection" }
+  - { name: gh, probe: gh, pacman: github-cli, apk: github-cli, version: system, reason: "Authenticates GitHub and unlocks the private dotfiles overlay when authorized" }
+  - { name: lazygit, probe: lazygit, version: system, reason: "Interactive Git workflow in the terminal" }
+  - { name: fnm, probe: fnm, version: system, reason: "Node.js runtime version management for development roles" }
+  - { name: btop, probe: btop, version: system, reason: "Interactive system and process monitoring" }
+  - { name: fastfetch, probe: fastfetch, version: system, reason: "Compact machine and environment diagnostics" }
+  - { name: gdu, probe: gdu|gdu-go, version: system, reason: "Fast disk usage inspection" }
+  - { name: lnav, probe: lnav, version: system, reason: "Structured terminal log inspection" }
+  - { name: htop, probe: htop, version: system, reason: "Process inspection on headless systems" }
+  - { name: rclone, probe: rclone, version: system, reason: "Remote file transfer and synchronization for server roles" }
