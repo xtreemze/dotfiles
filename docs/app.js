@@ -22,6 +22,10 @@ const catalogTitleEl = document.querySelector("#catalog-layer-title");
 const catalogDescriptionEl = document.querySelector("#catalog-layer-description");
 const catalogNoteEl = document.querySelector("#catalog-layer-note");
 const catalogErrorEl = document.querySelector("#catalog-error");
+const managedFiltersEl = document.querySelector("#managed-filters");
+const managedCardsEl = document.querySelector("#managed-cards");
+const managedCountEl = document.querySelector("#managed-count");
+const managedErrorEl = document.querySelector("#managed-error");
 const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 const systemDark = matchMedia("(prefers-color-scheme: dark)");
 
@@ -59,9 +63,12 @@ let selectedRoles = new Set(
 let selectedCatalogLayer = [
   "base", "macos", "linux", "termux", "development", "desktop", "server", "remote", "mobile"
 ].includes(query.get("catalog")) ? query.get("catalog") : "base";
+const managedFilterNames = ["all", "installed", "configured", "private", "public", "repo-only"];
+let selectedManagedFilter = managedFilterNames.includes(query.get("managed")) ? query.get("managed") : "all";
 
 let locale = null;
 let packageDetails = null;
+let managedToolsPayload = null;
 
 async function fetchJson(path) {
   const response = await fetch(path, { cache: "no-cache" });
@@ -76,6 +83,11 @@ async function loadLocale(language) {
 async function ensurePackageDetails() {
   if (!packageDetails) packageDetails = await fetchJson("./package-details.json");
   return packageDetails;
+}
+
+async function ensureManagedTools() {
+  if (!managedToolsPayload) managedToolsPayload = await fetchJson("./managed-tools.json");
+  return managedToolsPayload;
 }
 
 function getByPath(object, path) {
@@ -168,6 +180,7 @@ function syncUrl() {
   params.set("platform", selectedPlatform);
   if (selectedRoles.size) params.set("roles", [...selectedRoles].join(","));
   if (selectedCatalogLayer !== "base") params.set("catalog", selectedCatalogLayer);
+  if (selectedManagedFilter !== "all") params.set("managed", selectedManagedFilter);
   history.replaceState(null, "", `${location.pathname}?${params}${location.hash}`);
 }
 
@@ -478,6 +491,223 @@ async function renderCatalog() {
   }
 }
 
+
+function managedInstallLabel(source) {
+  const labels = {
+    brew: locale.ui.managed.brew,
+    "brew-cask": locale.ui.managed.brewCask,
+    role: locale.ui.managed.role,
+    system: locale.ui.managed.system,
+    runtime: locale.ui.managed.runtime,
+    external: locale.ui.managed.external,
+    platform: locale.ui.managed.platform
+  };
+  return labels[source] || source;
+}
+
+function managedKindLabel(kind) {
+  const labels = {
+    software: locale.ui.managed.software,
+    config: locale.ui.managed.config,
+    "software+config": locale.ui.managed.softwareConfig,
+    asset: locale.ui.managed.asset
+  };
+  return labels[kind] || kind;
+}
+
+function managedVisibilityLabel(tool) {
+  if (!tool.config) return locale.ui.managed.noConfig;
+  return tool.visibility === "public"
+    ? locale.ui.managed.publicLabel
+    : locale.ui.managed.privateLabel;
+}
+
+function managedDeploymentLabel(tool) {
+  if (!tool.config) return locale.ui.managed.none;
+  if (tool.deployment === "stow") return locale.ui.managed.stow;
+  if (tool.deployment === "repo-only") return locale.ui.managed.repoOnlyLabel;
+  return locale.ui.managed.none;
+}
+
+function managedMatchesFilter(tool) {
+  if (selectedManagedFilter === "all") return true;
+  if (selectedManagedFilter === "installed") {
+    return tool.install.some(source => ["brew", "brew-cask", "role"].includes(source));
+  }
+  if (selectedManagedFilter === "configured") return Boolean(tool.config);
+  if (selectedManagedFilter === "private") return tool.visibility === "private";
+  if (selectedManagedFilter === "public") return tool.visibility === "public";
+  if (selectedManagedFilter === "repo-only") return tool.deployment === "repo-only";
+  return true;
+}
+
+function renderManagedFilters() {
+  managedFiltersEl.replaceChildren();
+  const labels = {
+    all: locale.ui.managed.all,
+    installed: locale.ui.managed.installed,
+    configured: locale.ui.managed.configured,
+    private: locale.ui.managed.private,
+    public: locale.ui.managed.public,
+    "repo-only": locale.ui.managed.repoOnly
+  };
+
+  for (const name of managedFilterNames) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "managed-filter";
+    button.dataset.managedFilter = name;
+    button.setAttribute("aria-pressed", String(name === selectedManagedFilter));
+    button.textContent = labels[name];
+    button.addEventListener("click", () => {
+      selectedManagedFilter = name;
+      renderManagedSurface();
+      syncUrl();
+    });
+    managedFiltersEl.append(button);
+  }
+}
+
+function managedToolSummary(tool) {
+  return locale.managedTools?.[tool.id]
+    || locale.packages?.[tool.id]?.summary
+    || tool.summary
+    || "";
+}
+
+function managedToolCard(tool, packageDetail) {
+  const article = document.createElement("article");
+  article.className = "managed-card";
+
+  const head = document.createElement("div");
+  head.className = "package-card-head";
+
+  const visual = document.createElement("div");
+  visual.className = "package-visual";
+  visual.setAttribute("aria-hidden", "true");
+
+  const icon = tool.icon || packageDetail?.icon;
+  const iconMode = tool.iconMode || packageDetail?.iconMode;
+  if (icon) {
+    const image = document.createElement("img");
+    image.src = `./icons/${icon}`;
+    image.alt = "";
+    image.width = 42;
+    image.height = 42;
+    image.loading = "lazy";
+    if (iconMode === "monochrome") image.classList.add("monochrome");
+    visual.append(image);
+  } else {
+    const monogram = document.createElement("span");
+    monogram.className = "package-monogram";
+    monogram.textContent = packageMonogram(tool.id);
+    visual.append(monogram);
+  }
+
+  const identity = document.createElement("div");
+  identity.className = "package-identity";
+  const title = document.createElement("h3");
+  const link = document.createElement("a");
+  link.href = tool.homepage;
+  link.textContent = tool.title;
+  link.rel = "noopener noreferrer";
+  title.append(link);
+  const id = document.createElement("code");
+  id.textContent = tool.config || tool.id;
+  identity.append(title, id);
+  head.append(visual, identity);
+
+  const summary = document.createElement("p");
+  summary.className = "package-summary";
+  summary.textContent = managedToolSummary(tool);
+
+  const badges = document.createElement("div");
+  badges.className = "package-meta";
+  for (const value of [
+    managedKindLabel(tool.kind),
+    managedVisibilityLabel(tool),
+    managedDeploymentLabel(tool)
+  ]) {
+    const badge = document.createElement("span");
+    badge.textContent = value;
+    badges.append(badge);
+  }
+
+  const facts = document.createElement("dl");
+  facts.className = "managed-facts";
+
+  const rows = [
+    [locale.ui.managed.installedBy, tool.install.map(managedInstallLabel).join(" · ")],
+    [locale.ui.managed.configPackage, tool.config || locale.ui.managed.none],
+    [locale.ui.managed.visibility, managedVisibilityLabel(tool)],
+    [locale.ui.managed.deployment, managedDeploymentLabel(tool)]
+  ];
+
+  for (const [label, value] of rows) {
+    const wrapper = document.createElement("div");
+    const dt = document.createElement("dt");
+    const dd = document.createElement("dd");
+    dt.textContent = label;
+    dd.textContent = value;
+    wrapper.append(dt, dd);
+    facts.append(wrapper);
+  }
+
+  const alternatives = document.createElement("div");
+  alternatives.className = "package-alternatives";
+  const altLabel = document.createElement("span");
+  altLabel.className = "package-alt-label";
+  altLabel.textContent = locale.ui.catalog.alternatives;
+  alternatives.append(altLabel);
+  for (const alternative of tool.alternatives || []) {
+    const chip = document.createElement("span");
+    chip.className = "alternative-chip";
+    chip.textContent = alternative;
+    alternatives.append(chip);
+  }
+
+  article.append(head, summary, badges, facts, alternatives);
+  return article;
+}
+
+async function renderManagedSurface() {
+  managedErrorEl.hidden = true;
+  managedCardsEl.replaceChildren();
+  managedCardsEl.setAttribute("aria-busy", "true");
+
+  for (const button of managedFiltersEl.querySelectorAll("[data-managed-filter]")) {
+    button.setAttribute("aria-pressed", String(button.dataset.managedFilter === selectedManagedFilter));
+  }
+
+  try {
+    const [payload, detailsPayload] = await Promise.all([
+      ensureManagedTools(),
+      ensurePackageDetails()
+    ]);
+    const tools = payload.tools
+      .filter(managedMatchesFilter)
+      .sort((a, b) => a.title.localeCompare(b.title, selectedLanguage));
+
+    for (const tool of tools) {
+      managedCardsEl.append(managedToolCard(tool, detailsPayload.packages[tool.id]));
+    }
+
+    managedCountEl.textContent = `${tools.length} ${locale.ui.managed.items}`;
+    if (!tools.length) {
+      const empty = document.createElement("p");
+      empty.className = "field-help";
+      empty.textContent = locale.ui.managed.empty;
+      managedCardsEl.append(empty);
+    }
+  } catch (error) {
+    managedCountEl.textContent = "—";
+    managedErrorEl.textContent = error instanceof Error ? error.message : locale.ui.managed.empty;
+    managedErrorEl.hidden = false;
+  } finally {
+    managedCardsEl.removeAttribute("aria-busy");
+  }
+}
+
 async function applyLanguage(language) {
   locale = await loadLocale(language);
   selectedLanguage = language;
@@ -485,6 +715,7 @@ async function applyLanguage(language) {
   applyStaticTranslations();
   renderChoiceButtons();
   renderCatalogTabs();
+  renderManagedFilters();
 }
 
 async function render() {
@@ -504,7 +735,7 @@ async function render() {
     ? locale.ui.install.termuxNote
     : locale.ui.install.bashNote;
 
-  await Promise.all([renderPlan(), renderCatalog()]);
+  await Promise.all([renderPlan(), renderCatalog(), renderManagedSurface()]);
 }
 
 languageSelect.addEventListener("change", async event => {
