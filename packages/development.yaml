@@ -1,0 +1,10 @@
+name: development
+description: Development terminal role
+version: "1.0"
+packages:
+  - { name: gh, install: optional }
+  - { name: lazygit, install: optional }
+  - { name: fnm, install: optional }
+  - { name: helix, install: optional }
+  - { name: fd, install: optional }
+  - { name: ripgrep, install: optional }
