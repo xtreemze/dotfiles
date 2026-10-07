@@ -12,7 +12,8 @@
       "packages": "Paquetes",
       "trust": "Confianza",
       "managed": "Superficie gestionada",
-      "design": "Presentación"
+      "design": "Presentación",
+      "terminal": "Terminal"
     },
     "preferences": {
       "language": "Idioma",
@@ -300,6 +301,19 @@
       "vfsBody": "macOS usa montaje NFS de Rclone; los hosts Linux compatibles usan FUSE 3. Se activa caché VFS completa con tamaño y antigüedad limitados.",
       "safeTitle": "Fallback seguro",
       "safeBody": "Las credenciales nunca se versionan. Termux y los hosts sin montaje de sistema de archivos siguen usando directamente copy, sync y transferencias de Rclone."
+    },
+    "terminal": {
+      "eyebrow": "Terminal interactiva",
+      "title": "Prueba la experiencia de shell configurada",
+      "intro": "Una muestra de terminal segura para navegador que combina la presentación gestionada de Ghostty, un prompt estilo zsh/Starship, la paleta Everforest y la tipografía Monaspace, comenzando en <code>~/.dotfiles</code>.",
+      "safeTitle": "Qué es real",
+      "safeBody": "El tema, idioma, selección de roles, acciones del portapapeles, enlaces y lectura de planes de paquetes publicados afectan a la página o al entorno real del navegador.",
+      "virtualTitle": "Qué es virtual",
+      "virtualBody": "La shell y el sistema de archivos son un modelo de solo lectura en el navegador. No existe un PTY oculto, sesión SSH, WebContainer ni ejecución irrestricta de procesos.",
+      "hostTitle": "Qué necesita un host",
+      "hostBody": "La instalación de paquetes, comandos arbitrarios de shell, SSH, secretos, archivos locales y montajes cloud requieren la máquina real después de la instalación.",
+      "embedTitle": "Incrustar esta terminal",
+      "embedBody": "La terminal está implementada como un custom element reutilizable sin dependencia de backend. Otras páginas pueden importar el componente y proporcionar su propio puente de acciones o sistema de archivos virtual."
     }
   },
   "platforms": {
