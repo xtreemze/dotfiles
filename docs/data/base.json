@@ -1,0 +1,49 @@
+{
+  "roles": [
+    "base"
+  ],
+  "packages": [
+    {
+      "name": "git",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Source control and repository bootstrap"
+    },
+    {
+      "name": "tmux",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Provides persistent terminal sessions locally and over SSH"
+    },
+    {
+      "name": "curl",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Downloads bootstrap and release artifacts"
+    },
+    {
+      "name": "tar",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Extracts verified release archives"
+    },
+    {
+      "name": "stow",
+      "requirement": "required",
+      "source": "base",
+      "version": "system",
+      "reason": "Deploys configuration as reversible symlinks"
+    },
+    {
+      "name": "just",
+      "requirement": "optional",
+      "source": "base",
+      "version": ">=1.58",
+      "reason": "Provides the human-facing command interface and shell completions"
+    }
+  ]
+}
