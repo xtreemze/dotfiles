@@ -1,0 +1,371 @@
+{
+  "locale": "es",
+  "name": "Español",
+  "ui": {
+    "a11y": {
+      "skip": "Saltar al contenido"
+    },
+    "nav": {
+      "primary": "Principal",
+      "install": "Instalar",
+      "plan": "Plan",
+      "packages": "Paquetes",
+      "trust": "Confianza"
+    },
+    "preferences": {
+      "language": "Idioma",
+      "theme": "Tema"
+    },
+    "theme": {
+      "auto": "Automático",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "hero": {
+      "eyebrow": "Arranque público · capa privada",
+      "title": "Configura una máquina nueva con un solo comando inspeccionable.",
+      "lede": "El repositorio público contiene únicamente configuración segura y auditada. Instala la base, autentica GitHub localmente cuando hace falta y solo entrega el control al repositorio privado <code>xtreemze/.dotfiles</code> para cuentas que tienen acceso.",
+      "build": "Generar comando de instalación",
+      "source": "Ver código fuente"
+    },
+    "facts": {
+      "deployment": "Despliegue",
+      "commandLayer": "Capa de comandos",
+      "platforms": "Plataformas",
+      "privateData": "Datos privados",
+      "authGated": "Protegidos por autenticación"
+    },
+    "install": {
+      "eyebrow": "Configurador",
+      "title": "Elige esta máquina",
+      "platform": "Plataforma",
+      "platformHelp": "El instalador detecta la plataforma automáticamente. Esta selección muestra una vista previa del plan de paquetes para la máquina que quieres configurar.",
+      "roles": "Roles",
+      "rolesHelp": "Los roles son acumulativos. Selecciona todo lo que esta máquina debe hacer.",
+      "oneLine": "Arranque en una línea",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "inspect": "Inspeccionar antes de ejecutar",
+      "bashNote": "Usa Bash explícitamente porque el instalador depende de funciones de Bash.",
+      "termuxNote": "Ejecuta esto dentro de Termux. Bash se instala como requisito de arranque si hace falta."
+    },
+    "plan": {
+      "eyebrow": "Plan resuelto",
+      "title": "Qué se instala",
+      "description": "La tabla combina la base, la plataforma seleccionada y los roles seleccionados.",
+      "program": "Programa",
+      "requirement": "Requisito",
+      "source": "Origen",
+      "version": "Política de versión",
+      "why": "Motivo",
+      "loading": "Cargando…",
+      "unavailable": "Plan no disponible",
+      "programSingular": "programa",
+      "programPlural": "programas"
+    },
+    "catalog": {
+      "eyebrow": "Catálogo por rol",
+      "title": "Cada paquete, explicado",
+      "intro": "Explora la base, las capas de plataforma y cada rol por separado. Cada herramienta incluye su función en esta configuración, alternativas a considerar y un enlace al proyecto original. Las alternativas son solo informativas y no se instalan.",
+      "help": "Los paquetes <strong>obligatorios</strong> forman parte del contrato mínimo. Los paquetes <strong>opcionales</strong> se intentan instalar cuando están disponibles y se pueden omitir sin inutilizar el arranque.",
+      "required": "obligatorio",
+      "optional": "opcional",
+      "whyHere": "Por qué está aquí: ",
+      "alternatives": "Alternativas",
+      "loading": "Cargando…",
+      "unavailable": "Catálogo no disponible",
+      "baselinePackage": "paquete base",
+      "baselinePackages": "paquetes base",
+      "layer": "capa",
+      "base": "base"
+    },
+    "trust": {
+      "eyebrow": "Límite de confianza",
+      "title": "Primero público. Privado solo después de autenticar.",
+      "description": "El checkout público vive en <code>~/.local/share/xtreemze/dotfiles-public</code>. El checkout privado conserva la ruta canónica <code>~/.dotfiles</code> y nunca se descarga hasta que GitHub CLI confirma el acceso.",
+      "flowLabel": "Flujo de arranque",
+      "steps": [
+        [
+          "Arranque público",
+          "Clona el repositorio seguro e instala los paquetes base."
+        ],
+        [
+          "GitHub CLI",
+          "Instala <code>gh</code> si falta y reutiliza la autenticación existente cuando sea posible."
+        ],
+        [
+          "Autenticación local",
+          "Ejecuta <code>gh auth login</code>; ningún token se guarda en este repositorio."
+        ],
+        [
+          "Comprobación de acceso",
+          "Verifica que la cuenta pueda leer <code>xtreemze/.dotfiles</code>."
+        ],
+        [
+          "Entrega privada",
+          "Las máquinas autorizadas clonan la configuración privada en <code>~/.dotfiles</code>."
+        ],
+        [
+          "Fallback seguro",
+          "Sin acceso privado, aplica únicamente los paquetes Stow públicos auditados."
+        ]
+      ]
+    },
+    "policy": {
+      "eyebrow": "Política de exposición",
+      "title": "Qué es seguro publicar",
+      "cards": [
+        [
+          "Público",
+          "Lógica de arranque, metadatos de paquetes, documentación, planes de roles y configuración independiente de rutas auditada explícitamente."
+        ],
+        [
+          "Privado",
+          "Metadatos de máquina, identidad personal de Git, material SSH, estado de autenticación, secretos, credenciales de servicios, helpers privados y configuración que todavía depende de rutas privadas."
+        ],
+        [
+          "Falla de forma segura",
+          "La publicación usa una lista permitida, rechaza enlaces simbólicos, busca patrones de secretos de alto riesgo y valida los puntos de entrada shell antes de desplegar Pages."
+        ]
+      ]
+    },
+    "after": {
+      "eyebrow": "Después de instalar",
+      "title": "Un vocabulario pequeño de comandos",
+      "commands": [
+        [
+          "just",
+          "Muestra los comandos habituales de dotfiles."
+        ],
+        [
+          "just plan development",
+          "Previsualiza cambios sin modificar la máquina."
+        ],
+        [
+          "just install development",
+          "Reconcilia paquetes y configuración."
+        ],
+        [
+          "just packages development",
+          "Muestra el plan de paquetes resuelto."
+        ],
+        [
+          "just doctor",
+          "Comprueba herramientas, enlaces Stow y requisitos de plataforma."
+        ],
+        [
+          "just update",
+          "Actualiza y vuelve a aplicar la configuración gestionada."
+        ]
+      ],
+      "note": "<code>just</code> es solo una capa de comodidad. El instalador y la CLI <code>dotfiles</code> siguen pudiéndose usar directamente."
+    },
+    "footer": "Arranque público seguro para máquinas nuevas.",
+    "noScript": "JavaScript solo se usa para el configurador de roles. El comando de instalación de desarrollo por defecto es:"
+  },
+  "platforms": {
+    "macos": {
+      "label": "macOS",
+      "detail": "Estado deseado con Homebrew",
+      "note": "El Brewfile público es la autoridad de paquetes en macOS; los roles también se transfieren a la capa privada autenticada."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "apt · dnf · pacman · apk",
+      "note": "El instalador detecta el gestor de paquetes nativo y resuelve nombres lógicos mediante el catálogo público."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Android · pkg",
+      "note": "Termux usa solo paquetes nativos para la base pública y mantiene la configuración móvil separada de las suposiciones de escritorio."
+    }
+  },
+  "roles": {
+    "development": {
+      "label": "Desarrollo",
+      "detail": "Editor, Git y runtimes"
+    },
+    "desktop": {
+      "label": "Escritorio",
+      "detail": "Monitorización y utilidades de estación de trabajo"
+    },
+    "server": {
+      "label": "Servidor",
+      "detail": "Inspección y sincronización sin interfaz gráfica"
+    },
+    "remote": {
+      "label": "Remoto",
+      "detail": "Entorno SSH interactivo"
+    },
+    "mobile": {
+      "label": "Móvil",
+      "detail": "Herramientas de terminal orientadas a Termux"
+    }
+  },
+  "catalogLayers": {
+    "base": {
+      "label": "Base",
+      "detail": "Obligatorio en todas partes",
+      "description": "Fundación mínima de terminal instalada en todas las máquinas gestionadas.",
+      "note": "Son primitivas de arranque y gestión de configuración, no un rol de trabajo de usuario."
+    },
+    "macos": {
+      "label": "macOS",
+      "detail": "Base pública de Homebrew",
+      "description": "Conjunto público de paquetes de estación de trabajo para macOS.",
+      "note": "El estado de paquetes en macOS lo controla el Brewfile público; la configuración privada puede añadir capas sensibles o específicas de máquina después de autenticar."
+    },
+    "linux": {
+      "label": "Linux",
+      "detail": "Capa Linux portátil",
+      "description": "Complementos portátiles de shell y terminal disponibles en gestores de paquetes Linux compatibles.",
+      "note": "Los nombres de paquete pueden variar entre apt, dnf, pacman y apk, aunque la herramienta lógica sea la misma."
+    },
+    "termux": {
+      "label": "Termux",
+      "detail": "Capa de terminal Android",
+      "description": "Paquetes nativos de Termux para un terminal móvil útil y entrega autenticada a GitHub.",
+      "note": "La ruta pública evita binarios descargados no certificados en Termux."
+    },
+    "development": {
+      "label": "Desarrollo",
+      "detail": "Código y flujos Git",
+      "description": "Herramientas de editor, repositorios, búsqueda y runtimes orientadas al desarrollo.",
+      "note": "Esta capa se suma a la base y a la plataforma detectada."
+    },
+    "desktop": {
+      "label": "Escritorio",
+      "detail": "Visibilidad de la estación de trabajo",
+      "description": "Monitorización interactiva, inspección del sistema, análisis de disco y logs para equipos de escritorio.",
+      "note": "Son comodidades opcionales y no cambian la autoridad de configuración."
+    },
+    "server": {
+      "label": "Servidor",
+      "detail": "Operaciones headless",
+      "description": "Herramientas pequeñas y ampliamente empaquetadas para procesos y sincronización remota.",
+      "note": "Optimizado para hosts sin interfaz gráfica."
+    },
+    "remote": {
+      "label": "Remoto",
+      "detail": "Experiencia shell por SSH",
+      "description": "Editor, navegación de archivos, prompt, historial, saltos y búsqueda para sesiones remotas interactivas.",
+      "note": "Busca que una shell SSH se sienta cercana al entorno terminal local."
+    },
+    "mobile": {
+      "label": "Móvil",
+      "detail": "UX terminal compacta",
+      "description": "Una experiencia terminal deliberadamente más pequeña para teléfonos y clientes limitados.",
+      "note": "Los paquetes específicos de Termux se muestran por separado de este rol."
+    }
+  },
+  "packages": {
+    "git": {
+      "summary": "Control de versiones distribuido usado para clonar, actualizar y gestionar los repositorios de dotfiles.",
+      "why": "Dependencia central de arranque y capa de control de código para todas las máquinas gestionadas."
+    },
+    "tmux": {
+      "summary": "Multiplexor de terminal para sesiones persistentes, paneles y flujos remotos resistentes.",
+      "why": "Mantiene el mismo espacio de trabajo disponible localmente y por SSH."
+    },
+    "curl": {
+      "summary": "Herramienta de transferencia de datos usada para el arranque HTTPS y la descarga de artefactos.",
+      "why": "Proporciona la ruta mínima y ampliamente disponible para obtener el instalador público y artefactos verificados."
+    },
+    "tar": {
+      "summary": "Utilidad de archivos usada para desempaquetar artefactos de release y fallbacks portátiles.",
+      "why": "Necesaria cuando una herramienta se adquiere como archivo verificado."
+    },
+    "stow": {
+      "summary": "Gestor de granjas de enlaces simbólicos que proyecta paquetes del repositorio al directorio personal.",
+      "why": "Es la única autoridad de despliegue de configuración, manteniendo los cambios reversibles e inspeccionables."
+    },
+    "just": {
+      "summary": "Ejecutor de comandos que expone recetas memorables sin apropiarse de la lógica del instalador.",
+      "why": "Añade comandos descubribles y autocompletado manteniendo autoritativa la CLI subyacente."
+    },
+    "openssh": {
+      "summary": "Cliente y herramientas SSH para acceso remoto seguro.",
+      "why": "Necesario en Termux y máquinas orientadas a remoto para llevar el entorno terminal entre hosts."
+    },
+    "zsh": {
+      "summary": "Shell Unix interactiva con buen soporte de autocompletado y personalización.",
+      "why": "Una de las shells interactivas compatibles para mantener una experiencia local consistente."
+    },
+    "helix": {
+      "summary": "Editor modal de terminal con tree-sitter, LSP y selecciones múltiples integradas.",
+      "why": "Editor principal de terminal para roles de desarrollo, remoto, Linux y móvil."
+    },
+    "yazi": {
+      "summary": "Gestor de archivos rápido para terminal con vistas previas, pestañas, I/O asíncrono y navegación por teclado.",
+      "why": "Mantiene el mismo flujo de archivos en terminales locales, remotos y móviles."
+    },
+    "starship": {
+      "summary": "Prompt multiplataforma que muestra contexto de repositorio, runtimes y sistema.",
+      "why": "Mantiene consistente la información del prompt entre shells y máquinas compatibles."
+    },
+    "atuin": {
+      "summary": "Historial de shell buscable almacenado en una base local estructurada con sincronización cifrada opcional.",
+      "why": "Sustituye la búsqueda inversa frágil por búsqueda contextual entre shells gestionadas."
+    },
+    "zoxide": {
+      "summary": "Saltador de directorios que aprende las rutas usadas con mayor frecuencia.",
+      "why": "Acelera la navegación sin mantener alias manuales de directorio."
+    },
+    "eza": {
+      "summary": "Reemplazo moderno de ls con mejores valores por defecto, metadatos, estado Git y vistas de árbol.",
+      "why": "Mejora la inspección cotidiana de directorios en la capa de shell portátil."
+    },
+    "bat": {
+      "summary": "Reemplazo de cat con resaltado de sintaxis, paginación, números de línea y contexto Git.",
+      "why": "Se usa para vistas legibles de archivos, manuales y previews de buscadores difusos."
+    },
+    "fd": {
+      "summary": "Herramienta de búsqueda de archivos rápida y fácil de usar, con buenos valores por defecto y regex.",
+      "why": "Soporta búsquedas de editor, shell y gestor de archivos sin la sintaxis verbosa de find."
+    },
+    "ripgrep": {
+      "summary": "Búsqueda recursiva de texto optimizada para velocidad y respetando archivos ignore por defecto.",
+      "why": "Primitiva central de búsqueda para desarrollo, editor y trabajo remoto."
+    },
+    "gh": {
+      "summary": "Cliente oficial de GitHub para autenticación, repositorios, pull requests y API.",
+      "why": "Funciona como puerta de autenticación desde el arranque público seguro hacia la capa privada de dotfiles."
+    },
+    "lazygit": {
+      "summary": "TUI para staging, historial, ramas, merges y rebases habituales de Git.",
+      "why": "Ofrece una superficie Git interactiva y rápida sin reemplazar Git."
+    },
+    "fnm": {
+      "summary": "Gestor rápido de versiones de Node.js con cambio por shell y por proyecto.",
+      "why": "Mantiene los runtimes de Node explícitos y aislados en máquinas de desarrollo."
+    },
+    "btop": {
+      "summary": "Monitor interactivo de CPU, memoria, discos, red y procesos.",
+      "why": "Permite diagnosticar rápidamente presión del sistema y procesos descontrolados en estaciones de trabajo."
+    },
+    "fastfetch": {
+      "summary": "Resumen rápido de información de sistema, hardware, shell, terminal y runtimes.",
+      "why": "Útil para diagnósticos y para confirmar rápidamente qué entorno está activo."
+    },
+    "gdu": {
+      "summary": "Analizador rápido de uso de disco con interfaz interactiva de terminal.",
+      "why": "Ayuda a encontrar directorios grandes y regresiones de almacenamiento en equipos de escritorio."
+    },
+    "lnav": {
+      "summary": "Navegador de logs que combina, sigue, busca, filtra y consulta logs estructurados.",
+      "why": "Aporta una superficie de inspección más rica para desarrollo y diagnóstico de estaciones de trabajo."
+    },
+    "htop": {
+      "summary": "Visor interactivo de procesos para CPU, memoria, árboles de procesos, señales y prioridades.",
+      "why": "Fallback ampliamente empaquetado y usable en shells remotas limitadas para el rol servidor."
+    },
+    "rclone": {
+      "summary": "Sincronización y transferencia de archivos entre almacenamiento local y muchos proveedores cloud.",
+      "why": "Herramienta de servidor para copias, transferencias y almacenamiento remoto sin cliente gráfico."
+    },
+    "jq": {
+      "summary": "Procesador streaming de JSON para consultar, transformar y componer salida estructurada.",
+      "why": "Utilidad base pública en macOS para inspección y scripting fiable con JSON."
+    }
+  }
+}
