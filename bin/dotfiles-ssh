@@ -1,0 +1,152 @@
+#!/usr/bin/env bash
+# SSH host picker; host metadata is local runtime state, never repository content.
+set -euo pipefail
+DOTFILES_DIR="${DOTFILES_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles"
+RECENTS="$STATE_DIR/ssh-hosts.tsv"
+
+usage() {
+  cat <<'EOF'
+Usage: dotfiles ssh [HOST [REMOTE_COMMAND...]]
+       dotfiles ssh --list
+       dotfiles ssh --setup [HOST] [REMOTE_INSTALL_OPTIONS...]
+       dotfiles ssh --remember HOST
+
+Discover SSH aliases, previous connections from Atuin and shell history,
+and recently connected hosts. Selection uses Skim, fzf, or a numbered menu.
+Hosts remain local under XDG_STATE_HOME, never in Git.
+EOF
+}
+error() { printf 'dotfiles ssh: %s\n' "$*" >&2; exit 2; }
+valid_host() {
+  [[ "$1" =~ ^([[:alnum:]_.-]+@)?[[:alnum:]_.-]+$ ]] &&
+    [[ "$1" != -* && "$1" != *..* ]]
+}
+# Read explicit OpenSSH Includes (e.g. Colima) as well as common config files.
+# Config is parsed as data; neither Include content nor shell history is executed.
+scan_config() {
+  local file="$1" depth="$2" spec target
+  [[ -f "$file" && -r "$file" ]] || return 0
+  awk 'tolower($1) == "host" {for (i=2; i<=NF; i++) if ($i !~ /[*?!]/) print $i}' "$file"
+  ((depth < 4)) || return 0
+  while IFS= read -r spec; do
+    [[ -n "$spec" ]] || continue
+    case "$spec" in
+      '~/'*) spec="$HOME/${spec#\~/}" ;;
+      /*) ;;
+      *) spec="$HOME/.ssh/$spec" ;;
+    esac
+    while IFS= read -r target; do
+      scan_config "$target" "$((depth + 1))"
+    done < <(compgen -G "$spec" || true)
+  done < <(awk 'tolower($1) == "include" {for (i=2; i<=NF; i++) if ($i !~ /^#/) print $i}' "$file")
+}
+configured_hosts() {
+  local file
+  for file in "$HOME/.ssh/config" "$HOME/.ssh/config.local" \
+    "$HOME"/.ssh/config.d/*.conf "$HOME"/.ssh/conf.d/*.conf; do
+    if [[ -f "$file" ]]; then scan_config "$file" 0; fi
+  done
+  return 0
+}
+recent_hosts() {
+  [[ -f "$RECENTS" && ! -L "$RECENTS" ]] || return 0
+  LC_ALL=C sort -t $'\t' -k1,1nr "$RECENTS" | cut -f2-
+}
+extract_host() {
+  local line="$1" candidate=""
+  # zsh EXTENDED_HISTORY, Fish YAML history, and plain bash history.
+  [[ "$line" == ": "*";"* ]] && line="${line#*;}"
+  [[ "$line" == "- cmd: "* ]] && line="${line#- cmd: }"
+  if [[ "$line" =~ ^(ssh|sshp|dotfiles[[:space:]]+ssh|dotfiles[[:space:]]+remote)[[:space:]]+([[:alnum:]_.@-]+)([[:space:]]|$) ]]; then
+    candidate="${BASH_REMATCH[2]}"
+    valid_host "$candidate" && printf '%s\n' "$candidate"
+  fi
+  return 0
+}
+history_hosts() {
+  local line path prefix
+  if command -v atuin >/dev/null 2>&1; then
+    for prefix in ssh sshp 'dotfiles ssh' 'dotfiles remote'; do
+      while IFS= read -r line; do extract_host "$line"; done \
+        < <(atuin search --format '{command}' --limit 1000 "$prefix" 2>/dev/null || true)
+    done
+  fi
+  for path in "$HOME/.zsh_history" "$HOME/.bash_history" \
+    "$HOME/.local/share/fish/fish_history"; do
+    [[ -f "$path" && -r "$path" ]] || continue
+    while IFS= read -r line; do extract_host "$line"; done < "$path"
+  done
+}
+list_hosts() {
+  { recent_hosts; configured_hosts; history_hosts; } |
+    while IFS= read -r host; do
+      valid_host "$host" && printf '%s\n' "$host" || true
+    done | awk 'NF && !seen[$0]++'
+}
+remember_host() {
+  local host="$1"
+  valid_host "$host" || error "invalid host: $host"
+  [[ ! -L "$STATE_DIR" && ! -L "$RECENTS" ]] ||
+    error 'refusing to write through a state symlink'
+  ( umask 077
+    mkdir -p "$STATE_DIR"
+    chmod 700 "$STATE_DIR"
+    printf '%s\t%s\n' "$(date +%s)" "$host" >> "$RECENTS"
+    chmod 600 "$RECENTS"
+  )
+}
+pick_host() {
+  local selected="" item
+  [[ -t 0 && -t 1 ]] || error 'interactive selection requires a terminal; use --list or HOST'
+  if command -v sk >/dev/null 2>&1; then
+    selected=$(list_hosts | sk --prompt='SSH > ' --no-multi) || return 1
+  elif command -v fzf >/dev/null 2>&1; then
+    selected=$(list_hosts | fzf --prompt='SSH > ' --no-multi) || return 1
+  else
+    local hosts=()
+    while IFS= read -r item; do hosts+=("$item"); done < <(list_hosts)
+    (("${#hosts[@]}" > 0)) || error 'no hosts found; first connect using dotfiles ssh HOST'
+    PS3='SSH host (number): '
+    select item in "${hosts[@]}"; do
+      [[ -n "$item" ]] && { selected="$item"; break; }
+    done
+  fi
+  [[ -n "$selected" ]] || return 1
+  valid_host "$selected" || error 'invalid picker selection'
+  printf '%s\n' "$selected"
+}
+
+mode=connect
+case "${1:-}" in
+  --help|-h|help) usage; exit 0 ;;
+  --list|list|hosts) mode=list; shift ;;
+  --remember) mode=remember; shift ;;
+  --setup|setup) mode=setup; shift ;;
+esac
+case "$mode" in
+  list)
+    (($# == 0)) || error '--list takes no arguments'
+    list_hosts ;;
+  remember)
+    (($# == 1)) || error '--remember requires exactly one host'
+    remember_host "$1" ;;
+  setup)
+    if (($#)) && [[ "$1" != -* ]]; then host="$1"; shift
+    else host=$(pick_host) || exit 130; fi
+    valid_host "$host" || error 'invalid setup host'
+    [[ -x "$DOTFILES_DIR/bin/dotfiles-remote" ]] ||
+      error 'remote snapshot provisioner is unavailable in this checkout'
+    "$DOTFILES_DIR/bin/dotfiles-remote" "$host" "$@"
+    remember_host "$host" ;;
+  connect)
+    if (($#)); then host="$1"; shift
+    else host=$(pick_host) || exit 130; fi
+    valid_host "$host" || error 'invalid SSH host'
+    command -v ssh >/dev/null 2>&1 || error 'OpenSSH client is unavailable'
+    rc=0
+    ssh "$host" "$@" || rc=$?
+    # Preserve remote command exit codes. 255 typically denotes SSH failure.
+    if ((rc != 255)); then remember_host "$host"; fi
+    exit "$rc" ;;
+esac

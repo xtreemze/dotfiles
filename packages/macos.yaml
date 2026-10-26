@@ -8,6 +8,7 @@ packages:
   - { name: zsh, install: optional }
   - { name: starship, install: optional }
   - { name: atuin, install: optional }
+  - { name: skim, install: optional }
   - { name: zoxide, install: optional }
   - { name: eza, install: optional }
   - { name: bat, install: optional }

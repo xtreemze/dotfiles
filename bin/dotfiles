@@ -14,6 +14,8 @@ Commands:
   status            Show repository and tool status
   doctor            Check required tooling and Stow availability
   update            Fast-forward the public checkout and re-run install
+  hosts             List previously connected and configured SSH hosts
+  ssh [host]         Select or connect to an SSH host
   help              Show this help
 EOF
 }
@@ -70,6 +72,12 @@ case "$cmd" in
     [[ -d "$DOTFILES_DIR/.git" ]] || { echo "not a Git checkout: $DOTFILES_DIR" >&2; exit 1; }
     git -C "$DOTFILES_DIR" pull --ff-only
     exec "$DOTFILES_DIR/install.sh"
+    ;;
+  hosts)
+    exec "$(dirname "${BASH_SOURCE[0]}")/dotfiles-ssh" --list "$@"
+    ;;
+  ssh)
+    exec "$(dirname "${BASH_SOURCE[0]}")/dotfiles-ssh" "$@"
     ;;
   help|-h|--help)
     usage

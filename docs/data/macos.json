@@ -75,6 +75,13 @@
       "reason": "Searchable shell history across supported shells"
     },
     {
+      "name": "skim",
+      "requirement": "optional",
+      "source": "macos",
+      "version": "system",
+      "reason": "Fuzzy SSH host, file, and session selection in terminals"
+    },
+    {
       "name": "zoxide",
       "requirement": "optional",
       "source": "macos",

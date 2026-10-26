@@ -13,6 +13,7 @@ packages:
   - { name: helix, probe: hx|helix, version: system, reason: "Terminal-native editor used across managed environments" }
   - { name: yazi, probe: yazi, version: system, reason: "Terminal file manager for local and remote navigation" }
   - { name: starship, probe: starship, version: system, reason: "Cross-shell prompt with consistent context" }
+  - { name: skim, probe: sk, version: system, reason: "Fuzzy SSH host, file, and session selection in terminals" }
   - { name: atuin, probe: atuin, version: system, reason: "Searchable shell history across supported shells" }
   - { name: zoxide, probe: zoxide, version: system, reason: "Fast directory navigation based on usage" }
   - { name: eza, probe: eza, version: system, reason: "Modern directory listing used by shell aliases" }

@@ -2,6 +2,8 @@ name: remote
 description: Interactive remote-shell role
 version: "1.0"
 packages:
+  - { name: openssh, install: optional }
+  - { name: skim, install: optional }
   - { name: helix, install: optional }
   - { name: yazi, install: optional }
   - { name: starship, install: optional }
