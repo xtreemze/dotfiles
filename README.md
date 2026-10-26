@@ -36,6 +36,10 @@ GNU Stow is the configuration deployment authority. `just` provides the preferre
 
 Rclone is installed as the standard cloud-storage abstraction. The safe public configuration defines the VFS policy and canonical `cloud:` / `~/Cloud` contract, but never contains provider credentials or tokens. Authorized private setup can create the `cloud:` alias from a locally configured backend and enable automatic VFS access where the platform supports it; Termux and unsupported hosts retain direct Rclone copy/sync workflows.
 
+## SSH host selection
+
+The public distribution includes the generic SSH host picker, but never an inventory of private hosts. `dotfiles hosts` discovers your own SSH aliases and Atuin/shell history; `dotfiles ssh` selects with Skim/fzf or a numbered menu, then connects using standard OpenSSH. SSH host metadata is stored only in machine-local state. On an authenticated private checkout, `dotfiles ssh --setup HOST` can also invoke the private remote snapshot installer.
+
 ## Common commands
 
 ```sh

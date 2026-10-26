@@ -39,6 +39,10 @@ backup:
 remote host *args:
   @"{{_cli}}" remote "{{host}}" {{args}}
 
+# List SSH aliases and hosts recovered from history.
+hosts:
+  @"{{_cli}}" hosts
+
 # Show the role/package plan used by the public installer and site.
 packages role="":
   @if [[ -n "{{role}}" ]]; then "{{_dotfiles}}/scripts/package-plan" --role "{{role}}"; else "{{_dotfiles}}/scripts/package-plan"; fi
