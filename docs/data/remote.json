@@ -54,6 +54,13 @@
       "reason": "Authorized cloud-storage abstraction, synchronization, and VFS access"
     },
     {
+      "name": "zsh",
+      "requirement": "optional",
+      "source": "remote",
+      "version": "system",
+      "reason": "Portable interactive shell configuration"
+    },
+    {
       "name": "openssh",
       "requirement": "optional",
       "source": "remote",

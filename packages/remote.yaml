@@ -2,6 +2,7 @@ name: remote
 description: Interactive remote-shell role
 version: "1.0"
 packages:
+  - { name: zsh, install: optional }
   - { name: openssh, install: optional }
   - { name: skim, install: optional }
   - { name: helix, install: optional }
